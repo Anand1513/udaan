@@ -1,0 +1,624 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UDAAN Society - Har Ghar Jal Project</title>
+  <link rel="stylesheet" href="{% static 'css/nav.css' %}?v=1" />
+  <link rel="stylesheet" href="{% static 'css/home.css' %}?v=2" />
+</head>
+
+<body>
+  <!-- Navigation -->
+  <nav style="position: relative; z-index: 1000;">
+    <div class="nav-container">
+      <div class="logo">
+        <img class="logo-circle" src="{% static 'assets/logo.webp' %}" alt="" />
+      </div>
+      <ul class="nav-menu">
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Who We Are <span class="dropdown-arrow">▼</span>
+          </a>
+          <div class="dropdown-menu">
+            <a href="{% url 'aboutus' %}" class="dropdown-item">About</a>
+            <a href="{% url 'our_mission_values' %}" class="dropdown-item">Our Mission & Values</a>
+            <a href="{% url 'appreciationandaccolades' %}" class="dropdown-item">Appreciation and Accolades</a>
+            <a href="{% url 'our_partners' %}" class="dropdown-item">Our Partners</a>
+            <a href="{% url 'our_policies' %}" class="dropdown-item">Our Policies</a>
+            <a href="{% url 'contact_us' %}" class="dropdown-item">
+              Contact Us
+            </a>
+
+            <a href="{% url 'our_team' %}" class="dropdown-item">
+              Our Team
+            </a>
+
+            <a href="{% url 'faq' %}" class="dropdown-item">FAQs</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Make a Difference <span class="dropdown-arrow">▼</span>
+          </a>
+          <div class="dropdown-menu">
+            <a href="{% url 'career_fellowship' %}" class="dropdown-item">
+              Career and Fellowship
+            </a>
+
+            <a href="{% url 'workplace_living' %}" class="dropdown-item">
+              Workplace Giving
+            </a>
+
+            <a href="{% url 'volunteering' %}" class="dropdown-item">
+              Volunteering
+            </a>
+
+            <a href="{% url 'internships' %}" class="dropdown-item">
+              Internships
+            </a>
+
+            <a href="{% url 'campus_ambassador' %}" class="dropdown-item">
+              Campus Ambassador
+            </a>
+
+            <a href="{% url 'jobs' %}" class="dropdown-item">
+              Jobs at UDAAN Society
+            </a>
+
+
+
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link">
+            Impact <span class="dropdown-arrow">▼</span>
+          </a>
+          <div class="dropdown-menu">
+            <a href="{% url 'report_list' %}" class="dropdown-item">Annual Report</a>
+            <a href="{% url 'locations' %}" class="dropdown-item">Our Locations</a>
+            <a href="{% url 'project_list' %}" class="dropdown-item">Projects</a>
+            <a href="{% url 'our_activities' %}" class="dropdown-item">Our Activities</a>
+            <a href="{% url 'blogs' %}" class="dropdown-item">Blogs</a>
+            <a href="{% url 'news_clippings' %}" class="dropdown-item">News Clippings</a>
+            <a href="{% url 'resources' %}" class="dropdown-item">Resources</a>
+          </div>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'blood_donation' %}" class="nav-link">Blood Request</a>
+        </li>
+        <li class="nav-item">
+          <a href="{% url 'campaign_list' %}" class="nav-link">Campaigns</a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="donate-btn">
+            📱 Donate Now <span>Secured by RazorPay</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <button class="carousel-arrow prev" onclick="changeSlide(-1)">‹</button>
+    <button class="carousel-arrow next" onclick="changeSlide(1)">›</button>
+
+    <div class="hero-content">
+      <h1>Har Ghar Jal Project</h1>
+      <p>
+        UDAAN Society is appointed an Implementation support Agency under Jal
+        Jeevan Mission –Har Ghar Jal Project of Govt. of India by State Water
+        and Sanitation Mission, Uttar Pradesh for two District namely Aligarh
+        & Bulandshahr.
+      </p>
+      <a href="#" class="hero-btn">Click Here</a>
+    </div>
+
+    <div class="carousel-nav">
+      <span class="carousel-dot active" onclick="goToSlide(0)"></span>
+      <span class="carousel-dot" onclick="goToSlide(1)"></span>
+      <span class="carousel-dot" onclick="goToSlide(2)"></span>
+      <span class="carousel-dot" onclick="goToSlide(3)"></span>
+      <span class="carousel-dot" onclick="goToSlide(4)"></span>
+    </div>
+  </section>
+
+  <!-- Activities Section -->
+  <section class="activities-section">
+    <div class="activities-container">
+      <!-- Left Content -->
+      <div class="activities-content">
+        <h2>Our <span>Activities</span></h2>
+
+        <p class="activities-highlight">
+          We’ve worked on improving the lives of over
+          <strong>25,000</strong> young people through direct practice.
+        </p>
+
+        <p class="activities-description">
+          Young people from different backgrounds have a huge impact on us and
+          all our activities. They highlight those parts of society that are
+          broken, so we can help them in all possible ways to regain hope and
+          flourish in life.
+        </p>
+
+        <button class="activities-btn open-modal-btn bg-transparent border-none cursor-pointer text-left"
+                data-title="Our Activities"
+                data-content="UDAAN Society hosts various activities year-round ranging from environmental protection, health camps, and educational awareness programs. We strive to empower our community in every step we take.">
+          Read More
+          <span>›</span>
+        </button>
+      </div>
+
+      <!-- Right Image -->
+      <div class="activities-image-wrapper">
+        <img src="{% static 'assets/section2.jpeg' %}" alt="Our Activities" />
+      </div>
+    </div>
+  </section>
+
+  <section class="donate-section">
+    <div class="donate-container">
+      <!-- Card 1 -->
+      <div class="donate-card blue">
+        <div class="donate-icon">📘</div>
+        <p class="donate-small">Donate for</p>
+        <h3>Children education</h3>
+        <a href="#">More details...</a>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="donate-card cream">
+        <div class="donate-icon">🌊</div>
+        <p class="donate-small">Donate for</p>
+        <h3>Clean water</h3>
+        <a href="#">More details...</a>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="donate-card teal">
+        <div class="donate-icon">🏥</div>
+        <p class="donate-small">Donate for</p>
+        <h3>Surgery & treatment</h3>
+        <a href="#">More details...</a>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="donate-card sky">
+        <div class="donate-icon">🧺</div>
+        <p class="donate-small">Donate for</p>
+        <h3>Health & good food</h3>
+        <a href="#">More details...</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="welcome-section">
+    <div class="welcome-container">
+      <!-- Left Image -->
+      <div class="welcome-image-wrapper">
+        <div class="dots dots-left"></div>
+        <img src="{% static 'assets/welcomeImage.jpg' %}" alt="UDAAN activities" />
+      </div>
+
+      <!-- Right Content -->
+      <div class="welcome-content">
+        <p class="welcome-subtitle">Welcome to UDAAN Society</p>
+
+        <h2>
+          A World Where <span>Poverty</span> Will<br />
+          Not Exists
+        </h2>
+
+        <p class="welcome-highlight">
+          We are one the largest crowdfunding
+        </p>
+
+        <p class="welcome-description">
+          UDAAN Society, a leading NGO in Aligarh, runs impactful campaigns to
+          uplift underprivileged communities. Explore our diverse fundraising
+          campaigns dedicated to education, healthcare, poverty alleviation, and
+          more.
+        </p>
+
+        <div class="welcome-actions">
+          <a href="#" class="btn-primary">Learn More</a>
+
+          <a href="#" class="btn-secondary">
+            <span class="play-icon">▶</span>
+            Know More
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="causes-section">
+    <p class="causes-subtitle">Causes Listed</p>
+
+    <h2 class="causes-title">
+      We Are Always Where Other People <span>Need Help</span>
+    </h2>
+
+    <div class="causes-cards">
+      {% for campaign in campaigns %}
+      <!-- Card {{ forloop.counter }} -->
+      <div class="cause-card">
+        <span class="cause-tag health">Health</span>
+
+        {% if campaign.image %}
+        <img src="{{ campaign.image.url }}" alt="{{ campaign.title }}" class="cause-image" />
+        {% else %}
+        <img src="{% static 'assets/p1.jpeg' %}" alt="Placeholder" class="cause-image" />
+        {% endif %}
+
+        <div class="cause-goal">
+          Goal: ₹ {{ campaign.goal_amount }}
+          <div class="goal-bar">
+            <!-- Calculate width dynamically if desired, or random for demo -->
+            <span style="width: 50%;"></span>
+          </div>
+        </div>
+
+        <h3 class="cause-heading">
+          {{ campaign.title }}
+        </h3>
+
+        <hr />
+
+        <div class="cause-meta">
+          <div>
+            <strong>Date:</strong>
+            <span>{{ campaign.created_at|date:"d/m/Y" }}</span>
+          </div>
+          <div>
+            <strong>By:</strong>
+            <span>UDAAN Society</span>
+          </div>
+        </div>
+      </div>
+      {% empty %}
+      <p>No active campaigns at the moment.</p>
+      {% endfor %}
+    </div>
+
+    <div class="causes-footer">
+      <a href="{% url 'campaign_list' %}" class="view-more">View more..</a>
+
+      <div class="cause-actions">
+        <a href="#" class="btn-red">₹ Donate</a>
+        <a href="#" class="btn-outline">Create New</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="projects-section">
+    <p class="projects-subtitle">Recent Project</p>
+
+    <h2 class="projects-title">
+      We Have Successfully Worked Multiple <span>Projects</span>
+    </h2>
+
+    <div class="projects-grid">
+      {% for project in projects %}
+      <!-- Card {{ forloop.counter }} -->
+      <div class="project-card">
+        {% if project.image %}
+        <img src="{{ project.image.url }}" alt="{{ project.title }}" />
+        {% else %}
+        <img src="{% static 'assets/p4.jpg' %}" alt="Placeholder" />
+        {% endif %}
+
+        <div class="project-content">
+          <h3>{{ project.title|truncatechars:35 }}</h3>
+
+          <p class="project-desc">
+            {{ project.description|truncatechars:100 }}
+          </p>
+
+          <a href="#" class="project-btn">Read More</a>
+
+          <hr />
+
+          <p class="project-date">
+            📅 Date: {{ project.date|date:"F j, Y" }}
+          </p>
+        </div>
+      </div>
+      {% empty %}
+      <p>No recent projects found.</p>
+      {% endfor %}
+    </div>
+
+    <div class="projects-footer">
+      <a href="#" class="projects-view-more">View more..</a>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials-section">
+    <div class="testimonials-container">
+      <p class="testimonials-subtitle">Testimonials</p>
+      <h2 class="testimonials-title">What Key Stakeholders <span>Say About Us</span></h2>
+
+      <div class="testimonials-slider">
+        <button class="slider-arrow prev" onclick="moveTestimonial(-1)" aria-label="Previous testimonial">‹</button>
+
+        <div class="testimonials-track" id="testimonialTrack">
+          {% for testimonial in testimonials %}
+          <div class="testimonial-card"
+            onclick="openModal('{{ testimonial.author|escapejs }}', '{{ testimonial.role|escapejs }}', '{{ testimonial.detailed_text|default:testimonial.text|escapejs }}')">
+            <div class="quote-icon">“</div>
+
+            <div class="testimonial-summary">
+              <p class="testimonial-quote">
+                {{ testimonial.text|truncatechars:100 }}
+              </p>
+              <div class="testimonial-author">
+                <h4>{{ testimonial.author }}</h4>
+                <span>{{ testimonial.role }}</span>
+              </div>
+              <button class="expand-btn" aria-label="Read full story">
+                Read Story <span class="arrow">→</span>
+              </button>
+            </div>
+          </div>
+          {% empty %}
+          <div class="testimonial-card">
+            <p>No testimonials yet.</p>
+          </div>
+          {% endfor %}
+        </div>
+
+        <button class="slider-arrow next" onclick="moveTestimonial(1)" aria-label="Next testimonial">›</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Testimonial Modal -->
+  <div id="testimonial-modal" class="modal" onclick="closeModal(event)">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal(event, true)">&times;</span>
+      <div class="modal-icon">“</div>
+      <p id="modal-text" class="modal-text"></p>
+      <div class="modal-author-block">
+        <h4 id="modal-author"></h4>
+        <span id="modal-role"></span>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Testimonial Slider Logic
+    let currentTestimonialIndex = 0;
+
+    function moveTestimonial(direction) {
+      const track = document.getElementById('testimonialTrack');
+      const cards = track.querySelectorAll('.testimonial-card');
+      if (cards.length === 0) return;
+
+      const cardWidth = cards[0].offsetWidth;
+      const gap = 30; // Matches CSS gap
+      const totalWidth = cardWidth + gap;
+
+      // Calculate visible cards based on screen width
+      let visibleCards = 3;
+      if (window.innerWidth <= 700) visibleCards = 1;
+      else if (window.innerWidth <= 1100) visibleCards = 2;
+
+      const maxIndex = Math.max(0, cards.length - visibleCards);
+
+      currentTestimonialIndex += direction;
+
+      // Bound checks
+      if (currentTestimonialIndex < 0) currentTestimonialIndex = 0;
+      if (currentTestimonialIndex > maxIndex) currentTestimonialIndex = maxIndex;
+
+      const translateX = -(currentTestimonialIndex * totalWidth);
+      track.style.transform = `translateX(${translateX}px)`;
+    }
+
+    // Handle Window Resize to reset or adjust
+    window.addEventListener('resize', () => {
+      moveTestimonial(0); // Recalculate bounds
+    });
+
+    // Modal Logic
+    function openModal(author, role, text) {
+      document.getElementById('modal-author').innerText = author;
+      document.getElementById('modal-role').innerText = role;
+      document.getElementById('modal-text').innerText = text;
+
+      const modal = document.getElementById('testimonial-modal');
+      modal.style.display = 'flex';
+      // Trigger reflow for animation
+      setTimeout(() => {
+        modal.classList.add('show');
+      }, 10);
+    }
+
+    function closeModal(event, force) {
+      if (force || event.target.id === 'testimonial-modal') {
+        const modal = document.getElementById('testimonial-modal');
+        modal.classList.remove('show');
+        setTimeout(() => {
+          modal.style.display = 'none';
+        }, 300); // Match transition duration
+      }
+    }
+  </script>
+
+  <footer class="footer">
+    <div class="footer-container">
+
+      <div class="footer-col">
+        <img src="{% static 'assets/logo.webp' %}" class="footer-logo" alt="UDAAN Society">
+        <h3>UDAAN Society</h3>
+        <p>
+          We strive for underserved and neglected communities. Service,
+          Responsibility, Determination, Kindness, and Contribution are our values.
+        </p>
+      </div>
+
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <a href="https://udaansociety.org/career-and-fellowship/">Career</a>
+        <a href="https://udaansociety.org/contact-us/">Contact Us</a>
+        <a href="https://udaansociety.org/process-flow/">Process Flow</a>
+        <a href="#">Products/Services Details</a>
+      </div>
+
+      <div class="footer-col">
+        <h3>Policies</h3>
+        <a href="https://udaansociety.org/policies/">All Policies</a>
+        <a href="https://udaansociety.org/policies/">Intellectual Property</a>
+        <a href="https://udaansociety.org/refund-policy/">Refund Policy</a>
+        <a href="https://udaansociety.org/privacy-policy/">Privacy Policy</a>
+        <a href="https://udaansociety.org/disclaimer/">Disclaimer</a>
+      </div>
+
+      <div class="footer-col">
+        <h3>Get All Updates</h3>
+        <input type="email" placeholder="Your Email Address">
+        <button onclick="subscribe()">SUBSCRIBE</button>
+
+        <h3>Find us on social</h3>
+        <div class="social-icons">
+          <a class="facebook" href="https://www.facebook.com/udaansociety"><i class="fab fa-facebook-f"></i></a>
+          <a class="instagram" href="https://www.instagram.com/udaansociety"><i class="fab fa-instagram"></i></a>
+          <a class="linkedin" href="#"><i class="fab fa-linkedin-in"></i></a>
+          <a class="youtube" href="https://www.youtube.com/@UdaanSociety"><i class="fab fa-youtube"></i></a>
+          <a class="whatsapp" href="https://www.whatsapp.com/channel/0029VaB0X8yId7nIN0lhCI3m"><i
+              class="fab fa-whatsapp"></i></a>
+          <a class="telegram" href="https://t.me/udaansociety"><i class="fab fa-telegram-plane"></i></a>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 UDAAN Society | Created by <span>Udaan Society Team</span></p>
+      <div class="footer-links">
+        <a href="https://udaansociety.org/terms-and-conditions/">Terms and Conditions</a>
+        <a href="https://udaansociety.org/privacy-policy/">Privacy Policy</a>
+        <a href="https://udaansociety.org/refund-policy/">Refund Policy</a>
+        <a href="https://udaansociety.org/disclaimer/">Disclaimer</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
+
+
+  <script>
+    {% load static %}
+    const slides = [
+      {
+        title: "Har Ghar Jal Project",
+        description:
+          "UDAAN Society is appointed an Implementation support Agency under Jal Jeevan Mission –Har Ghar Jal Project of Govt. of India by State Water and Sanitation Mission, Uttar Pradesh for two District namely Aligarh & Bulandshahr",
+        image: "{% static 'assets/image1.jpeg' %}",
+      },
+      {
+        title: "Atal Bhujal Yojna",
+        description:
+          "UDAAN Society is working as a District Implementation Partner(DIP) under this project in Banda district of Uttar Pradesh and mobilizing the village community to reduce the wastage of water and recharge the ground water such an manner",
+        image: "{% static 'assets/image2.jpeg' %}",
+      },
+      {
+        title: "Women and Child Line",
+        description:
+          "CHILDLINE 1098 is a phone number that spells hope for millions of children across India",
+        image: "{% static 'assets/image3.jpeg' %}",
+      },
+      {
+        title: "Partnership with AALI",
+        description:
+          "AALI (Association for Advocacy and Legal Initiatives Trust) is a women-led and women –run organization that works to protect and advance the rights of women",
+        image: "{% static 'assets/image4.jpeg' %}",
+      },
+      {
+        title: "PM Svanidhi Project",
+        description:
+          "UDAAN Society is Working as an Implementation Agency for Aligarh Nagar Nigam for economic empowerment of street level vendors under Prime Minister Svanidhi Yojana since the year 2021",
+        image: "{% static 'assets/image5.webp' %}",
+      },
+    ];
+
+    let currentSlide = 0;
+
+    function changeSlide(direction) {
+      currentSlide += direction;
+      if (currentSlide < 0) currentSlide = slides.length - 1;
+      if (currentSlide >= slides.length) currentSlide = 0;
+      updateSlide();
+    }
+
+    function goToSlide(index) {
+      currentSlide = index;
+      updateSlide();
+    }
+
+    function updateSlide() {
+      const hero = document.querySelector(".hero");
+      const heroContent = document.querySelector(".hero-content");
+
+      if (!hero || !heroContent) return;
+
+      heroContent.style.opacity = "0";
+
+      setTimeout(() => {
+        // Update text
+        const titleEl = document.querySelector(".hero h1");
+        const descEl = document.querySelector(".hero p");
+
+        if (titleEl) titleEl.textContent = slides[currentSlide].title;
+        if (descEl) descEl.textContent = slides[currentSlide].description;
+
+        // Update background image
+        // using linear-gradient overlay as in original code
+        hero.style.background = `
+          linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+          url("${slides[currentSlide].image}") center / cover
+        `;
+
+        heroContent.style.opacity = "1";
+
+        document.querySelectorAll(".carousel-dot").forEach((dot, index) => {
+          dot.classList.toggle("active", index === currentSlide);
+        });
+      }, 300);
+    }
+
+    // Initialize
+    document.addEventListener('DOMContentLoaded', () => {
+      updateSlide();
+      // Auto-advance slides
+      setInterval(() => changeSlide(1), 5000);
+    });
+
+    function subscribe() {
+      alert("Thank you for subscribing to UDAAN Society!");
+    }
+  </script>
+
+  <!-- Configure Tailwind to avoid breaking existing home.html styles -->
+  <script>
+    tailwind = {
+      corePlugins: {
+        preflight: false,
+      }
+    }
+  </script>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- AI Chatbot Integration (Microservice Architecture) -->
+  <link rel="stylesheet" href="{% static 'chatbot/chatbot.css' %}">
+  {% include 'chatbot/widget.html' %}
+  <script src="{% static 'chatbot/chatbot.js' %}"></script>
+</body>
+
+</html>

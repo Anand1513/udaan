@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Projects - UDAAN Society{% endblock %}
+
+{% block extra_css %}
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<link rel="stylesheet" href="{% static 'css/projects.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&h=500&fit=crop" alt="Children">
+        <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+        <h1>PROJECTS</h1>
+    </div>
+</section>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+    <div class="container">
+        <a href="{% url 'home' %}">Home</a>
+        <span class="sep">»</span>
+        <span class="current">Projects</span>
+    </div>
+</div>
+
+<!-- Intro Section -->
+<section class="intro">
+    <div class="container">
+        <h2 class="main-title">TRANSFORMING LIVES THROUGH IMPACTFUL <span>PROJECTS</span></h2>
+        <p class="description">
+            UDaan Society is committed to creating positive change through a diverse range of projects. Our website
+            showcases initiatives designed to empower individuals and communities across various sectors. Explore
+            our projects page to delve deeper into these initiatives and discover how UDAAN Society is making a
+            difference in the lives of those we serve.
+        </p>
+    </div>
+</section>
+
+<!-- Projects Grid -->
+<section class="projects">
+    <div class="container">
+        <div class="projects-grid">
+            {% for project in projects %}
+            <article class="project-card" data-aos="fade-up">
+                <div class="card-image">
+                    {% if project.image %}
+                    <img src="{{ project.image.url }}" alt="{{ project.title }}">
+                    {% else %}
+                    <img src="{% static 'assets/default-project.jpg' %}" alt="{{ project.title }}">
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <h3>{{ project.title|truncatechars:35 }}</h3>
+                    <p class="excerpt">
+                        {{ project.description|truncatechars:100 }}
+                    </p>
+                    <a href="{% url 'project_detail' project.slug %}" class="read-more">READ MORE</a>
+                    <div class="card-footer">
+                        <i class="far fa-calendar-alt"></i>
+                        <span>Date: {{ project.date|date:"F j, Y" }}</span>
+                    </div>
+                </div>
+            </article>
+            {% empty %}
+            <p>No projects found.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-card">
+            <div class="cta-content">
+                <h4>GIVE US A HAND</h4>
+                <h2>
+                    <span class="highlight">Support Us</span> And Change The<br>
+                    Course Of A Child's Life Today!
+                </h2>
+                <button class="read-more-link open-modal-btn bg-transparent border-none p-0 cursor-pointer outline-none text-left"
+                        data-title="Changing Courses"
+                        data-content="By supporting UDAAN Society, you give kids the tools they need to succeed in life. Every donation helps us build better facilities and run stronger programs.">
+                    Read more...
+                </button>
+            </div>
+            <div class="cta-action">
+                <a href="#" class="donate-btn-large">
+                    <div class="btn-text">
+                        <span class="main">📱Donate Now</span>
+                        <span class="sub">Secured by Razorpay</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="{% static 'js/projects.js' %}"></script>
+{% endblock %}

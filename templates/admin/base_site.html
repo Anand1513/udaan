@@ -1,0 +1,25 @@
+{% extends "admin/base.html" %}
+
+{% block title %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="/static/css/admin_theme.css">
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">
+        UDAAN <span style="font-weight: 300; opacity: 0.8;">Administration</span>
+    </a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}
+{% if request.user.is_authenticated %}
+<a href="{% url 'staff_dashboard' %}"
+    style="float: right; background-color: #E63946; color: white; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-weight: bold; font-size: 13px; margin-top: 5px; margin-left: 15px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); transition: background 0.3s;">
+    &rAarr; Go to Workspace
+</a>
+{% endif %}
+{% endblock %}

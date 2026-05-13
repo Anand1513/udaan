@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Blogs - UDAAN Society{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/blogs.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- ================= HERO ================= -->
+<section class="hero">
+    <div class="hero-image">
+        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&h=500&fit=crop" alt="Blog">
+        <div class="hero-overlay"></div>
+    </div>
+    <div class="hero-content">
+        <h1>BLOG</h1>
+    </div>
+</section>
+
+<!-- ================= BREADCRUMB ================= -->
+<div class="breadcrumb">
+    <div class="container">
+        <a href="{% url 'home' %}">Home</a>
+        <span class="sep">»</span>
+        <span class="current">Blog</span>
+    </div>
+</div>
+
+<!-- ================= INTRO ================= -->
+<section class="intro">
+    <div class="container">
+        <h2 class="main-title">LIST OF RECENT <span>BLOG POST</span></h2>
+        <p class="description">
+            Read more about UDAAN Society and explore stories, updates, and insights
+            from our ongoing initiatives and impact-driven work.
+        </p>
+    </div>
+</section>
+
+<!-- ================= SEARCH + CATEGORY ================= -->
+<section class="blog-filter">
+    <div class="container">
+
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search..." id="blogSearch">
+        </div>
+
+        <ul class="category-tabs">
+            <li class="active">ALL</li>
+            <li>BLOG</li>
+            <li>BLOOD</li>
+            <li>EDUCATION</li>
+            <li>OUR WORK</li>
+            <li>PROJECT UPDATES</li>
+            <li>UNCATEGORIZED</li>
+            <li>WATER</li>
+        </ul>
+
+    </div>
+</section>
+
+<!-- ================= BLOG GRID ================= -->
+
+<section class="projects">
+    <div class="container">
+        <div class="projects-grid">
+
+            {% for blog in blogs %}
+            <article class="project-card">
+
+                <div class="card-image">
+                    {% if blog.image %}
+                    <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
+                    {% else %}
+                    <img src="https://via.placeholder.com/600x400?text=No+Image" alt="No image">
+                    {% endif %}
+
+                </div>
+
+                <div class="card-body">
+                    <h3>{{ blog.title|truncatechars:35 }}</h3>
+
+                    <p class="excerpt">
+                        {{ blog.description|truncatechars:90 }}
+                    </p>
+
+                    <div class="read-more-wrapper">
+                        <a href="{% url 'blog_detail' blog.id %}" class="read-more">READ MORE</a>
+                    </div>
+
+                    <div class="card-footer">
+                        <span>
+                            <i class="far fa-calendar-alt"></i>
+                            {{ blog.created_at|date:"F d, Y" }}
+                        </span>
+
+                        <span>
+                            <i class="far fa-comment"></i>
+                            No Comment
+                        </span>
+                    </div>
+                </div>
+
+            </article>
+            {% empty %}
+            <p>No blogs found.</p>
+            {% endfor %}
+
+        </div>
+    </div>
+</section>
+
+<!-- ================= CTA ================= -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-card">
+            <div class="cta-content">
+                <h4>GIVE US A HAND</h4>
+                <h2>
+                    <span class="highlight">Support Us</span> And Change The<br>
+                    Course Of A Child's Life Today!
+                </h2>
+                <a href="#" class="read-more-link">Read more...</a>
+            </div>
+
+            <div class="cta-action">
+                <a href="#" class="donate-btn-large">
+                    <div class="btn-text">
+                        <span class="main">📱Donate Now</span>
+                        <span class="sub">Secured by Razorpay</span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Simple filter JS if needed, or moved to separate file
+    // For now keeping clean
+</script>
+{% endblock %}
