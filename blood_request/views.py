@@ -10,8 +10,9 @@ from .models import (
     Interaction, Project, NewsClipping, Team, SharedNote, Workspace, Notification, Expense, TaskComment,
     TaskAutomationRule, Donation
 )
-from .schemas import DonorSchema
+from .schemas import DonorSchema, BloodRequestSchema
 from pydantic import ValidationError
+from django_ratelimit.decorators import ratelimit
 # from django.shortcuts import render
 from .models import Blog, Project, Task, SubTask, Team
 from django.shortcuts import get_object_or_404
@@ -28,7 +29,10 @@ def index(request):
     """
     return render(request, 'blood_request/index.html')
 
+@ratelimit(key='ip', rate='5/h', block=False)
 def register_donor(request):
+    if getattr(request, 'limited', False):
+        return JsonResponse({'success': False, 'error': 'Rate limit exceeded. Please try again later.'}, status=429)
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
@@ -94,39 +98,35 @@ def search_donors(request):
 
     return JsonResponse({'results': results})
 
+@ratelimit(key='ip', rate='10/h', block=False)
 def blood_request_create(request):
+    if getattr(request, 'limited', False):
+        return JsonResponse({'success': False, 'error': 'Rate limit exceeded. Please try again later.'}, status=429)
     if request.method == "POST":
         try:
-            # Handle standard form data
             data = json.loads(request.body)
+            req_data = BloodRequestSchema(**data)
             
-            # Simple validation for required fields
-            required_fields = ['city', 'pin_code', 'blood_group', 'units', 'address_line_2', 'contact_person', 'contact_phone']
-            for field in required_fields:
-                if not data.get(field):
-                    return JsonResponse({"success": False, "error": f"{field.replace('_', ' ').title()} is required."}, status=400)
-
             din = generate_unique_din()
-            contact_email = data.get('contact_email')
             blood_request = BloodRequest.objects.create(
-                city=data.get('city'),
-                pin_code=data.get('pin_code'),
-                blood_group=data.get('blood_group'),
-                units=int(data.get('units')),
-                address_line_1=data.get('address_line_1', ''),
-                address_line_2=data.get('address_line_2'),
-                contact_person=data.get('contact_person'),
-                contact_phone=data.get('contact_phone'),
-                contact_email=contact_email,
+                city=req_data.city,
+                pin_code=req_data.pin_code,
+                blood_group=req_data.blood_group,
+                units=req_data.units,
+                address_line_1=req_data.address_line_1,
+                address_line_2=req_data.address_line_2,
+                contact_person=req_data.contact_person,
+                contact_phone=req_data.contact_phone,
+                contact_email=req_data.contact_email,
                 din=din,
-                # File handling omitted for JSON payload simplicity in this step
             )
             
-            # Send Email
-            if contact_email:
-                send_din_email(contact_email, din, record_type='request')
+            if req_data.contact_email:
+                send_din_email(req_data.contact_email, din, record_type='request')
                 
             return JsonResponse({"success": True, "message": "Blood request submitted successfully!"})
+        except ValidationError as e:
+            return JsonResponse({'success': False, 'error': e.errors()}, status=400)
         except Exception as e:
             return JsonResponse({"success": False, "error": str(e)}, status=500)
     return JsonResponse({"success": False, "error": "Invalid request method."}, status=405)
@@ -148,6 +148,12 @@ def home_view(request):
         'testimonials': testimonials
     }
     return render(request, 'home.html', context)
+
+def donate_page(request):
+    """
+    Renders the placeholder donate page.
+    """
+    return render(request, 'donate.html')
 
 from django.contrib.auth.decorators import login_required
 from .models import Task
@@ -299,16 +305,24 @@ def add_task_comment(request, pk):
                 content=content.strip()
             )
             
-            # Simple @mention parsing
+            # Simple @mention parsing with Permission Hardening
             mentions = re.findall(r'@(\w+)', content)
             for username in mentions:
                 try:
                     mentioned_user = User.objects.get(username=username)
-                    create_notification(
-                        user=mentioned_user,
-                        message=f"{request.user.username} mentioned you in a comment on task '{task.title}'",
-                        link=f"/admin/portal/task/{task.id}/"
-                    )
+                    # Permission check: Only notify if they are assigned to task, are project managers, or are superusers
+                    is_authorized = False
+                    if mentioned_user == task.assigned_to or mentioned_user.is_superuser:
+                        is_authorized = True
+                    elif task.project and task.project.managers.filter(id=mentioned_user.id).exists():
+                        is_authorized = True
+                    
+                    if is_authorized:
+                        create_notification(
+                            user=mentioned_user,
+                            message=f"{request.user.username} mentioned you in a comment on task '{task.title}'",
+                            link=f"/admin/portal/task/{task.id}/"
+                        )
                 except User.DoesNotExist:
                     pass
             
@@ -373,7 +387,7 @@ def manager_dashboard(request):
     from datetime import date
     
     # 1. Task Overview
-    all_tasks = Task.objects.all().order_by('-created_at')
+    all_tasks = Task.objects.select_related('assigned_to', 'project').all().order_by('-created_at')
     
     # Kanban Buckets
     todo_tasks = all_tasks.filter(status='To Do')
@@ -387,7 +401,7 @@ def manager_dashboard(request):
     projects = Project.objects.annotate(
         total_tasks=Count('tasks'),
         completed_tasks=Count('tasks', filter=Q(tasks__status='Done'))
-    ).filter(total_tasks__gt=0) # Only show projects with tasks
+    ).filter(total_tasks__gt=0).prefetch_related('managers') # Only show projects with tasks
     
     # Attach percentage manually (Django annotations for division can be complex database-dependent)
     for p in projects:
@@ -400,11 +414,11 @@ def manager_dashboard(request):
     # Count open tasks (Not Done) for each staff member
     staff_load = User.objects.filter(is_superuser=False).annotate(
         active_task_count=Count('tasks', filter=~Q(tasks__status='Done'))
-    ).order_by('-active_task_count')
+    ).order_by('-active_task_count').prefetch_related('profile')
 
     # 4. Bottlenecks (Phase 7.3)
     # Tasks that are NOT Done and Past Due date
-    overdue_tasks = Task.objects.filter(
+    overdue_tasks = Task.objects.select_related('assigned_to', 'project').filter(
         ~Q(status='Done'),
         due_date__lt=date.today()
     ).order_by('due_date')
@@ -426,7 +440,7 @@ def manager_dashboard(request):
         'projects': projects,
         'staff_load': staff_load,
         'overdue_tasks': overdue_tasks,
-        'teams': Team.objects.all(),
+        'teams': Team.objects.prefetch_related('members').all(),
     }
     return render(request, 'manager_dashboard.html', context)
 

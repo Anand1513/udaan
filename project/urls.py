@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, include
+from django.views.generic.base import TemplateView
 from blood_request.views import home_view, staff_dashboard, update_task_status, manager_dashboard, campaign_list, project_list, project_detail, report_list, blogs_page, resources_page, profile_edit, export_donors_csv, export_requests_csv, portal_timeline
 from blood_request import views
 from blood_request import workspace_views # NEW
@@ -7,8 +8,19 @@ from blood_request import workspace_views # NEW
 from django.conf import settings
 from django.shortcuts import render
 from django.conf.urls.static import static
+from django.contrib.sitemaps.views import sitemap
+from .sitemaps import StaticViewSitemap, BlogSitemap, CampaignSitemap, ProjectSitemap
+
+sitemaps = {
+    'static': StaticViewSitemap,
+    'blog': BlogSitemap,
+    'campaign': CampaignSitemap,
+    'project': ProjectSitemap,
+}
 
 urlpatterns = [
+    path("robots.txt", TemplateView.as_view(template_name="robots.txt", content_type="text/plain")),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     path("admin/portal/manager/", manager_dashboard, name="manager_dashboard"), # New Team View
     path("admin/portal/timeline/", portal_timeline, name="portal_timeline"), # Unified Timeline View
     path("admin/portal/users/", views.user_list, name="user_list"),
@@ -58,6 +70,7 @@ urlpatterns = [
 
     path("admin/", admin.site.urls),
     path("", home_view, name="home"),
+    path("donate/", views.donate_page, name="donate"),
     path("campaigns/", campaign_list, name="campaign_list"),
     path("projects/", project_list, name="project_list"),
     path("projects/<slug:slug>/", project_detail, name="project_detail"),

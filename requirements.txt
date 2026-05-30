@@ -21,3 +21,4 @@ dj-database-url==2.1.0
 gunicorn==21.2.0
 python-dotenv>=1.0.0
 weasyprint>=61.0
+django-ratelimit==4.1.0

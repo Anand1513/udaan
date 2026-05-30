@@ -1001,6 +1001,11 @@ function showMsg(elementId, msg, isSuccess) {
 // ================= DONOR REGISTRATION =================
 function submitDonorForm(e) {
     e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+    btn.disabled = true;
+
     const data = {
         name: document.getElementById('donor-name').value,
         blood_group: document.getElementById('donor-blood-group').value,
@@ -1029,13 +1034,22 @@ function submitDonorForm(e) {
             showMsg('donorMsg', '❌ ' + (typeof res.error === 'string' ? res.error : JSON.stringify(res.error)), false);
         }
     })
-    .catch(() => showMsg('donorMsg', '❌ Network error. Please try again.', false));
+    .catch(() => showMsg('donorMsg', '❌ Network error. Please try again.', false))
+    .finally(() => {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    });
     return false;
 }
 
 // ================= BLOOD REQUEST =================
 function submitRequestForm(e) {
     e.preventDefault();
+    const btn = e.target.querySelector('button[type="submit"]');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Processing...';
+    btn.disabled = true;
+
     const data = {
         patient_name: document.getElementById('req-patient').value,
         blood_group: document.getElementById('req-blood-group').value,
@@ -1062,7 +1076,11 @@ function submitRequestForm(e) {
             showMsg('requestMsg', '❌ ' + res.error, false);
         }
     })
-    .catch(() => showMsg('requestMsg', '❌ Network error. Please try again.', false));
+    .catch(() => showMsg('requestMsg', '❌ Network error. Please try again.', false))
+    .finally(() => {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+    });
     return false;
 }
 
