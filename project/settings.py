@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 import os
+import logging
 import dj_database_url
 from pathlib import Path
 from dotenv import load_dotenv
@@ -214,3 +215,53 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Logging Configuration
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '[{asctime}] {levelname} {name}: {message}',
+            'style': '{',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': ['console'],
+        'level': 'WARNING',
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': os.environ.get('DJANGO_LOG_LEVEL', 'INFO'),
+            'propagate': False,
+        },
+        'blood_request': {
+            'handlers': ['console'],
+            'level': 'DEBUG',
+            'propagate': False,
+        },
+    },
+}
+
+# SMTP Startup Validation — logs warnings but never crashes the server
+def _validate_smtp_settings():
+    _logger = logging.getLogger('blood_request')
+    if not EMAIL_HOST_PASSWORD:
+        _logger.warning(
+            "SMTP WARNING: EMAIL_HOST_PASSWORD is not set. "
+            "Email delivery will fail. Set it in your .env file."
+        )
+    if EMAIL_HOST_USER == 'mail@udaansociety.org':
+        _logger.info(
+            "SMTP INFO: Using default EMAIL_HOST_USER 'mail@udaansociety.org'. "
+            "Override with EMAIL_HOST_USER env variable if needed."
+        )
+
+_validate_smtp_settings()

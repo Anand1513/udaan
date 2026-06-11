@@ -3,6 +3,8 @@
 
 {% block title %}Internships - UDAAN Society{% endblock %}
 
+{% block meta_description %}Apply for internship programs at UDAAN Society. Gain real-world experience working on social impact projects in community development, health, water, and sanitation across Uttar Pradesh.{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/internships.css' %}">
 {% endblock %}
@@ -321,7 +323,7 @@
 
         <p>
           <strong>Step 1:</strong> Request Letter/Email should be sent to the mail id:
-          <strong>mail@udaansociety.com</strong> for the internship program, email should include:
+          <strong><a href="mailto:mail@udaansociety.org">mail@udaansociety.org</a></strong> for the internship program, email should include:
         </p>
 
         <ol>
@@ -406,13 +408,13 @@
     <div class="promo-grid">
 
       <!-- Card 1 -->
-      <a href="#" class="promo-card">
-        <img src="{% static 'assets/blood-card.jpg' %}" alt="Donate Blood">
+      <a href="{% url 'blood_donation' %}" class="promo-card">
+        <img src="{% static 'assets/blood-card.jpg' %}" alt="Donate Blood - UDAAN Society">
       </a>
 
       <!-- Card 2 -->
-      <a href="#" class="promo-card">
-        <img src="{% static 'assets/campus-card.jpg' %}" alt="Campus Ambassador">
+      <a href="{% url 'campus_ambassador' %}" class="promo-card">
+        <img src="{% static 'assets/campus-card.jpg' %}" alt="Campus Ambassador Program - UDAAN Society">
       </a>
 
     </div>

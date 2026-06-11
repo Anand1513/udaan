@@ -151,9 +151,19 @@ def home_view(request):
 
 def donate_page(request):
     """
-    Renders the placeholder donate page.
+    Renders the production donate page with configurable bank details from settings.
     """
-    return render(request, 'donate.html')
+    from django.conf import settings as django_settings
+    context = {
+        'bank_account_name': getattr(django_settings, 'DONATE_BANK_ACCOUNT_NAME', 'UDAAN Society'),
+        'bank_account_number': getattr(django_settings, 'DONATE_BANK_ACCOUNT_NUMBER', 'Contact us for details'),
+        'bank_ifsc_code': getattr(django_settings, 'DONATE_BANK_IFSC_CODE', 'Contact us for details'),
+        'bank_name': getattr(django_settings, 'DONATE_BANK_NAME', 'State Bank of India'),
+        'bank_branch': getattr(django_settings, 'DONATE_BANK_BRANCH', 'Aligarh Branch'),
+        'upi_id': getattr(django_settings, 'DONATE_UPI_ID', ''),
+        'contact_email': getattr(django_settings, 'EMAIL_HOST_USER', 'mail@udaansociety.org'),
+    }
+    return render(request, 'donate.html', context)
 
 from django.contrib.auth.decorators import login_required
 from .models import Task

@@ -1,104 +1,15 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UDAAN Society - Har Ghar Jal Project</title>
-  <link rel="stylesheet" href="{% static 'css/nav.css' %}?v=1" />
+{% block title %}UDAAN Society - Har Ghar Jal Project{% endblock %}
+
+{% block meta_description %}UDAAN Society is a leading NGO working on Har Ghar Jal Project, Atal Bhujal Yojna, and community empowerment across Uttar Pradesh. Donate and make a difference today.{% endblock %}
+
+{% block extra_css %}
   <link rel="stylesheet" href="{% static 'css/home.css' %}?v=2" />
-</head>
+{% endblock %}
 
-<body>
-  <!-- Navigation -->
-  <nav style="position: relative; z-index: 1000;">
-    <div class="nav-container">
-      <div class="logo">
-        <img class="logo-circle" src="{% static 'assets/logo.webp' %}" alt="" />
-      </div>
-      <ul class="nav-menu">
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            Who We Are <span class="dropdown-arrow">▼</span>
-          </a>
-          <div class="dropdown-menu">
-            <a href="{% url 'aboutus' %}" class="dropdown-item">About</a>
-            <a href="{% url 'our_mission_values' %}" class="dropdown-item">Our Mission & Values</a>
-            <a href="{% url 'appreciationandaccolades' %}" class="dropdown-item">Appreciation and Accolades</a>
-            <a href="{% url 'our_partners' %}" class="dropdown-item">Our Partners</a>
-            <a href="{% url 'our_policies' %}" class="dropdown-item">Our Policies</a>
-            <a href="{% url 'contact_us' %}" class="dropdown-item">
-              Contact Us
-            </a>
-
-            <a href="{% url 'our_team' %}" class="dropdown-item">
-              Our Team
-            </a>
-
-            <a href="{% url 'faq' %}" class="dropdown-item">FAQs</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            Make a Difference <span class="dropdown-arrow">▼</span>
-          </a>
-          <div class="dropdown-menu">
-            <a href="{% url 'career_fellowship' %}" class="dropdown-item">
-              Career and Fellowship
-            </a>
-
-            <a href="{% url 'workplace_living' %}" class="dropdown-item">
-              Workplace Giving
-            </a>
-
-            <a href="{% url 'volunteering' %}" class="dropdown-item">
-              Volunteering
-            </a>
-
-            <a href="{% url 'internships' %}" class="dropdown-item">
-              Internships
-            </a>
-
-            <a href="{% url 'campus_ambassador' %}" class="dropdown-item">
-              Campus Ambassador
-            </a>
-
-            <a href="{% url 'jobs' %}" class="dropdown-item">
-              Jobs at UDAAN Society
-            </a>
-
-
-
-          </div>
-        </li>
-        <li class="nav-item">
-          <a href="#" class="nav-link">
-            Impact <span class="dropdown-arrow">▼</span>
-          </a>
-          <div class="dropdown-menu">
-            <a href="{% url 'report_list' %}" class="dropdown-item">Annual Report</a>
-            <a href="{% url 'locations' %}" class="dropdown-item">Our Locations</a>
-            <a href="{% url 'project_list' %}" class="dropdown-item">Projects</a>
-            <a href="{% url 'our_activities' %}" class="dropdown-item">Our Activities</a>
-            <a href="{% url 'blogs' %}" class="dropdown-item">Blogs</a>
-            <a href="{% url 'news_clippings' %}" class="dropdown-item">News Clippings</a>
-            <a href="{% url 'resources' %}" class="dropdown-item">Resources</a>
-          </div>
-        </li>
-        <li class="nav-item">
-          <a href="{% url 'blood_donation' %}" class="nav-link">Blood Request</a>
-        </li>
-        <li class="nav-item">
-          <a href="{% url 'campaign_list' %}" class="nav-link">Campaigns</a>
-        </li>
-        <li class="nav-item">
-          <a href="/donate/" class="donate-btn">
-            📱 Donate Now <span>Secured by RazorPay</span></a>
-        </li>
-      </ul>
-    </div>
-  </nav>
+{% block content %}
 
   <!-- Hero Section -->
   <section class="hero">
@@ -111,9 +22,9 @@
         UDAAN Society is appointed an Implementation support Agency under Jal
         Jeevan Mission –Har Ghar Jal Project of Govt. of India by State Water
         and Sanitation Mission, Uttar Pradesh for two District namely Aligarh
-        & Bulandshahr.
+        &amp; Bulandshahr.
       </p>
-      <a href="#" class="hero-btn">Click Here</a>
+      <a href="{% url 'our_activities' %}" class="hero-btn">Learn More</a>
     </div>
 
     <div class="carousel-nav">
@@ -133,7 +44,7 @@
         <h2>Our <span>Activities</span></h2>
 
         <p class="activities-highlight">
-          We’ve worked on improving the lives of over
+          We've worked on improving the lives of over
           <strong>25,000</strong> young people through direct practice.
         </p>
 
@@ -154,7 +65,7 @@
 
       <!-- Right Image -->
       <div class="activities-image-wrapper">
-        <img src="{% static 'assets/section2.jpeg' %}" alt="Our Activities" />
+        <img src="{% static 'assets/section2.jpeg' %}" alt="UDAAN Society Community Activities" />
       </div>
     </div>
   </section>
@@ -166,7 +77,7 @@
         <div class="donate-icon">📘</div>
         <p class="donate-small">Donate for</p>
         <h3>Children education</h3>
-        <a href="#">More details...</a>
+        <a href="{% url 'donate' %}">More details...</a>
       </div>
 
       <!-- Card 2 -->
@@ -174,23 +85,23 @@
         <div class="donate-icon">🌊</div>
         <p class="donate-small">Donate for</p>
         <h3>Clean water</h3>
-        <a href="#">More details...</a>
+        <a href="{% url 'donate' %}">More details...</a>
       </div>
 
       <!-- Card 3 -->
       <div class="donate-card teal">
         <div class="donate-icon">🏥</div>
         <p class="donate-small">Donate for</p>
-        <h3>Surgery & treatment</h3>
-        <a href="#">More details...</a>
+        <h3>Surgery &amp; treatment</h3>
+        <a href="{% url 'donate' %}">More details...</a>
       </div>
 
       <!-- Card 4 -->
       <div class="donate-card sky">
         <div class="donate-icon">🧺</div>
         <p class="donate-small">Donate for</p>
-        <h3>Health & good food</h3>
-        <a href="#">More details...</a>
+        <h3>Health &amp; good food</h3>
+        <a href="{% url 'donate' %}">More details...</a>
       </div>
     </div>
   </section>
@@ -200,7 +111,7 @@
       <!-- Left Image -->
       <div class="welcome-image-wrapper">
         <div class="dots dots-left"></div>
-        <img src="{% static 'assets/welcomeImage.jpg' %}" alt="UDAAN activities" />
+        <img src="{% static 'assets/welcomeImage.jpg' %}" alt="UDAAN Society volunteer activities" />
       </div>
 
       <!-- Right Content -->
@@ -224,9 +135,9 @@
         </p>
 
         <div class="welcome-actions">
-          <a href="#" class="btn-primary">Learn More</a>
+          <a href="{% url 'aboutus' %}" class="btn-primary">Learn More</a>
 
-          <a href="#" class="btn-secondary">
+          <a href="{% url 'campaign_list' %}" class="btn-secondary">
             <span class="play-icon">▶</span>
             Know More
           </a>
@@ -251,13 +162,12 @@
         {% if campaign.image %}
         <img src="{{ campaign.image.url }}" alt="{{ campaign.title }}" class="cause-image" />
         {% else %}
-        <img src="{% static 'assets/p1.jpeg' %}" alt="Placeholder" class="cause-image" />
+        <img src="{% static 'assets/p1.jpeg' %}" alt="UDAAN Campaign" class="cause-image" />
         {% endif %}
 
         <div class="cause-goal">
           Goal: ₹ {{ campaign.goal_amount }}
           <div class="goal-bar">
-            <!-- Calculate width dynamically if desired, or random for demo -->
             <span style="width: 50%;"></span>
           </div>
         </div>
@@ -288,8 +198,8 @@
       <a href="{% url 'campaign_list' %}" class="view-more">View more..</a>
 
       <div class="cause-actions">
-        <a href="/donate/" class="btn-red">₹ Donate</a>
-        <a href="#" class="btn-outline">Create New</a>
+        <a href="{% url 'donate' %}" class="btn-red">₹ Donate</a>
+        <a href="{% url 'campaign_list' %}" class="btn-outline">View Campaigns</a>
       </div>
     </div>
   </section>
@@ -308,7 +218,7 @@
         {% if project.image %}
         <img src="{{ project.image.url }}" alt="{{ project.title }}" />
         {% else %}
-        <img src="{% static 'assets/p4.jpg' %}" alt="Placeholder" />
+        <img src="{% static 'assets/p4.jpg' %}" alt="UDAAN Project" />
         {% endif %}
 
         <div class="project-content">
@@ -318,7 +228,7 @@
             {{ project.description|truncatechars:100 }}
           </p>
 
-          <a href="#" class="project-btn">Read More</a>
+          <a href="{% url 'project_detail' project.slug %}" class="project-btn">Read More</a>
 
           <hr />
 
@@ -333,7 +243,7 @@
     </div>
 
     <div class="projects-footer">
-      <a href="#" class="projects-view-more">View more..</a>
+      <a href="{% url 'project_list' %}" class="projects-view-more">View more..</a>
     </div>
   </section>
 
@@ -350,7 +260,7 @@
           {% for testimonial in testimonials %}
           <div class="testimonial-card"
             onclick="openModal('{{ testimonial.author|escapejs }}', '{{ testimonial.role|escapejs }}', '{{ testimonial.detailed_text|default:testimonial.text|escapejs }}')">
-            <div class="quote-icon">“</div>
+            <div class="quote-icon">"</div>
 
             <div class="testimonial-summary">
               <p class="testimonial-quote">
@@ -382,7 +292,7 @@
   <div id="testimonial-modal" class="modal" onclick="closeModal(event)">
     <div class="modal-content">
       <span class="close-modal" onclick="closeModal(event, true)">&times;</span>
-      <div class="modal-icon">“</div>
+      <div class="modal-icon">"</div>
       <p id="modal-text" class="modal-text"></p>
       <div class="modal-author-block">
         <h4 id="modal-author"></h4>
@@ -451,70 +361,7 @@
     }
   </script>
 
-  <footer class="footer">
-    <div class="footer-container">
-
-      <div class="footer-col">
-        <img src="{% static 'assets/logo.webp' %}" class="footer-logo" alt="UDAAN Society">
-        <h3>UDAAN Society</h3>
-        <p>
-          We strive for underserved and neglected communities. Service,
-          Responsibility, Determination, Kindness, and Contribution are our values.
-        </p>
-      </div>
-
-      <div class="footer-col">
-        <h3>Quick Links</h3>
-        <a href="https://udaansociety.org/career-and-fellowship/">Career</a>
-        <a href="https://udaansociety.org/contact-us/">Contact Us</a>
-        <a href="https://udaansociety.org/process-flow/">Process Flow</a>
-        <a href="#">Products/Services Details</a>
-      </div>
-
-      <div class="footer-col">
-        <h3>Policies</h3>
-        <a href="https://udaansociety.org/policies/">All Policies</a>
-        <a href="https://udaansociety.org/policies/">Intellectual Property</a>
-        <a href="https://udaansociety.org/refund-policy/">Refund Policy</a>
-        <a href="https://udaansociety.org/privacy-policy/">Privacy Policy</a>
-        <a href="https://udaansociety.org/disclaimer/">Disclaimer</a>
-      </div>
-
-      <div class="footer-col">
-        <h3>Get All Updates</h3>
-        <input type="email" placeholder="Your Email Address">
-        <button onclick="subscribe()">SUBSCRIBE</button>
-
-        <h3>Find us on social</h3>
-        <div class="social-icons">
-          <a class="facebook" href="https://www.facebook.com/udaansociety"><i class="fab fa-facebook-f"></i></a>
-          <a class="instagram" href="https://www.instagram.com/udaansociety"><i class="fab fa-instagram"></i></a>
-          <a class="linkedin" href="#"><i class="fab fa-linkedin-in"></i></a>
-          <a class="youtube" href="https://www.youtube.com/@UdaanSociety"><i class="fab fa-youtube"></i></a>
-          <a class="whatsapp" href="https://www.whatsapp.com/channel/0029VaB0X8yId7nIN0lhCI3m"><i
-              class="fab fa-whatsapp"></i></a>
-          <a class="telegram" href="https://t.me/udaansociety"><i class="fab fa-telegram-plane"></i></a>
-        </div>
-      </div>
-
-    </div>
-
-    <div class="footer-bottom">
-      <p>© 2026 UDAAN Society | Created by <span>Udaan Society Team</span></p>
-      <div class="footer-links">
-        <a href="https://udaansociety.org/terms-and-conditions/">Terms and Conditions</a>
-        <a href="https://udaansociety.org/privacy-policy/">Privacy Policy</a>
-        <a href="https://udaansociety.org/refund-policy/">Refund Policy</a>
-        <a href="https://udaansociety.org/disclaimer/">Disclaimer</a>
-      </div>
-    </div>
-  </footer>
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/js/all.min.js"></script>
-
-
   <script>
-    {% load static %}
     const slides = [
       {
         title: "Har Ghar Jal Project",
@@ -579,7 +426,6 @@
         if (descEl) descEl.textContent = slides[currentSlide].description;
 
         // Update background image
-        // using linear-gradient overlay as in original code
         hero.style.background = `
           linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
           url("${slides[currentSlide].image}") center / cover
@@ -605,20 +451,4 @@
     }
   </script>
 
-  <!-- Configure Tailwind to avoid breaking existing home.html styles -->
-  <script>
-    tailwind = {
-      corePlugins: {
-        preflight: false,
-      }
-    }
-  </script>
-  <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- AI Chatbot Integration (Microservice Architecture) -->
-  <link rel="stylesheet" href="{% static 'chatbot/chatbot.css' %}">
-  {% include 'chatbot/widget.html' %}
-  <script src="{% static 'chatbot/chatbot.js' %}"></script>
-</body>
-
-</html>
+{% endblock %}

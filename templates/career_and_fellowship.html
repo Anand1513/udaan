@@ -3,6 +3,8 @@
 
 {% block title %}Career & Fellowship | UDAAN Society{% endblock %}
 
+{% block meta_description %}Explore career and fellowship opportunities at UDAAN Society. Join our team of social changemakers working in community development, advocacy, and program management in Aligarh.{% endblock %}
+
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/career_fellowship.css' %}">
 {% endblock %}
@@ -12,7 +14,7 @@
 <!-- HERO -->
 <section class="hero">
     <div class="hero-image">
-        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&h=500&fit=crop" alt="Blog">
+        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&h=500&fit=crop" alt="UDAAN Society Careers and Fellowship Opportunities">
         <div class="hero-overlay"></div>
     </div>
     <div class="hero-content">
@@ -92,11 +94,11 @@
 
 </section>
 
-<<section class="career-container">
+<section class="career-container">
 
     <section class="internship-info">
 
-        <a href="#" class="internship-link">
+        <a href="{% url 'internships' %}" class="internship-link">
             Apply for internship
         </a>
 
@@ -140,13 +142,13 @@
     <div class="career-card">
         <h3>Apply for Job</h3>
         <p>Work on impactful projects</p>
-        <a href="#" class="career-btn">JOIN NOW</a>
+        <a href="{% url 'jobs' %}" class="career-btn">JOIN NOW</a>
     </div>
 
     <div class="career-card">
         <h3>Become a Fellow</h3>
         <p>Serve communities</p>
-        <a href="#" class="career-btn">JOIN NOW</a>
+        <a href="{% url 'volunteering' %}" class="career-btn">JOIN NOW</a>
     </div>
 
 </section>

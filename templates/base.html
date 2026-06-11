@@ -171,7 +171,7 @@
                         </button>
                     </div>
                     <div>
-                        <button
+                        <a href="{% url 'donate' %}"
                             class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-3 px-8 rounded flex items-center shadow-lg transition-all">
                             <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -180,7 +180,7 @@
                             </svg>
                             Donate Now
                             <span class="text-xs font-normal ml-1 opacity-80 block sm:inline">Secured by Razorpay</span>
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -207,11 +207,11 @@
                     <div>
                         <h4 class="text-lg font-bold text-gray-900 mb-6">Quick Links</h4>
                         <ul class="space-y-4 text-sm text-gray-600">
-                            <li><a href="#" class="hover:text-brand-red transition-colors">About UDAAN</a></li>
-                            <li><a href="#" class="hover:text-brand-red transition-colors">Our Team</a></li>
-                            <li><a href="#" class="hover:text-brand-red transition-colors">Projects</a></li>
-                            <li><a href="#" class="hover:text-brand-red transition-colors">Gallery</a></li>
-                            <li><a href="#" class="hover:text-brand-red transition-colors">Contact Us</a></li>
+                            <li><a href="{% url 'aboutus' %}" class="hover:text-brand-red transition-colors">About UDAAN</a></li>
+                            <li><a href="{% url 'our_team' %}" class="hover:text-brand-red transition-colors">Our Team</a></li>
+                            <li><a href="{% url 'project_list' %}" class="hover:text-brand-red transition-colors">Projects</a></li>
+                            <li><a href="{% url 'our_activities' %}" class="hover:text-brand-red transition-colors">Our Activities</a></li>
+                            <li><a href="{% url 'contact_us' %}" class="hover:text-brand-red transition-colors">Contact Us</a></li>
                         </ul>
                     </div>
 
@@ -219,10 +219,10 @@
                     <div>
                         <h4 class="text-lg font-bold text-gray-900 mb-6">Policies</h4>
                         <ul class="space-y-4 text-sm text-gray-600">
-                            <li><a href="#" class="hover:text-brand-red transition-colors">Privacy Policy</a></li>
-                            <li><a href="#" class="hover:text-brand-red transition-colors">Terms of Use</a></li>
-                            <li><a href="#" class="hover:text-brand-red transition-colors">Refund Policy</a></li>
-                            <li><a href="#" class="hover:text-brand-red transition-colors">Child Protection Policy</a>
+                            <li><a href="{% url 'our_policies' %}" class="hover:text-brand-red transition-colors">Privacy Policy</a></li>
+                            <li><a href="{% url 'our_policies' %}" class="hover:text-brand-red transition-colors">Terms of Use</a></li>
+                            <li><a href="{% url 'our_policies' %}" class="hover:text-brand-red transition-colors">Refund Policy</a></li>
+                            <li><a href="{% url 'our_policies' %}" class="hover:text-brand-red transition-colors">Child Protection Policy</a>
                             </li>
                         </ul>
                     </div>
@@ -294,10 +294,10 @@
                         Team</span>
                 </div>
                 <div class="flex space-x-6 text-sm">
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Terms and Conditions</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Refund Policy</a>
-                    <a href="#" class="text-gray-400 hover:text-white transition-colors">Disclaimer</a>
+                    <a href="{% url 'our_policies' %}" class="text-gray-400 hover:text-white transition-colors">Terms and Conditions</a>
+                    <a href="{% url 'our_policies' %}" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
+                    <a href="{% url 'our_policies' %}" class="text-gray-400 hover:text-white transition-colors">Refund Policy</a>
+                    <a href="{% url 'our_policies' %}" class="text-gray-400 hover:text-white transition-colors">Disclaimer</a>
                 </div>
             </div>
         </div>
