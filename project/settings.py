@@ -26,10 +26,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-j0rm1^nre3hpqku&6%uu&ed&6h8-=4%i5#2k#9skdoh-82fyk)"
+SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-j0rm1^nre3hpqku&6%uu&ed&6h8-=4%i5#2k#9skdoh-82fyk)")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+
+# Enable rate limiting only when not in development/DEBUG mode
+RATELIMIT_ENABLE = not DEBUG
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
 
@@ -187,7 +190,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "en-us"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "Asia/Kolkata"
 
 USE_I18N = True
 

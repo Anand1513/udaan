@@ -8,6 +8,9 @@ import sys
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project.settings")
 django.setup()
 
+from django.conf import settings
+settings.EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
+
 from blood_request.views import register_donor, blood_request_create
 from blood_request.models import BloodDonor, BloodRequest
 from django.core import mail
@@ -67,7 +70,6 @@ print(f"Blood Request Response: {response.content.decode()}")
 breq = BloodRequest.objects.get(contact_phone="8888888888")
 print(f"Saved Request DIN: {breq.din}")
 print(f"Outbox length after request: {len(mail.outbox)}")
-
 # cleanup
 donor.delete()
 breq.delete()

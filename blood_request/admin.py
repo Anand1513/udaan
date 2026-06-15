@@ -1,13 +1,21 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin, GroupAdmin as BaseGroupAdmin
 from django.contrib.auth.models import User, Group
-from .models import PolicyReport
+from django_ckeditor_5.widgets import CKEditor5Widget
+from django.db import models
 
 from .models import (
-    BloodDonor, BloodRequest, Campaign, Report, Project, Task,
-    Announcement, Testimonial, StaffProfile, Interaction, Appointment,
-    PersonalNote, Team, SharedNote, NewsClipping, Blog, ContactMessage
+    PolicyReport, Report, Testimonial, StaffProfile, Announcement,
+    Interaction, BloodDonor, Project, BloodRequest, Blog, Campaign,
+    CampusAmbassador, CampusAmbassadorApplication, NewsClipping, ContactMessage,
+    Activity, JobPosting, Donation, SubTask, TaskComment, Team, SharedNote,
+    Workspace, WorkspaceMember, Expense, TaskAutomationRule, NewsletterSubscription, Task
 )
+
+# Custom branding for Django Administration
+admin.site.site_header = "UDAAN Society Administration"
+admin.site.site_title  = "UDAAN Admin Portal"
+admin.site.index_title = "Welcome to the UDAAN Admin Panel"
 
 @admin.register(PolicyReport)
 class PolicyReportAdmin(admin.ModelAdmin):
@@ -25,14 +33,13 @@ class TestimonialAdmin(admin.ModelAdmin):
     list_display = ('author', 'role', 'is_active', 'created_at')
     list_filter = ('is_active',)
 
-
-# Define an inline admin descriptor for StaffProfile model
+# Inline admin descriptor for StaffProfile model
 class StaffProfileInline(admin.StackedInline):
     model = StaffProfile
     can_delete = False
     verbose_name_plural = 'Staff Profile (Phone)'
 
-# Define a new User admin
+# Custom User Admin
 class UserAdmin(BaseUserAdmin):
     inlines = (StaffProfileInline,)
     list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'get_phone')
@@ -43,7 +50,7 @@ class UserAdmin(BaseUserAdmin):
         return obj.profile.phone_number if hasattr(obj, 'profile') else '-'
     get_phone.short_description = 'Phone Number'
 
-# Enhanced Group admin with better permission management
+# Custom Group Admin
 class GroupAdmin(BaseGroupAdmin):
     filter_horizontal = ('permissions',)
     list_display = ('name', 'user_count')
@@ -52,26 +59,23 @@ class GroupAdmin(BaseGroupAdmin):
         return obj.user_set.count()
     user_count.short_description = 'Members'
 
-# Re-register UserAdmin and GroupAdmin
+# Re-register User and Group
 admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 admin.site.unregister(Group)
 admin.site.register(Group, GroupAdmin)
 
-# Register your models here.
-
 @admin.register(Announcement)
 class AnnouncementAdmin(admin.ModelAdmin):
-    list_display = ('title', 'is_active', 'created_at')
-    list_filter = ('is_active',)
+    list_display = ('title', 'priority', 'expiry_date', 'is_active', 'created_at')
+    list_filter = ('is_active', 'expiry_date')
+    search_fields = ('title', 'content')
 
-
-from .models import Interaction
 @admin.register(Interaction)
 class InteractionAdmin(admin.ModelAdmin):
     list_display = ('staff', 'interaction_type', 'outcome', 'next_followup_date', 'created_at')
-    list_filter = ('staff', 'interaction_type', 'outcome')
-    search_fields = ('notes',)
+    list_filter = ('interaction_type', 'outcome') # Removed 'staff' to avoid loading all users
+    search_fields = ('notes', 'staff__username', 'staff__first_name', 'staff__last_name', 'interaction_type', 'outcome')
 
 @admin.register(BloodDonor)
 class BloodDonorAdmin(admin.ModelAdmin):
@@ -79,21 +83,66 @@ class BloodDonorAdmin(admin.ModelAdmin):
     search_fields = ('name', 'city', 'phone')
     list_filter = ('blood_group', 'city', 'consent_given')
     readonly_fields = ('score', 'donation_count')
+    actions = ['recalculate_donor_stats']
+
+    def recalculate_donor_stats(self, request, queryset):
+        for donor in queryset:
+            donations = donor.donations.all()
+            donor.donation_count = donations.count()
+            donor.score = sum(d.units for d in donations) * 10
+            donor.save()
+        self.message_user(request, f"Re-calculated donor metrics for {queryset.count()} records.")
+    recalculate_donor_stats.short_description = "Recalculate selected donor stats"
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('title', 'created_at')
-    search_fields = ('title',)
+    list_display = ('title', 'date', 'created_at')
+    search_fields = ('title', 'description')
+    list_filter = ('date',)
+    filter_horizontal = ('managers',)
 
 @admin.register(BloodRequest)
 class BloodRequestAdmin(admin.ModelAdmin):
     list_display = ('contact_person', 'blood_group', 'city', 'units', 'status', 'created_at')
     list_filter = ('blood_group', 'city', 'status')
     readonly_fields = ('status',)
+    actions = ['verify_request', 'fulfill_request', 'close_request']
+
+    def verify_request(self, request, queryset):
+        for obj in queryset:
+            try:
+                obj.verify()
+                obj.save()
+            except Exception as e:
+                self.message_user(request, f"Error verifying {obj}: {str(e)}", level='ERROR')
+    verify_request.short_description = "Verify selected blood requests"
+
+    def fulfill_request(self, request, queryset):
+        for obj in queryset:
+            try:
+                obj.start_fulfilling()
+                obj.save()
+            except Exception as e:
+                self.message_user(request, f"Error starting fulfillment for {obj}: {str(e)}", level='ERROR')
+    fulfill_request.short_description = "Mark selected requests as fulfilling"
+
+    def close_request(self, request, queryset):
+        for obj in queryset:
+            try:
+                obj.close()
+                obj.save()
+            except Exception as e:
+                self.message_user(request, f"Error closing {obj}: {str(e)}", level='ERROR')
+    close_request.short_description = "Close selected blood requests"
 
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
     list_display = ('title', 'created_at')
+    search_fields = ('title', 'description', 'content')
+    list_filter = ('created_at',)
+    formfield_overrides = {
+        models.TextField: {'widget': CKEditor5Widget(config_name='extends')},
+    }
 
 @admin.register(Campaign)
 class CampaignAdmin(admin.ModelAdmin):
@@ -102,19 +151,17 @@ class CampaignAdmin(admin.ModelAdmin):
     def target_vs_raised(self, obj):
         return f"{obj.raised_amount} / {obj.goal_amount}"
 
-# Note: Internal workspace tools (Project, Task, SubTask, Team, SharedNote,
-# Expense, TaskComment, TaskAutomationRule) have been explicitly removed from
-# the Admin panel and migrated to the UDAAN Portal for a unified workspace.
-
-
-
-from .models import CampusAmbassador, CampusAmbassadorApplication
-
 @admin.register(CampusAmbassador)
 class CampusAmbassadorAdmin(admin.ModelAdmin):
     list_display = ('name', 'college', 'city', 'created_at')
     search_fields = ('name', 'college')
 
+@admin.register(CampusAmbassadorApplication)
+class CampusAmbassadorApplicationAdmin(admin.ModelAdmin):
+    list_display = ('full_name', 'email', 'phone', 'college', 'city', 'status', 'applied_at')
+    list_filter = ('status', 'city')
+    search_fields = ('full_name', 'email', 'college')
+    list_editable = ('status',)
 
 @admin.register(NewsClipping)
 class NewsClippingAdmin(admin.ModelAdmin):
@@ -123,16 +170,22 @@ class NewsClippingAdmin(admin.ModelAdmin):
 
 @admin.register(ContactMessage)
 class ContactMessageAdmin(admin.ModelAdmin):
-    list_display = ('first_name', 'email', 'subject', 'is_read', 'created_at')
+    list_display = ('first_name', 'email', 'subject', 'message_preview', 'is_read', 'created_at')
     list_filter = ('is_read', 'created_at')
-    search_fields = ('first_name', 'email', 'subject')
-    actions = ['mark_as_read']
+    search_fields = ('first_name', 'email', 'subject', 'message')
+    actions = ['mark_as_read', 'mark_as_unread']
+
+    def message_preview(self, obj):
+        return obj.message[:50] + "..." if len(obj.message) > 50 else obj.message
+    message_preview.short_description = "Message Snippet"
 
     def mark_as_read(self, request, queryset):
         queryset.update(is_read=True)
     mark_as_read.short_description = "Mark selected messages as read"
 
-from .models import Activity
+    def mark_as_unread(self, request, queryset):
+        queryset.update(is_read=False)
+    mark_as_unread.short_description = "Mark selected messages as unread"
 
 @admin.register(Activity)
 class ActivityAdmin(admin.ModelAdmin):
@@ -140,14 +193,82 @@ class ActivityAdmin(admin.ModelAdmin):
     list_filter = ('is_active', 'date')
     search_fields = ('title', 'description')
 
-
-from .models import JobPosting
-
 @admin.register(JobPosting)
 class JobPostingAdmin(admin.ModelAdmin):
     list_display = ('title', 'location', 'job_type', 'is_active', 'application_deadline', 'created_at')
     list_filter = ('job_type', 'is_active')
     search_fields = ('title', 'location', 'description')
-    list_editable = ('is_active',)
+    actions = ['activate_jobs', 'deactivate_jobs']
 
+    def activate_jobs(self, request, queryset):
+        queryset.update(is_active=True)
+    activate_jobs.short_description = "Activate selected job postings"
 
+    def deactivate_jobs(self, request, queryset):
+        queryset.update(is_active=False)
+    deactivate_jobs.short_description = "Deactivate selected job postings"
+
+# Registered missing internal portal and blog/newsletter models for admin visibility
+@admin.register(Donation)
+class DonationAdmin(admin.ModelAdmin):
+    list_display = ('donor', 'date', 'units', 'created_at')
+    search_fields = ('donor__name', 'notes')
+    list_filter = ('date',)
+
+@admin.register(SubTask)
+class SubTaskAdmin(admin.ModelAdmin):
+    list_display = ('title', 'parent_task', 'assigned_to', 'status', 'created_at')
+    list_filter = ('status',)
+    search_fields = ('title', 'parent_task__title')
+
+@admin.register(TaskComment)
+class TaskCommentAdmin(admin.ModelAdmin):
+    list_display = ('author', 'task', 'created_at')
+    search_fields = ('content', 'task__title', 'author__username')
+
+@admin.register(Team)
+class TeamAdmin(admin.ModelAdmin):
+    list_display = ('name', 'workspace', 'created_by', 'created_at')
+    search_fields = ('name', 'description')
+    filter_horizontal = ('members',)
+
+@admin.register(SharedNote)
+class SharedNoteAdmin(admin.ModelAdmin):
+    list_display = ('title', 'owner', 'parent_note', 'created_at', 'updated_at')
+    search_fields = ('title', 'content')
+    filter_horizontal = ('shared_with_teams', 'shared_with_users')
+
+@admin.register(Workspace)
+class WorkspaceAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug', 'owner', 'created_at')
+    search_fields = ('name', 'slug')
+
+@admin.register(WorkspaceMember)
+class WorkspaceMemberAdmin(admin.ModelAdmin):
+    list_display = ('workspace', 'user', 'role', 'joined_at')
+    list_filter = ('role',)
+
+@admin.register(Expense)
+class ExpenseAdmin(admin.ModelAdmin):
+    list_display = ('title', 'amount', 'date', 'category', 'campaign', 'project', 'logged_by')
+    list_filter = ('category', 'date')
+    search_fields = ('title', 'notes', 'logged_by__username')
+
+@admin.register(TaskAutomationRule)
+class TaskAutomationRuleAdmin(admin.ModelAdmin):
+    list_display = ('name', 'trigger_type', 'action_type', 'is_active', 'created_at')
+    list_filter = ('is_active', 'trigger_type', 'action_type')
+    search_fields = ('name',)
+
+@admin.register(NewsletterSubscription)
+class NewsletterSubscriptionAdmin(admin.ModelAdmin):
+    list_display = ('email', 'subscribed_at', 'is_active')
+    list_filter = ('is_active',)
+    search_fields = ('email',)
+
+@admin.register(Task)
+class TaskAdmin(admin.ModelAdmin):
+    list_display = ('title', 'project', 'assigned_to', 'status', 'priority', 'due_date')
+    list_filter = ('status', 'priority', 'due_date')
+    search_fields = ('title', 'description')
+    filter_horizontal = ('dependencies',)

@@ -5,6 +5,8 @@ from django.shortcuts import render
 from django.http import JsonResponse
 from django.db.models import Q
 from django.views.decorators.csrf import ensure_csrf_cookie
+from django.contrib import messages
+from django.conf import settings
 from .models import (
     BloodDonor, BloodRequest, ContactMessage, Report, Campaign, Task, StaffProfile, SubTask, 
     Interaction, Project, NewsClipping, Team, SharedNote, Workspace, Notification, Expense, TaskComment,
@@ -16,7 +18,7 @@ from django_ratelimit.decorators import ratelimit
 # from django.shortcuts import render
 from .models import Blog, Project, Task, SubTask, Team
 from django.shortcuts import get_object_or_404
-from django.contrib.auth.decorators import permission_required, user_passes_test
+from django.contrib.auth.decorators import permission_required, user_passes_test, login_required
 from .models import CampusAmbassador
 from .models import PolicyReport
 
@@ -73,6 +75,8 @@ def register_donor(request):
     
     return JsonResponse({'success': False, 'error': 'Invalid method'}, status=405)
 
+@login_required
+@ratelimit(key='ip', rate='20/h', block=True)
 def search_donors(request):
     blood_group = request.GET.get('blood_group')
     city = request.GET.get('city')
@@ -90,7 +94,7 @@ def search_donors(request):
         results.append({
             'name': donor.name,
             'blood_group': donor.blood_group,
-            'phone': donor.phone, # In a real app, might want to mask this or show only on request
+            'phone': donor.phone,
             'email': donor.email,
             'city': donor.city,
             'state': donor.state
@@ -175,8 +179,12 @@ def staff_dashboard(request):
     """
     from .models import Announcement, BloodDonor
     
-    # Fetch Active Announcements
-    announcements = Announcement.objects.filter(is_active=True).order_by('-created_at')
+    # Fetch Active and Non-expired Announcements
+    from datetime import date
+    announcements = Announcement.objects.filter(
+        Q(is_active=True) & 
+        (Q(expiry_date__isnull=True) | Q(expiry_date__gte=date.today()))
+    ).order_by('-priority', '-created_at')
     
     # Impact Stats
     total_donors = BloodDonor.objects.count()
@@ -794,7 +802,7 @@ def calendar_events_api(request):
                 'title': f"Task: {task.title}",
                 'start': task.due_date.isoformat(),
                 'color': '#EF4444' if task.priority == 'Critical' else '#3B82F6',
-                'url': f"/admin/portal/" # linking to dashboard for now
+                'url': f"/admin/portal/task/{task.id}/"
             })
             
     # Appointments
@@ -1084,6 +1092,13 @@ def user_add(request):
         
         if username and password:
             try:
+                from django.contrib.auth.password_validation import validate_password
+                from django.core.exceptions import ValidationError
+                try:
+                    validate_password(password)
+                except ValidationError as ve:
+                    messages.error(request, ", ".join(ve.messages))
+                    return render(request, 'blood_request/user_form.html')
                 user = User.objects.create_user(username=username, email=email, password=password)
                 if role == 'Manager':
                     from django.contrib.auth.models import Group
@@ -1184,9 +1199,6 @@ def our_mission_values(request):
 
 def aboutus(request):
     return render(request, 'aboutus.html')
-def our_policies(request):
-    return render(request, "our_policies.html")
-
 def our_policies(request):
 
     ethical = PolicyReport.objects.filter(category="ethical").first()
@@ -1317,7 +1329,7 @@ class ExpenseListView(ListView):
 @method_decorator(user_passes_test(is_manager), name='dispatch')
 class ExpenseCreateView(CreateView):
     model = Expense
-    fields = ['title', 'amount', 'date', 'category', 'campaign', 'project', 'logged_by', 'receipt_image', 'notes']
+    fields = ['title', 'amount', 'date', 'category', 'campaign', 'project', 'receipt_image', 'notes']
     template_name = 'blood_request/portal_form.html'
     success_url = reverse_lazy('expense_list_portal')
 
@@ -1327,10 +1339,14 @@ class ExpenseCreateView(CreateView):
         context['back_url'] = reverse_lazy('expense_list_portal')
         return context
 
+    def form_valid(self, form):
+        form.instance.logged_by = self.request.user
+        return super().form_valid(form)
+
 @method_decorator(user_passes_test(is_manager), name='dispatch')
 class ExpenseUpdateView(UpdateView):
     model = Expense
-    fields = ['title', 'amount', 'date', 'category', 'campaign', 'project', 'logged_by', 'receipt_image', 'notes']
+    fields = ['title', 'amount', 'date', 'category', 'campaign', 'project', 'receipt_image', 'notes']
     template_name = 'blood_request/portal_form.html'
     success_url = reverse_lazy('expense_list_portal')
 

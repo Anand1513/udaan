@@ -227,6 +227,8 @@ class Announcement(models.Model):
     title = models.CharField(max_length=200)
     content = models.TextField()
     is_active = models.BooleanField(default=True)
+    expiry_date = models.DateField(null=True, blank=True)
+    priority = models.IntegerField(default=0, help_text="Higher numbers show first")
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
