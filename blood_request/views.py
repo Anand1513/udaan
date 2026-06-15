@@ -189,7 +189,6 @@ def staff_dashboard(request):
     # Impact Stats
     total_donors = BloodDonor.objects.count()
 
-    from django.db.models import Q
     # Fetch tasks assigned to the user OR unassigned tasks
     all_tasks = Task.objects.filter(Q(assigned_to=request.user) | Q(assigned_to__isnull=True)).order_by('due_date')
     
