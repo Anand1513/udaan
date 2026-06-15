@@ -1,0 +1,256 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}UDAAN Society • Our Partners{% endblock %}
+
+{% block extra_css %}
+<style>
+    .hero {
+        background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+        color: white;
+        text-align: center;
+        padding: 4rem 1rem;
+        margin-top: 0;
+    }
+
+    .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .hero p {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+
+    .section {
+        max-width: 1200px;
+        margin: 40px auto;
+        padding: 0 20px;
+    }
+
+    .section h2 {
+        text-align: center;
+        color: #2c5364;
+        margin-bottom: 30px;
+        font-size: 2rem;
+        border-bottom: 2px solid #e0eafc;
+        padding-bottom: 10px;
+        display: inline-block;
+    }
+
+    .section h2::after {
+        content: '';
+        display: block;
+        width: 50px;
+        height: 3px;
+        background: #2c5364;
+        margin: 5px auto 0;
+    }
+
+    .card-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 30px;
+    }
+
+    .partner-card {
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        padding: 30px;
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 250px;
+        border: 1px solid #f0f0f0;
+    }
+
+    .partner-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        border-color: #2c5364;
+    }
+
+    .partner-card img {
+        max-width: 80%;
+        max-height: 100px;
+        object-fit: contain;
+        margin-bottom: 1rem;
+        filter: grayscale(100%) opacity(0.8);
+        transition: filter 0.3s ease;
+    }
+
+    .partner-card:hover img {
+        filter: grayscale(0%) opacity(1);
+    }
+
+    .partner-card h3 {
+        font-size: 1.2rem;
+        color: #2c5364;
+        margin-bottom: 0.5rem;
+    }
+
+    .partner-card p {
+        font-size: 0.9rem;
+        color: #666;
+        margin: 0;
+    }
+
+    .impact {
+        text-align: center;
+        margin-top: 50px;
+        padding: 40px 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+
+    .impact p {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: #2c5364;
+    }
+
+    .cta-section {
+        text-align: center;
+        padding: 60px 20px;
+        background: #e0eafc;
+        margin-top: 40px;
+    }
+
+    .cta-section h2 {
+        color: #0f2027;
+        margin-bottom: 20px;
+        border: none;
+    }
+
+    .cta-section h2::after {
+        display: none;
+    }
+
+    .cta-btn {
+        background: #2c5364;
+        color: white;
+        border: none;
+        padding: 12px 30px;
+        font-size: 1.1rem;
+        border-radius: 25px;
+        cursor: pointer;
+        transition: background 0.3s ease;
+    }
+
+    .cta-btn:hover {
+        background: #0f2027;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<header class="hero">
+    <h1>Our Valued Partners</h1>
+    <p>Together, building stronger communities.</p>
+</header>
+
+<!-- Education Empowerment Partners -->
+<section class="section">
+    <h2>Education Empowerment Partners</h2>
+    <div class="card-grid">
+        <div class="partner-card">
+            <img src="{% static 'images/partner_amu.png' %}" alt="AMU">
+            <h3>Aligarh Muslim University</h3>
+            <p>Aligarh</p>
+        </div>
+        <div class="partner-card">
+            <img src="{% static 'images/partner_unicef.png' %}" alt="UNICEF">
+            <h3>UNICEF</h3>
+            <p>Global</p>
+        </div>
+        <div class="partner-card">
+            <img src="{% static 'images/partner_lic.png' %}" alt="LIC">
+            <h3>LIC of India</h3>
+            <p>India</p>
+        </div>
+    </div>
+</section>
+
+<!-- Media Partners -->
+<section class="section">
+    <h2>Media Partners</h2>
+    <div class="card-grid">
+        <div class="partner-card">
+            <img src="{% static 'images/partner_amu.png' %}" alt="AMU">
+            <h3>Aligarh Muslim University</h3>
+            <p>Aligarh</p>
+        </div>
+        <div class="partner-card">
+            <img src="{% static 'images/partner_unicef.png' %}" alt="UNICEF">
+            <h3>UNICEF</h3>
+            <p>Global</p>
+        </div>
+        <div class="partner-card">
+            <img src="{% static 'images/partner_lic.png' %}" alt="LIC">
+            <h3>LIC of India</h3>
+            <p>India</p>
+        </div>
+    </div>
+</section>
+
+<!-- Bilateral Agencies / Funding Partners -->
+<section class="section">
+    <h2>Bilateral / Funding Partners</h2>
+    <div class="card-grid">
+        <div class="partner-card">
+            <img src="{% static 'images/partner_amu.png' %}" alt="AMU">
+            <h3>Aligarh Muslim University</h3>
+            <p>Aligarh</p>
+        </div>
+        <div class="partner-card">
+            <img src="{% static 'images/partner_unicef.png' %}" alt="UNICEF">
+            <h3>UNICEF</h3>
+            <p>Global</p>
+        </div>
+        <div class="partner-card">
+            <img src="{% static 'images/partner_lic.png' %}" alt="LIC">
+            <h3>LIC of India</h3>
+            <p>India</p>
+        </div>
+    </div>
+</section>
+
+<!-- Government Agencies -->
+<section class="section">
+    <h2>Government Agencies</h2>
+    <div class="card-grid">
+        <div class="partner-card">
+            <img src="{% static 'images/partner_amu.png' %}" alt="AMU">
+            <h3>Aligarh Muslim University</h3>
+            <p>Aligarh</p>
+        </div>
+        <div class="partner-card">
+            <img src="{% static 'images/partner_unicef.png' %}" alt="UNICEF">
+            <h3>UNICEF</h3>
+            <p>Global</p>
+        </div>
+        <div class="partner-card">
+            <img src="{% static 'images/partner_lic.png' %}" alt="LIC">
+            <h3>LIC of India</h3>
+            <p>India</p>
+        </div>
+    </div>
+</section>
+
+<section class="impact">
+    <p>50+ partner institutions collaborating for community empowerment</p>
+</section>
+
+<section class="cta-section">
+    <h2>Want to Partner With Us?</h2>
+    <button class="cta-btn">Become a Partner</button>
+</section>
+
+{% endblock %}

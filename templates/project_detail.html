@@ -1,0 +1,99 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ project.title }} - Project Details{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/project_detail.css' %}?v=3">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background-image: url('https://udaansociety.org/static/assets/img/hero-bg.jpg');">
+    <div class="hero-content">
+        <h1>PROJECT</h1>
+        <p>Overview about the projects we have done so far.</p>
+    </div>
+</section>
+
+<!-- Breadcrumbs -->
+<div class="container breadcrumbs">
+    <p><a href="{% url 'home' %}">Home</a> > <a href="{% url 'project_list' %}">Projects</a> > <span class="current">{{
+            project.title }}</span></p>
+</div>
+
+<!-- Main Content Area -->
+<div class="container project-detail-layout">
+    <main class="project-main-content">
+        <h2 class="project-title">{{ project.title }}</h2>
+
+        <div class="project-image-wrapper">
+            {% if project.image %}
+            <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-main-image"
+                data-lightbox="project-image">
+            {% endif %}
+        </div>
+
+        <div class="project-content">
+            {{ project.content|safe }}
+        </div>
+
+    </main>
+
+    <aside class="project-sidebar">
+        <div class="sidebar-block">
+            <h3>Achievements Under This Project</h3>
+            <ul>
+                <li>57,023 youths trained and 43,046 successfully placed</li>
+            </ul>
+        </div>
+
+        <div class="sidebar-block">
+            <h3>Project Organiser</h3>
+            <p>Bandhan's Skill Development Department</p>
+        </div>
+
+        <div class="sidebar-block">
+            <h3>Project Details</h3>
+            <p><i class="fas fa-map-marker-alt icon"></i> Location: Aligarh</p>
+            <p><i class="fas fa-calendar-alt icon"></i> Date: {{ project.date|date:"d/m/Y" }}</p>
+            <p><i class="fas fa-envelope icon"></i> Email: <a
+                    href="mailto:mail@udaansociety.org">mail@udaansociety.org</a></p>
+            <p><i class="fas fa-phone-alt icon"></i> Phone: 9837067681</p>
+        </div>
+
+        <div class="sidebar-block map-container">
+            <h3>Project Location</h3>
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d111812.87198755694!2d78.01633512349704!3d27.904874639906473!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3974a4362142e88b%3A0x6e788c750b3360b9!2sAligarh%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1706597792683!5m2!1sen!2sin"
+                width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+
+        <div class="sidebar-block share-project">
+            <h3>Share This Project</h3>
+            <div class="share-buttons">
+                <a href="https://www.facebook.com/sharer/sharer.php?u=YOUR_PAGE_URL" target="_blank"
+                    class="share-btn facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://twitter.com/intent/tweet?url=YOUR_PAGE_URL&text=Check%20out%20this%20amazing%20project!"
+                    target="_blank" class="share-btn twitter"><i class="fab fa-twitter"></i></a>
+                <a href="https://api.whatsapp.com/send?text=Check%20out%20this%20amazing%20project!%20YOUR_PAGE_URL"
+                    target="_blank" class="share-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
+                <a href="mailto:?subject=Check%20out%20this%20project&body=I%20thought%20you%20might%20be%20interested%20in%20this%20project:%20YOUR_PAGE_URL"
+                    target="_blank" class="share-btn email"><i class="fas fa-envelope"></i></a>
+            </div>
+        </div>
+    </aside>
+</div>
+
+<!-- Lightbox Modal -->
+<div id="lightbox" class="lightbox">
+    <span class="close-btn">&times;</span>
+    <img class="lightbox-content" id="lightbox-img">
+    <div id="lightbox-caption"></div>
+</div>
+
+<script src="{% static 'js/project_detail.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Annual Report - UDAAN Society{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/annual.css' %}">
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+        <h1>Annual Report</h1>
+        <p>Our Annual Reports</p>
+    </div>
+</section>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+    <div class="container">
+        Home <span>&raquo;</span> Annual Report
+    </div>
+</div>
+
+<!-- Main Content -->
+<div class="main-content">
+
+    <div class="section-title">
+        <h2>ANNUAL <span>REPORTS</span></h2>
+        <p>A course or principle of action proposed by UDAAN Society.</p>
+    </div>
+
+    <div class="report-viewer-wrapper" id="reportViewer">
+
+        <!-- Year Tabs -->
+        <div class="year-tabs">
+            {% for report in reports %}
+            <div class="year-tab {% if forloop.first %}active{% endif %}" data-year="{{ report.title }}" data-file="{{ report.file.url }}">{{ report.title }}</div>
+            {% empty %}
+            <p style="text-align: center; width: 100%; color: #666;">No reports available.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Toolbar -->
+        <div class="viewer-toolbar">
+
+            <div class="toolbar-group">
+                <button class="toolbar-btn" id="prevBtn">
+                    <i class="fas fa-chevron-left"></i>
+                </button>
+
+                <div class="page-indicator">
+                    <input type="number" id="pageInput" value="1" min="1">
+                    <span>of <span id="totalPages">--</span></span>
+                </div>
+
+                <button class="toolbar-btn" id="nextBtn">
+                    <i class="fas fa-chevron-right"></i>
+                </button>
+            </div>
+
+            <div class="toolbar-group zoom-controls">
+                <button class="toolbar-btn" id="zoomOut"><i class="fas fa-minus"></i></button>
+                <span id="zoomLevel">100%</span>
+                <button class="toolbar-btn" id="zoomIn"><i class="fas fa-plus"></i></button>
+            </div>
+
+            <div class="toolbar-group">
+                <button class="toolbar-btn icon-btn" id="downloadBtn">
+                    <i class="fas fa-download"></i>
+                </button>
+
+                <button class="toolbar-btn icon-btn" id="fullscreenBtn">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
+
+        </div>
+
+        <div class="pdf-container" id="pdfContainer">
+            <div class="pdf-loading" id="pdfLoading">
+                <i class="fas fa-spinner fa-spin"></i>
+                <span>Loading PDF...</span>
+            </div>
+            
+            <div class="pdf-error" id="pdfError" style="display: none;">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Failed to load PDF. Please try again.</span>
+            </div>
+
+            <canvas id="pdfCanvas"></canvas>
+        </div>
+
+    </div>
+</div>
+
+<!-- JS -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script src="{% static 'js/annual.js' %}"></script>
+{% endblock %}

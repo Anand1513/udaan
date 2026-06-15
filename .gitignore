@@ -1,0 +1,16 @@
+db.*
+udaan.db
+*.pdf
+*.log
+venv/
+__pycache__
+udaan_project/__pycache__/*
+blood_request/__pycache__/*
+static/__pycache__/*
+templates/__pycache__/*
+
+# AI Chatbot specific ignores
+ai_chatbot/.env
+ai_chatbot/venv/
+ai_chatbot/chatbot.db
+ai_chatbot/__pycache__/
