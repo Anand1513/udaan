@@ -8,6 +8,7 @@ udaan_project/__pycache__/*
 blood_request/__pycache__/*
 static/__pycache__/*
 templates/__pycache__/*
+.env
 
 # AI Chatbot specific ignores
 ai_chatbot/.env
