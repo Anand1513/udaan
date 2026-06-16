@@ -5,9 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}UDAAN Society - Blood Request{% endblock %}</title>
-    <meta name="description" content="{% block meta_description %}UDAAN Society works for underserved and neglected communities.{% endblock %}">
+    <meta name="description"
+        content="{% block meta_description %}UDAAN Society works for underserved and neglected communities.{% endblock %}">
     <meta property="og:title" content="{% block og_title %}UDAAN Society{% endblock %}">
-    <meta property="og:description" content="{% block og_description %}UDAAN Society works for underserved and neglected communities.{% endblock %}">
+    <meta property="og:description"
+        content="{% block og_description %}UDAAN Society works for underserved and neglected communities.{% endblock %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
 
@@ -68,7 +70,8 @@
                     <div class="dropdown-menu">
                         <a href="{% url 'aboutus' %}" class="dropdown-item">About</a>
                         <a href="{% url 'our_mission_values' %}" class="dropdown-item">Our Mission & Values</a>
-                        <a href="{% url 'appreciationandaccolades' %}" class="dropdown-item">Appreciation and Accolades</a>
+                        <a href="{% url 'appreciationandaccolades' %}" class="dropdown-item">Appreciation and
+                            Accolades</a>
                         <a href="{% url 'our_partners' %}" class="dropdown-item">Our Partners</a>
                         <a href="{% url 'our_policies' %}" class="dropdown-item">Our Policies</a>
                         <a href="{% url 'contact_us' %}" class="dropdown-item">
@@ -164,9 +167,10 @@
                             <span class="text-brand-red">Support Us</span> And Change The <br class="hidden md:block">
                             Course Of A Child's Life Today!
                         </h2>
-                        <button class="text-brand-red font-medium text-sm hover:underline mt-2 inline-block open-modal-btn bg-transparent border-none p-0 cursor-pointer"
-                                data-title="Change a Child's Life"
-                                data-content="Your support helps construct entirely new paradigms for the children in our core areas. With proper education, mentorship, and life skills, every child can carve out their own future.">
+                        <button
+                            class="text-brand-red font-medium text-sm hover:underline mt-2 inline-block open-modal-btn bg-transparent border-none p-0 cursor-pointer"
+                            data-title="Change a Child's Life"
+                            data-content="Your support helps construct entirely new paradigms for the children in our core areas. With proper education, mentorship, and life skills, every child can carve out their own future.">
                             Read more...
                         </button>
                     </div>
@@ -207,11 +211,16 @@
                     <div>
                         <h4 class="text-lg font-bold text-gray-900 mb-6">Quick Links</h4>
                         <ul class="space-y-4 text-sm text-gray-600">
-                            <li><a href="{% url 'aboutus' %}" class="hover:text-brand-red transition-colors">About UDAAN</a></li>
-                            <li><a href="{% url 'our_team' %}" class="hover:text-brand-red transition-colors">Our Team</a></li>
-                            <li><a href="{% url 'project_list' %}" class="hover:text-brand-red transition-colors">Projects</a></li>
-                            <li><a href="{% url 'our_activities' %}" class="hover:text-brand-red transition-colors">Our Activities</a></li>
-                            <li><a href="{% url 'contact_us' %}" class="hover:text-brand-red transition-colors">Contact Us</a></li>
+                            <li><a href="{% url 'aboutus' %}" class="hover:text-brand-red transition-colors">About
+                                    UDAAN</a></li>
+                            <li><a href="{% url 'our_team' %}" class="hover:text-brand-red transition-colors">Our
+                                    Team</a></li>
+                            <li><a href="{% url 'project_list' %}"
+                                    class="hover:text-brand-red transition-colors">Projects</a></li>
+                            <li><a href="{% url 'our_activities' %}" class="hover:text-brand-red transition-colors">Our
+                                    Activities</a></li>
+                            <li><a href="{% url 'contact_us' %}" class="hover:text-brand-red transition-colors">Contact
+                                    Us</a></li>
                         </ul>
                     </div>
 
@@ -219,10 +228,14 @@
                     <div>
                         <h4 class="text-lg font-bold text-gray-900 mb-6">Policies</h4>
                         <ul class="space-y-4 text-sm text-gray-600">
-                            <li><a href="{% url 'our_policies' %}" class="hover:text-brand-red transition-colors">Privacy Policy</a></li>
-                            <li><a href="{% url 'our_policies' %}" class="hover:text-brand-red transition-colors">Terms of Use</a></li>
-                            <li><a href="{% url 'our_policies' %}" class="hover:text-brand-red transition-colors">Refund Policy</a></li>
-                            <li><a href="{% url 'our_policies' %}" class="hover:text-brand-red transition-colors">Child Protection Policy</a>
+                            <li><a href="{% url 'our_policies' %}"
+                                    class="hover:text-brand-red transition-colors">Privacy Policy</a></li>
+                            <li><a href="{% url 'our_policies' %}" class="hover:text-brand-red transition-colors">Terms
+                                    of Use</a></li>
+                            <li><a href="{% url 'our_policies' %}" class="hover:text-brand-red transition-colors">Refund
+                                    Policy</a></li>
+                            <li><a href="{% url 'our_policies' %}" class="hover:text-brand-red transition-colors">Child
+                                    Protection Policy</a>
                             </li>
                         </ul>
                     </div>
@@ -241,19 +254,19 @@
 
                         <h4 class="text-lg font-bold text-gray-900 mb-4">Find us on social</h4>
                         <div class="flex space-x-3">
-                            <a href="https://facebook.com/UDAAN" target="_blank" aria-label="Facebook"
+                            <a href="https://www.facebook.com/udaansociety" target="_blank" aria-label="Facebook"
                                 class="h-10 w-10 bg-blue-600 text-white rounded flex items-center justify-center hover:opacity-90 focus:ring-2 focus:ring-brand-red focus:outline-none"><svg
                                     class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                     <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
                                 </svg></a>
-                            <a href="https://instagram.com/UDAAN" target="_blank" aria-label="Instagram"
+                            <a href="https://www.instagram.com/udaansociety" target="_blank" aria-label="Instagram"
                                 class="h-10 w-10 bg-pink-600 text-white rounded flex items-center justify-center hover:opacity-90 focus:ring-2 focus:ring-brand-red focus:outline-none"><svg
                                     class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
                                     <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"></path>
                                     <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
                                 </svg></a>
-                            <a href="https://linkedin.com/company/UDAAN" target="_blank" aria-label="LinkedIn"
+                            <a href="https://www.linkedin.com/in/udaansociety" target="_blank" aria-label="LinkedIn"
                                 class="h-10 w-10 bg-blue-700 text-white rounded flex items-center justify-center hover:opacity-90 focus:ring-2 focus:ring-brand-red focus:outline-none"><svg
                                     class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                     <path
@@ -261,13 +274,13 @@
                                 </svg></a>
                         </div>
                         <div class="flex space-x-3 mt-3">
-                            <a href="https://youtube.com/UDAAN" target="_blank" aria-label="YouTube"
+                            <a href="https://www.youtube.com/user/udaansociety" target="_blank" aria-label="YouTube"
                                 class="h-10 w-10 bg-red-600 text-white rounded flex items-center justify-center hover:opacity-90 focus:ring-2 focus:ring-brand-red focus:outline-none"><svg
                                     class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                     <path
                                         d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
                                 </svg></a>
-                            <a href="https://wa.me/919876543210" target="_blank" aria-label="WhatsApp"
+                            <a href="https://wa.me/9837067681" target="_blank" aria-label="WhatsApp"
                                 class="h-10 w-10 bg-green-500 text-white rounded flex items-center justify-center hover:opacity-90 focus:ring-2 focus:ring-brand-red focus:outline-none"><svg
                                     class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                                     <path
@@ -294,10 +307,14 @@
                         Team</span>
                 </div>
                 <div class="flex space-x-6 text-sm">
-                    <a href="{% url 'our_policies' %}" class="text-gray-400 hover:text-white transition-colors">Terms and Conditions</a>
-                    <a href="{% url 'our_policies' %}" class="text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
-                    <a href="{% url 'our_policies' %}" class="text-gray-400 hover:text-white transition-colors">Refund Policy</a>
-                    <a href="{% url 'our_policies' %}" class="text-gray-400 hover:text-white transition-colors">Disclaimer</a>
+                    <a href="{% url 'our_policies' %}" class="text-gray-400 hover:text-white transition-colors">Terms
+                        and Conditions</a>
+                    <a href="{% url 'our_policies' %}" class="text-gray-400 hover:text-white transition-colors">Privacy
+                        Policy</a>
+                    <a href="{% url 'our_policies' %}" class="text-gray-400 hover:text-white transition-colors">Refund
+                        Policy</a>
+                    <a href="{% url 'our_policies' %}"
+                        class="text-gray-400 hover:text-white transition-colors">Disclaimer</a>
                 </div>
             </div>
         </div>
@@ -314,25 +331,31 @@
     {% if request.user.is_authenticated %}
     {% endif %}
     <!-- Global Read More Modal -->
-    <div id="globalReadMoreModal" class="fixed inset-0 z-[100] hidden items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300">
-        <div class="relative w-full max-w-2xl mx-4 bg-white rounded-xl shadow-2xl transform scale-95 transition-transform duration-300">
+    <div id="globalReadMoreModal"
+        class="fixed inset-0 z-[100] hidden items-center justify-center bg-black bg-opacity-50 opacity-0 transition-opacity duration-300">
+        <div
+            class="relative w-full max-w-2xl mx-4 bg-white rounded-xl shadow-2xl transform scale-95 transition-transform duration-300">
             <!-- Modal Header -->
             <div class="flex items-center justify-between p-5 border-b border-gray-200">
                 <h3 id="modalTitle" class="text-2xl font-bold text-gray-900"></h3>
-                <button id="closeModalBtn" class="text-gray-400 hover:text-gray-600 transition-colors focus:outline-none">
+                <button id="closeModalBtn"
+                    class="text-gray-400 hover:text-gray-600 transition-colors focus:outline-none">
                     <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
                     </svg>
                 </button>
             </div>
             <!-- Modal Body -->
             <div class="p-6 max-h-[70vh] overflow-y-auto">
-                <img id="modalImage" src="" alt="Modal Image" class="w-full h-auto mb-4 rounded-lg hidden object-cover max-h-64">
+                <img id="modalImage" src="" alt="Modal Image"
+                    class="w-full h-auto mb-4 rounded-lg hidden object-cover max-h-64">
                 <div id="modalContent" class="text-gray-700 leading-relaxed text-lg"></div>
             </div>
             <!-- Modal Footer -->
             <div class="p-5 border-t border-gray-200 flex justify-end">
-                <button id="closeModalFooterBtn" class="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg font-medium hover:bg-gray-300 transition-colors">Close</button>
+                <button id="closeModalFooterBtn"
+                    class="px-6 py-2 bg-gray-200 text-gray-800 rounded-lg font-medium hover:bg-gray-300 transition-colors">Close</button>
             </div>
         </div>
     </div>
@@ -344,12 +367,12 @@
             const modalContent = document.getElementById('modalContent');
             const modalImage = document.getElementById('modalImage');
             const closeBtns = [document.getElementById('closeModalBtn'), document.getElementById('closeModalFooterBtn')];
-            
+
             // Function to open modal
-            window.openReadMoreModal = function(title, content, imageUrl = null) {
+            window.openReadMoreModal = function (title, content, imageUrl = null) {
                 modalTitle.textContent = title || 'Details';
                 modalContent.innerHTML = content || '';
-                
+
                 if (imageUrl) {
                     modalImage.src = imageUrl;
                     modalImage.classList.remove('hidden');
@@ -357,7 +380,7 @@
                     modalImage.src = '';
                     modalImage.classList.add('hidden');
                 }
-                
+
                 modal.classList.remove('hidden');
                 modal.classList.add('flex');
                 // Trigger reflow for transition
@@ -379,7 +402,7 @@
             };
 
             closeBtns.forEach(btn => {
-                if(btn) btn.addEventListener('click', closeModal);
+                if (btn) btn.addEventListener('click', closeModal);
             });
 
             // Close on outside click
@@ -395,7 +418,7 @@
                     closeModal();
                 }
             });
-            
+
             // Auto-bind to elements with generic class if they provide data attributes
             document.querySelectorAll('.open-modal-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
