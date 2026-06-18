@@ -25,11 +25,17 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY", "django-insecure-j0rm1^nre3hpqku&6%uu&ed&6h8-=4%i5#2k#9skdoh-82fyk)")
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+
+# SECURITY WARNING: keep the secret key used in production secret!
+SECRET_KEY = os.environ.get("SECRET_KEY")
+if not SECRET_KEY:
+    if DEBUG:
+        SECRET_KEY = "django-insecure-j0rm1^nre3hpqku&6%uu&ed&6h8-=4%i5#2k#9skdoh-82fyk)"
+    else:
+        from django.core.exceptions import ImproperlyConfigured
+        raise ImproperlyConfigured("The SECRET_KEY environment variable is not set in production!")
 
 # Enable rate limiting only when not in development/DEBUG mode
 RATELIMIT_ENABLE = not DEBUG
