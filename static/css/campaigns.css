@@ -133,7 +133,7 @@ button {
 
 .hero {
     position: relative;
-    height: 400px;
+    height: 500px;
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
         url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1200');
@@ -162,32 +162,31 @@ button {
    ============================================ */
 
 .breadcrumb {
-    background: var(--white);
-    padding: var(--space-md) 0;
+  background: #f8f9fa;
+  padding: 15px 0;
+  border-bottom: 1px solid #e5e7eb;
 }
 
-.breadcrumb ol {
-    list-style: none;
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    font-size: 0.9rem;
+.breadcrumb .breadcrumb-container {
+  display: flex;
+  gap: 10px;
+  font-size: 16px;
+  padding: 0 20px;
 }
 
-.breadcrumb li:not(:last-child)::after {
-    content: '»';
-    margin-left: var(--space-sm);
-    color: var(--gray);
+.breadcrumb .breadcrumb-container a {
+  color: #6b21a8;
+  text-decoration: none;
+  font-weight: 500;
 }
 
-.breadcrumb a {
-    color: var(--primary);
+.breadcrumb .breadcrumb-container .sep {
+  font-weight: 500;
 }
-
-.breadcrumb [aria-current="page"] {
-    color: var(--gray-dark);
+.breadcrumb .breadcrumb-container {
+  color: #6b21a8;
+  font-weight: 500;
 }
-
 /* ============================================
    INTRO SECTION
    ============================================ */
@@ -304,6 +303,7 @@ button {
 .controls-bar {
     display: flex;
     justify-content: space-between;
+    margin-top: 15px;
     align-items: center;
     flex-wrap: wrap;
     gap: var(--space-md);

@@ -90,7 +90,7 @@ ul { list-style: none; }
 
 /* ===== HERO ===== */
 .hero {
-    height: 40vh;
+    height: 500px;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -165,11 +165,11 @@ ul { list-style: none; }
     font-size: 0.9rem;
     transition: 0.3s;
 }
-
 .year-tab.active {
     background: #d32f2f;
     color: #fff;
 }
+
 
 /* ===== TOOLBAR ===== */
 .viewer-toolbar {
@@ -382,4 +382,35 @@ ul { list-style: none; }
     width: 100%;
     text-align: center;
   }
+}
+
+.breadcrumb{
+    background: #f8f9fa;
+    padding: 15px 0;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+.breadcrumb .container{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 0px 20px;
+}
+
+.breadcrumb .container a{
+    color: #6b21a8;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+
+.breadcrumb .container .sep {
+    color: black;
+    font-weight: 500;
+}
+.breadcrumb .container .current{
+    color: #6b21a8;
+    font-weight: 500;
 }

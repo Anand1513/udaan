@@ -38,10 +38,25 @@ body {
     letter-spacing: 2px;
 }
 
-.breadcrumb {
+.breadcrumb-container{
+
+}
+.breadcrumb-container .breadcrumb {
     background: #eee;
-    padding: 12px 20px;
-    font-size: 14px;
+    padding: 15px 20px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+}
+.breadcrumb-container .breadcrumb a,p{
+    color: #6b21a8;
+    text-decoration: none;
+    font-weight: 500;
+}
+.breadcrumb-container .breadcrumb span{
+    font-weight: 500;
 }
 
 .main-content {

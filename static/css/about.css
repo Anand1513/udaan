@@ -79,13 +79,11 @@ img { display: block; max-width: 100%; }
 .bar { display: block; width: 25px; height: 3px; margin: 5px auto; transition: 0.3s; background-color: #333; }
 
 /* --- Hero --- */
+/* no-repeat center center/cover */
 .hero-section {
-    background: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1600&auto=format&fit=crop') no-repeat center center/cover;
-    height: 400px;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?q=80&w=1600&auto=format&fit=crop')no-repeat center center;
+    background-size: cover;
+    height: 500px;
 }
 
 .hero-overlay {
@@ -98,7 +96,10 @@ img { display: block; max-width: 100%; }
 
 /* --- Breadcrumb --- */
 .breadcrumb-bar { padding: 15px 0; background: #fff; border-bottom: 1px solid #eee; }
-.breadcrumb-bar p { font-size: 14px; color: #777; }
+.breadcrumb-bar p { font-size: 16px; color: #777; display: flex; gap: 10px;}
+.breadcrumb-bar p a:hover{
+    color: var(--primary-red);
+}
 .breadcrumb-bar .active { color: var(--primary-red); font-weight: 600; }
 
 /* --- Who We Are --- */
@@ -122,11 +123,18 @@ img { display: block; max-width: 100%; }
 .values-list li { margin-bottom: 8px; font-size: 13px; }
 
 .btn-know-more {
-    background-color: var(--primary-red); color: white; padding: 10px 25px;
+    background-color: #dc4838; color: white; padding: 10px 25px;
     border-radius: 30px; font-size: 12px; font-weight: 700; text-transform: uppercase;
     margin: 0 auto; width: fit-content;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
 }
-.btn-know-more:hover { background-color: #b30000; }
+.btn-know-more:hover { 
+    background-color: #cf3f31;
+  transform: translateY(-2px);
+ }
 
 /* --- UPDATED: Stats Section --- */
 .stats-section {

@@ -11,8 +11,9 @@
 /* Hero Section - Exact match */
 .hero {
     position: relative;
-    height: 350px;
+    height: 500px;
     overflow: hidden;
+    object-fit: cover;
 }
 
 .hero-image {
@@ -52,6 +53,67 @@
     animation: fadeInUp 1s ease-out;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Breadcrumb - Exact purple color */
 .breadcrumb {
     background: #f8f9fa;
@@ -66,18 +128,20 @@
     font-size: 16px;
 }
 
-.breadcrumb a {
-    color: #6b21a8;
+.breadcrumb .container a {
+    
     text-decoration: none;
     font-weight: 500;
+    color: #6b21a8; 
 }
 
 .breadcrumb a:hover {
-    text-decoration: underline;
+    /* text-decoration: underline; */
+    /* color: #6b21a8; */
 }
 
 .sep {
-    color: #6b21a8;
+    /* color: #6b21a8; */
     font-weight: 500;
 }
 

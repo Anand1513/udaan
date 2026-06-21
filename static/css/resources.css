@@ -59,8 +59,8 @@ body {
 }
 
 .btn-primary {
-    background-color: #E4572E;
-    border: 1px solid #E4572E;
+    /* background-color: #E4572E; */
+    /* border: 1px solid #E4572E; */
     color: #ffffff;
     padding: 8px 14px;
     border-radius: 4px;
@@ -81,9 +81,10 @@ body {
     border-radius: 4px;
     cursor: pointer;
     transition: 0.3s ease;
+    font-weight: 500;
 }
 
 .btn-outline:hover {
-    background-color: #E4572E;
-    color: #ffffff;
+    /* background-color: #E4572E; */
+    color: #E4572E;
 }

@@ -129,7 +129,7 @@ body {
 /* Hero Section - Exact match */
 .hero {
     position: relative;
-    height: 350px;
+    height: 500px;
     overflow: hidden;
 }
 
@@ -191,11 +191,11 @@ body {
 }
 
 .breadcrumb a:hover {
-    text-decoration: underline;
+    /* text-decoration: underline; */
 }
 
 .sep {
-    color: #6b21a8;
+    /* color: #6b21a8; */
     font-weight: 500;
 }
 
