@@ -13,17 +13,11 @@ body {
     line-height: 1.7;
 }
 
-.why-volunteer .container {
-    max-width: 1200px;
-    margin: auto;
-    padding: 0 20px;
-}
-
 
 /* ================= HERO ================= */
 
 .hero {
-    height: 350px;
+    height: 500px;
     position: relative;
     overflow: hidden;
 }
