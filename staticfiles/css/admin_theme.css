@@ -1,182 +1,225 @@
-/* Modern Admin Theme Overrides (Portal Style) */
+/* Google Font Import */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
+
 :root {
-    --primary-bg: #F3F4F6;
-    /* Gray 100 */
-    --primary-text: #1F2937;
-    /* Gray 800 */
-    --accent-color: #4F46E5;
-    /* Indigo 600 */
-    --accent-hover: #4338CA;
-    /* Indigo 700 */
-    --header-bg: #FFFFFF;
-    --header-text: #1F2937;
-    --sidebar-bg: #FFFFFF;
-    --sidebar-text: #4B5563;
-    /* Gray 600 */
+    --primary-color: #1D3557;
+    /* Brand Dark */
+    --secondary-color: #E63946;
+    /* Brand Red */
+    --accent-color: #457B9D;
+    /* Lighter Blue */
+    --bg-color: #F9FAFB;
+    /* Gray-50 */
+    --text-color: #1F2937;
+    /* Gray-800 */
+    --header-color: #1D3557;
     --card-bg: #FFFFFF;
     --border-color: #E5E7EB;
-    /* Gray 200 */
 }
 
-/* Global Reset for Admin */
+/* Dark Mode Support (Django 4.2+ uses [data-theme="dark"]) */
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg-color: #111827;
+        /* Gray-900 */
+        --text-color: #F3F4F6;
+        /* Gray-100 */
+        --card-bg: #1F2937;
+        /* Gray-800 */
+        --border-color: #374151;
+        /* Gray-700 */
+        /* Keep Header Color branding or darken it? Branding usually stays. */
+    }
+}
+
+[data-theme="dark"] {
+    --bg-color: #111827;
+    --text-color: #F3F4F6;
+    --card-bg: #1F2937;
+    --border-color: #374151;
+}
+
 body {
-    background-color: var(--primary-bg) !important;
-    color: var(--primary-text) !important;
-    font-family: 'Inter', system-ui, -apple-system, sans-serif !important;
+    font-family: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    background-color: var(--bg-color);
+    color: var(--text-color);
 }
 
-/* Header (Top Bar) */
-#header {
-    background: var(--header-bg) !important;
-    color: var(--header-text) !important;
-    border-bottom: 1px solid var(--border-color);
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    padding: 15px 40px !important;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+/* Header Overrides */
+/* Header Overrides */
+#header,
+.header {
+    background-color: #1D3557 !important;
+    /* Fallback */
+    background: #1D3557 !important;
+    /* Force Dark Blue */
+    color: #fff !important;
+    border-bottom: 4px solid var(--secondary-color);
 }
 
-#header #branding h1 {
-    color: var(--accent-color) !important;
-    font-weight: 700 !important;
-    font-size: 1.25rem !important;
+[data-theme="light"] #header,
+[data-theme="light"] .header {
+    background-color: #1D3557 !important;
+    background: #1D3557 !important;
+    color: #fff !important;
 }
 
 #header a:link,
 #header a:visited {
-    color: var(--header-text) !important;
+    color: #fff !important;
 }
 
-/* Sidebar / Modules */
-.module {
-    background: var(--card-bg) !important;
-    border: 1px solid var(--border-color) !important;
-    border-radius: 0.75rem !important;
-    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06) !important;
-    margin-bottom: 20px !important;
+/* Fix "Authentication" and "Administration" headings */
+/* In standard admin, these are often h1 inside #content or .login .content */
+#content h1,
+.login .content h1 {
+    color: var(--text-color);
 }
 
+/* If the background is forced white by Django Admin default, we need to override it IF we are in dark mode */
+/* But 'admin_theme.css' is loaded AFTER. */
+
+#branding h1 {
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+/* Module Captions */
 .module caption,
 .module h2 {
-    background: #F9FAFB !important;
-    /* Gray 50 */
-    color: var(--primary-text) !important;
-    font-size: 1.1rem !important;
-    font-weight: 600 !important;
-    padding: 15px 20px !important;
-    border-bottom: 1px solid var(--border-color);
+    background: var(--card-bg);
+    color: var(--primary-color);
+    font-weight: 600;
 }
 
 .module caption a,
-.module h2 a {
-    color: var(--primary-text) !important;
+.module caption a:link,
+.module caption a:visited,
+.module h2 a,
+.module h2 a:link,
+.module h2 a:visited {
+    color: var(--primary-color);
 }
 
-.module caption a:hover,
-.module h2 a:hover {
-    color: var(--accent-color) !important;
+[data-theme="dark"] .module caption,
+[data-theme="dark"] .module h2 {
+    color: #fff;
 }
 
-/* Tables */
-table {
-    width: 100%;
-    border-spacing: 0;
-}
-
-td,
-th {
-    border-bottom: 1px solid var(--border-color) !important;
-    padding: 12px 20px !important;
-    font-size: 0.9rem !important;
-}
-
-th {
-    text-transform: uppercase;
-    font-size: 0.75rem !important;
-    font-weight: 600 !important;
-    color: var(--sidebar-text) !important;
-    background: #F9FAFB !important;
-    /* Gray 50 */
-}
-
-tr.row1,
-tr.row2 {
-    background: transparent !important;
-}
-
-tr:hover td {
-    background: #F3F4F6 !important;
-    /* Gray 100 */
+[data-theme="dark"] .module caption a,
+[data-theme="dark"] .module caption a:link,
+[data-theme="dark"] .module caption a:visited,
+[data-theme="dark"] .module h2 a,
+[data-theme="dark"] .module h2 a:link,
+[data-theme="dark"] .module h2 a:visited {
+    color: #60A5FA;
+    /* Blue-400 */
 }
 
 /* Buttons */
 .button,
 input[type=submit],
 input[type=button],
-.submit-row input {
-    background: var(--accent-color) !important;
-    color: white !important;
-    border: none !important;
-    padding: 10px 20px !important;
-    border-radius: 0.5rem !important;
-    font-weight: 500 !important;
-    transition: background 0.2s;
-    text-transform: none !important;
+.submit-row input,
+a.button {
+    background: var(--primary-color) !important;
+    color: #fff !important;
+    border-radius: 6px;
+    padding: 10px 15px;
+    transition: all 0.2s;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    border: none;
 }
 
 .button:hover,
 input[type=submit]:hover,
 input[type=button]:hover {
-    background: var(--accent-hover) !important;
+    background: var(--accent-color) !important;
 }
 
 .button.default,
 input[type=submit].default,
 .submit-row input.default {
-    background: var(--accent-color) !important;
+    background: var(--secondary-color) !important;
+}
+
+.button.default:hover,
+input[type=submit].default:hover {
+    background: #c32f3b !important;
+    /* Darker Red */
+}
+
+/* Links */
+a:link,
+a:visited {
+    color: var(--primary-color);
+}
+
+[data-theme="dark"] a:link,
+[data-theme="dark"] a:visited {
+    color: #60A5FA;
+    /* Blue-400 for dark mode */
+}
+
+a:hover {
+    color: var(--secondary-color);
 }
 
 /* Breadcrumbs */
-div.breadcrumbs {
-    background: transparent !important;
-    color: var(--sidebar-text) !important;
-    padding: 15px 40px !important;
-    font-size: 0.9rem !important;
-    border-bottom: none !important;
+.breadcrumbs {
+    background: var(--card-bg);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    padding: 15px 40px;
+    border-bottom: 1px solid var(--border-color);
+    color: var(--text-color);
+    opacity: 0.8;
 }
 
-div.breadcrumbs a {
-    color: var(--accent-color) !important;
+/* Tables */
+#changelist table thead th {
+    background: var(--bg-color);
+    color: var(--primary-color);
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
 }
 
-/* Dashboard Widgets */
-.dashboard .module table th {
-    width: 100%;
+[data-theme="dark"] #changelist table thead th {
+    color: #fff;
+    background: #374151;
 }
 
-.dashboard .module table td a {
-    font-weight: 500;
-    color: var(--primary-text);
-}
-
-/* Filters */
-#changelist-filter {
+#changelist table tbody tr {
     background: var(--card-bg) !important;
-    border-left: 1px solid var(--border-color) !important;
 }
 
-#changelist-filter h2 {
-    background: #F9FAFB !important;
-    color: var(--primary-text) !important;
+#changelist table tbody tr:hover {
+    background: rgba(0, 0, 0, 0.05) !important;
 }
 
-/* Forms */
-.aligned label {
-    color: var(--sidebar-text) !important;
-    font-weight: 500;
+[data-theme="dark"] #changelist table tbody tr:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
 }
 
+#changelist table tbody td {
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+/* Login Box Fixes specifically */
+.login #container {
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+.login .form-row {
+    border-bottom: none;
+}
+
+/* Fix Input Text Colors */
 input[type=text],
 input[type=password],
 input[type=email],
@@ -184,36 +227,9 @@ input[type=url],
 input[type=number],
 textarea,
 select {
-    border: 1px solid var(--border-color) !important;
-    border-radius: 0.375rem !important;
-    padding: 8px 12px !important;
-    font-size: 0.95rem !important;
-    color: var(--primary-text) !important;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-    border-color: var(--accent-color) !important;
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-}
-
-/* Quick Fixes */
-.object-tools a {
-    background: white !important;
-    color: var(--primary-text) !important;
-    border: 1px solid var(--border-color) !important;
-    border-radius: 0.375rem !important;
-    font-weight: 500 !important;
-}
-
-.object-tools a:hover {
-    background: #F9FAFB !important;
-}
-
-.paginator {
-    border-top: 1px solid var(--border-color) !important;
-    border-bottom: none !important;
-    background: transparent !important;
+    background-color: var(--card-bg);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    padding: 8px;
+    border-radius: 4px;
 }
