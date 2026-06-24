@@ -170,6 +170,13 @@
         display: flex;
     }
 
+    /* .mobile-menu-btn .bar {
+    width: 100%;
+    height: 3px;
+    background-color: #ffffff;
+    display: block;
+    border-radius: 2px;
+}    */
     .nav-menu {
         position: fixed;
         right: -100%;
