@@ -13,6 +13,10 @@
 
   <!-- Hero Section -->
   <section class="hero">
+
+    <div class="hero-bg active"></div>
+    <div class="hero-bg"></div>
+    
     <button class="carousel-arrow prev" onclick="changeSlide(-1)">‹</button>
     <button class="carousel-arrow next" onclick="changeSlide(1)">›</button>
 
@@ -24,7 +28,7 @@
         and Sanitation Mission, Uttar Pradesh for two District namely Aligarh
         &amp; Bulandshahr.
       </p>
-      <a href="{% url 'our_activities' %}" class="hero-btn">Learn More</a>
+      <a href="{% url 'our_activities' %}" class="hero-btn">Learn More <span>›</span></a>
     </div>
 
     <div class="carousel-nav">
@@ -119,8 +123,7 @@
         <p class="welcome-subtitle">Welcome to UDAAN Society</p>
 
         <h2>
-          A World Where <span>Poverty</span> Will<br />
-          Not Exists
+          A World Where <span>Poverty</span> Will Not Exists
         </h2>
 
         <p class="welcome-highlight">
@@ -135,7 +138,7 @@
         </p>
 
         <div class="welcome-actions">
-          <a href="{% url 'aboutus' %}" class="btn-primary">Learn More</a>
+          <a href="{% url 'aboutus' %}" class="btn-primary">Learn More <span>></span></a>
 
           <a href="{% url 'campaign_list' %}" class="btn-secondary">
             <span class="play-icon">▶</span>
@@ -394,61 +397,84 @@
         image: "{% static 'assets/image5.webp' %}",
       },
     ];
+let currentSlide = 0;
 
-    let currentSlide = 0;
+const heroBgs = document.querySelectorAll(".hero-bg");
 
-    function changeSlide(direction) {
-      currentSlide += direction;
-      if (currentSlide < 0) currentSlide = slides.length - 1;
-      if (currentSlide >= slides.length) currentSlide = 0;
-      updateSlide();
-    }
+function updateSlide() {
 
-    function goToSlide(index) {
-      currentSlide = index;
-      updateSlide();
-    }
+    const current = heroBgs[0].classList.contains("active")
+        ? heroBgs[0]
+        : heroBgs[1];
 
-    function updateSlide() {
-      const hero = document.querySelector(".hero");
-      const heroContent = document.querySelector(".hero-content");
+    const next = current === heroBgs[0]
+        ? heroBgs[1]
+        : heroBgs[0];
 
-      if (!hero || !heroContent) return;
+    next.style.transition = "none";
+    next.style.transform = "translateX(100%)";
 
-      heroContent.style.opacity = "0";
+    next.style.background = `
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+    url("${slides[currentSlide].image}") center/cover no-repeat
+    `;
 
-      setTimeout(() => {
-        // Update text
-        const titleEl = document.querySelector(".hero h1");
-        const descEl = document.querySelector(".hero p");
+    void next.offsetWidth;
 
-        if (titleEl) titleEl.textContent = slides[currentSlide].title;
-        if (descEl) descEl.textContent = slides[currentSlide].description;
+    next.style.transition = "transform .8s ease";
+    next.style.transform = "translateX(0)";
 
-        // Update background image
-        hero.style.background = `
-          linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
-          url("${slides[currentSlide].image}") center / cover
-        `;
+    current.style.transform = "translateX(-100%)";
 
-        heroContent.style.opacity = "1";
+    next.classList.add("active");
+    current.classList.remove("active");
 
-        document.querySelectorAll(".carousel-dot").forEach((dot, index) => {
-          dot.classList.toggle("active", index === currentSlide);
-        });
-      }, 300);
-    }
+    document.querySelector(".hero h1").textContent =
+        slides[currentSlide].title;
 
-    // Initialize
-    document.addEventListener('DOMContentLoaded', () => {
-      updateSlide();
-      // Auto-advance slides
-      setInterval(() => changeSlide(1), 5000);
+    document.querySelector(".hero p").textContent =
+        slides[currentSlide].description;
+
+    document.querySelectorAll(".carousel-dot").forEach((dot,i)=>{
+        dot.classList.toggle("active",i===currentSlide);
     });
+}
 
-    function subscribe() {
-      alert("Thank you for subscribing to UDAAN Society!");
-    }
-  </script>
+function changeSlide(dir){
+
+    currentSlide+=dir;
+
+    if(currentSlide<0)
+        currentSlide=slides.length-1;
+
+    if(currentSlide>=slides.length)
+        currentSlide=0;
+
+    updateSlide();
+}
+
+function goToSlide(index){
+    currentSlide=index;
+    updateSlide();
+}
+
+document.addEventListener("DOMContentLoaded",()=>{
+
+    heroBgs[0].style.background=`
+    linear-gradient(rgba(0,0,0,.45),rgba(0,0,0,.45)),
+    url("${slides[0].image}") center/cover no-repeat
+    `;
+
+    heroBgs[0].classList.add("active");
+
+    document.querySelector(".hero h1").textContent=slides[0].title;
+    document.querySelector(".hero p").textContent=slides[0].description;
+
+    setInterval(()=>{
+        changeSlide(1);
+    },3000);
+
+});
+</script>
 
 {% endblock %}
