@@ -272,3 +272,94 @@ class TaskAdmin(admin.ModelAdmin):
     list_filter = ('status', 'priority', 'due_date')
     search_fields = ('title', 'description')
     filter_horizontal = ('dependencies',)
+
+# Custom Admin Grouping Configuration
+GROUP_ORDER = [
+    'Authentication & Authorization',
+    'Blood Management',
+    'Content Management',
+    'Campaign Management',
+    'Campus Ambassador',
+    'Communications',
+    'Finance',
+    'Reports & Documents',
+    'Jobs & Careers',
+    'Workspace Management',
+]
+
+GROUP_MAPPING = {
+    'auth.user': 'Authentication & Authorization',
+    'auth.group': 'Authentication & Authorization',
+    'blood_request.blooddonor': 'Blood Management',
+    'blood_request.bloodrequest': 'Blood Management',
+    'blood_request.activity': 'Content Management',
+    'blood_request.announcement': 'Content Management',
+    'blood_request.blog': 'Content Management',
+    'blood_request.newsclipping': 'Content Management',
+    'blood_request.testimonial': 'Content Management',
+    'blood_request.campaign': 'Campaign Management',
+    'blood_request.project': 'Campaign Management',
+    'blood_request.campusambassador': 'Campus Ambassador',
+    'blood_request.campusambassadorapplication': 'Campus Ambassador',
+    'blood_request.contactmessage': 'Communications',
+    'blood_request.interaction': 'Communications',
+    'blood_request.newslettersubscription': 'Communications',
+    'blood_request.donation': 'Finance',
+    'blood_request.expense': 'Finance',
+    'blood_request.report': 'Reports & Documents',
+    'blood_request.policyreport': 'Reports & Documents',
+    'blood_request.jobposting': 'Jobs & Careers',
+    'blood_request.workspace': 'Workspace Management',
+    'blood_request.workspacemember': 'Workspace Management',
+    'blood_request.team': 'Workspace Management',
+    'blood_request.task': 'Workspace Management',
+    'blood_request.subtask': 'Workspace Management',
+    'blood_request.taskcomment': 'Workspace Management',
+    'blood_request.taskautomationrule': 'Workspace Management',
+    'blood_request.sharednote': 'Workspace Management',
+}
+
+original_get_app_list = admin.AdminSite.get_app_list
+
+def custom_get_app_list(self, request, app_label=None):
+    app_list = original_get_app_list(self, request, app_label)
+    if app_label is not None:
+        return app_list
+
+    groups = {}
+    for app in app_list:
+        for model in app['models']:
+            model_key = f"{app['app_label']}.{model['object_name']}".lower()
+            group_name = GROUP_MAPPING.get(model_key)
+            if not group_name:
+                group_name = app['name']  # Fallback to original app section name
+
+            if group_name not in groups:
+                group_label = group_name.lower().replace(' & ', '_').replace(' ', '_')
+                groups[group_name] = {
+                    'name': group_name,
+                    'app_label': group_label,
+                    'app_url': app['app_url'] if group_name == 'Authentication & Authorization' else None,
+                    'has_module_perms': True,
+                    'models': []
+                }
+            groups[group_name]['models'].append(model)
+
+    # Sort models within each group alphabetically
+    for group in groups.values():
+        group['models'].sort(key=lambda x: x['name'])
+
+    # Build ordered list of groups
+    sorted_groups = []
+    for name in GROUP_ORDER:
+        if name in groups:
+            sorted_groups.append(groups[name])
+    for name, group in groups.items():
+        if name not in GROUP_ORDER:
+            sorted_groups.append(group)
+
+    return sorted_groups
+
+# Inject custom method into the Django Admin class
+admin.AdminSite.get_app_list = custom_get_app_list
+
