@@ -124,16 +124,75 @@ class Report(models.Model):
     published_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        verbose_name = "Annual Report"
+        verbose_name_plural = "Annual Reports"
+
     def __str__(self):
         return self.title
 
+from django.utils.text import slugify
+from datetime import date
+
 class Campaign(models.Model):
     title = models.CharField(max_length=200)
+    slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
     description = models.TextField()
     goal_amount = models.DecimalField(max_digits=10, decimal_places=2)
     raised_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     image = models.ImageField(upload_to='campaigns/')
+    start_date = models.DateField(blank=True, null=True, help_text="Campaign start date")
+    end_date = models.DateField(blank=True, null=True, help_text="Campaign end date")
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+            # Ensure uniqueness
+            orig_slug = self.slug
+            counter = 1
+            while Campaign.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+                self.slug = f"{orig_slug}-{counter}"
+                counter += 1
+        super().save(*args, **kwargs)
+
+    @property
+    def percentage_raised(self):
+        if self.goal_amount > 0:
+            pct = int((self.raised_amount / self.goal_amount) * 100)
+            return min(pct, 100)
+        return 0
+
+    @property
+    def days_remaining(self):
+        if self.end_date:
+            today = date.today()
+            delta = self.end_date - today
+            if delta.days >= 0:
+                return delta.days
+        return None
+
+    @property
+    def timeline_status_text(self):
+        today = date.today()
+        # If campaign has not started yet
+        if self.start_date and self.start_date > today:
+            delta = self.start_date - today
+            return f"Starts in {delta.days} days"
+        
+        # If it has ended
+        if self.end_date and self.end_date < today:
+            return "Campaign Completed"
+        
+        # If active
+        if self.end_date:
+            days = self.days_remaining
+            if days is not None:
+                if days == 1:
+                    return "Ends in 1 day"
+                return f"Ends in {days} days"
+        
+        return "Campaign Active"
 
     def __str__(self):
         return self.title

@@ -100,6 +100,19 @@ class ProjectAdmin(admin.ModelAdmin):
     search_fields = ('title', 'description')
     list_filter = ('date',)
     filter_horizontal = ('managers',)
+    exclude = ('slug',)
+
+    def save_model(self, request, obj, form, change):
+        if not obj.slug:
+            from django.utils.text import slugify
+            obj.slug = slugify(obj.title)
+            # Ensure uniqueness
+            orig_slug = obj.slug
+            counter = 1
+            while Project.objects.filter(slug=obj.slug).exclude(pk=obj.pk).exists():
+                obj.slug = f"{orig_slug}-{counter}"
+                counter += 1
+        super().save_model(request, obj, form, change)
 
 @admin.register(BloodRequest)
 class BloodRequestAdmin(admin.ModelAdmin):
@@ -146,7 +159,20 @@ class BlogAdmin(admin.ModelAdmin):
 
 @admin.register(Campaign)
 class CampaignAdmin(admin.ModelAdmin):
-    list_display = ('title', 'target_vs_raised', 'created_at')
+    list_display = ('title', 'target_vs_raised', 'start_date', 'end_date', 'created_at')
+    
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'description', 'image')
+        }),
+        ('Fundraising Target', {
+            'fields': ('goal_amount', 'raised_amount')
+        }),
+        ('Campaign Timeline', {
+            'fields': ('start_date', 'end_date'),
+            'description': 'Define when the campaign starts and ends.'
+        }),
+    )
     
     def target_vs_raised(self, obj):
         return f"{obj.raised_amount} / {obj.goal_amount}"
@@ -240,8 +266,21 @@ class SharedNoteAdmin(admin.ModelAdmin):
 
 @admin.register(Workspace)
 class WorkspaceAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'owner', 'created_at')
-    search_fields = ('name', 'slug')
+    list_display = ('name', 'owner', 'created_at')
+    search_fields = ('name',)
+    exclude = ('slug',)
+
+    def save_model(self, request, obj, form, change):
+        if not obj.slug:
+            from django.utils.text import slugify
+            obj.slug = slugify(obj.name)
+            # Ensure uniqueness
+            orig_slug = obj.slug
+            counter = 1
+            while Workspace.objects.filter(slug=obj.slug).exclude(pk=obj.pk).exists():
+                obj.slug = f"{orig_slug}-{counter}"
+                counter += 1
+        super().save_model(request, obj, form, change)
 
 @admin.register(WorkspaceMember)
 class WorkspaceMemberAdmin(admin.ModelAdmin):
@@ -362,4 +401,37 @@ def custom_get_app_list(self, request, app_label=None):
 
 # Inject custom method into the Django Admin class
 admin.AdminSite.get_app_list = custom_get_app_list
+
+# Dynamic AppConfig Proxy for Breadcrumbs
+from django.db.models.options import Options
+
+original_app_config_fget = Options.app_config.fget
+
+class AppConfigProxy:
+    def __init__(self, app_config, model):
+        self._app_config = app_config
+        self._model = model
+
+    def __getattr__(self, name):
+        if name == 'verbose_name':
+            from blood_request.admin import GROUP_MAPPING
+            model_key = f"{self._model._meta.app_label}.{self._model._meta.object_name}".lower()
+            return GROUP_MAPPING.get(model_key, self._app_config.verbose_name)
+        return getattr(self._app_config, name)
+
+    def __str__(self):
+        return str(self._app_config)
+
+    def __repr__(self):
+        return repr(self._app_config)
+
+@property
+def custom_app_config(self):
+    app_config = original_app_config_fget(self)
+    if app_config and hasattr(self, 'model'):
+        return AppConfigProxy(app_config, self.model)
+    return app_config
+
+Options.app_config = custom_app_config
+
 

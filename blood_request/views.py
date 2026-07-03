@@ -468,6 +468,18 @@ def campaign_list(request):
     campaigns = Campaign.objects.all().order_by('-created_at')
     return render(request, 'campaigns.html', {'campaigns': campaigns})
 
+def campaign_detail(request, slug):
+    """
+    Specific Campaign Detail Page
+    """
+    campaign = get_object_or_404(Campaign, slug=slug)
+    related_campaigns = Campaign.objects.exclude(id=campaign.id).order_by('-created_at')[:4]
+    context = {
+        'campaign': campaign,
+        'related_campaigns': related_campaigns,
+    }
+    return render(request, 'campaign_detail.html', context)
+
 def project_list(request):
     """
     Public Project Listing Page

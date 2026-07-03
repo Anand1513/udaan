@@ -1,0 +1,416 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ campaign.title }} - Campaign Details{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+  /* Campaign Detail Layout Styles */
+  .campaign-detail-hero {
+    background: linear-gradient(135deg, #1D3557 0%, #457B9D 100%);
+    color: #fff;
+    padding: 80px 20px;
+    text-align: center;
+  }
+  .campaign-detail-hero h1 {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+  .campaign-detail-hero p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+  
+  .breadcrumbs {
+    padding: 15px 0;
+    font-size: 0.9rem;
+    color: #666;
+    border-bottom: 1px solid #eee;
+  }
+  .breadcrumbs a {
+    color: #E63946;
+    text-decoration: none;
+  }
+  .breadcrumbs .current {
+    color: #333;
+  }
+
+  .campaign-detail-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+  }
+  @media (max-width: 900px) {
+    .campaign-detail-container {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .campaign-main {
+    background: #fff;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+  }
+  .campaign-image-wrapper {
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    margin-bottom: 25px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+  .campaign-image-wrapper img {
+    width: 100%;
+    height: auto;
+    max-height: 480px;
+    object-fit: cover;
+    display: block;
+  }
+  .campaign-meta-info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+  }
+  .campaign-badge {
+    background: #E63946;
+    color: white;
+    font-weight: 700;
+    padding: 6px 16px;
+    border-radius: 30px;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+  }
+  .campaign-badge.completed {
+    background: #6c757d;
+  }
+  .campaign-badge.active {
+    background: #28a745;
+  }
+  .campaign-category, .campaign-posted-date {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 600;
+  }
+  
+  .campaign-content {
+    font-size: 1.05rem;
+    color: #444;
+    line-height: 1.8;
+  }
+  .campaign-content p {
+    margin-bottom: 20px;
+  }
+
+  .campaign-sidebar-block {
+    background: #fff;
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    border: 1px solid #f0f0f0;
+  }
+  .campaign-sidebar-block h3 {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1D3557;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #E63946;
+    padding-bottom: 8px;
+    display: inline-block;
+  }
+  
+  /* Fundraising Progress Styles */
+  .fundraising-stats {
+    margin-bottom: 20px;
+  }
+  .fundraising-stats .raised {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #E63946;
+    display: block;
+    margin-bottom: 5px;
+  }
+  .fundraising-stats .goal {
+    font-size: 1rem;
+    color: #666;
+  }
+  .detail-progress-bar {
+    width: 100%;
+    height: 14px;
+    background: #f0f0f0;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 15px 0;
+  }
+  .detail-progress-fill {
+    height: 100%;
+    background: #E63946;
+    border-radius: 10px;
+    transition: width 0.5s ease-out;
+  }
+  .detail-pct {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #1D3557;
+    text-align: right;
+  }
+
+  .btn-donate-now {
+    display: block;
+    width: 100%;
+    background: #E63946;
+    color: #fff;
+    text-align: center;
+    padding: 16px 24px;
+    border-radius: 12px;
+    font-weight: 700;
+    font-size: 1.1rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.2s;
+    box-shadow: 0 4px 14px rgba(230,57,70,0.3);
+  }
+  .btn-donate-now:hover {
+    background: #d62837;
+    transform: translateY(-2px);
+  }
+  .btn-donate-now:active {
+    transform: translateY(0);
+  }
+  .btn-donate-now.disabled {
+    background: #cbd5e0;
+    color: #718096;
+    cursor: not-allowed;
+    pointer-events: none;
+    box-shadow: none;
+  }
+
+  .timeline-info p {
+    font-size: 0.95rem;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #444;
+  }
+  .timeline-info i {
+    color: #E63946;
+    width: 20px;
+  }
+
+  /* Related Campaigns Section */
+  .related-section {
+    max-width: 1200px;
+    margin: 60px auto 40px;
+    padding: 0 20px;
+  }
+  .related-section h2 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #1D3557;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 10px;
+  }
+  .related-section h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 60px;
+    height: 4px;
+    background: #E63946;
+    border-radius: 2px;
+  }
+  .related-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+  }
+  @media (max-width: 600px) {
+    .related-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* Related Card Styles to Match main cards but smaller */
+  .related-card {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    border: 1px solid #eee;
+    transition: transform 0.2s;
+    cursor: pointer;
+  }
+  .related-card:hover {
+    transform: translateY(-4px);
+  }
+  .related-img {
+    height: 180px;
+    width: 100%;
+    object-fit: cover;
+  }
+  .related-body {
+    padding: 20px;
+  }
+  .related-body h4 {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #1D3557;
+    margin-bottom: 10px;
+    line-height: 1.4;
+  }
+  .related-meta {
+    font-size: 0.8rem;
+    color: #777;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Banner -->
+<section class="campaign-detail-hero">
+  <div class="container">
+    <h1>{{ campaign.title }}</h1>
+    <p>Help us achieve our mission. Every contribution makes a difference.</p>
+  </div>
+</section>
+
+<!-- Breadcrumbs -->
+<div class="container">
+  <div class="breadcrumbs">
+    <a href="{% url 'home' %}">Home</a> &gt; 
+    <a href="{% url 'campaign_list' %}">Campaigns</a> &gt; 
+    <span class="current">{{ campaign.title }}</span>
+  </div>
+</div>
+
+<!-- Main Details Layout -->
+<div class="campaign-detail-container">
+  <!-- Left Side: Main Story -->
+  <main class="campaign-main">
+    <div class="campaign-image-wrapper">
+      {% if campaign.image %}
+        <img src="{{ campaign.image.url }}" alt="{{ campaign.title }}">
+      {% else %}
+        <img src="{% static 'images/pn1.png' %}" alt="Placeholder Image">
+      {% endif %}
+    </div>
+
+    <div class="campaign-meta-info">
+      {% if campaign.timeline_status_text == "Campaign Completed" %}
+        <span class="campaign-badge completed">Completed</span>
+      {% else %}
+        <span class="campaign-badge active">{{ campaign.timeline_status_text }}</span>
+      {% endif %}
+      <span class="campaign-category"><i class="fas fa-folder-open"></i> General Fundraising</span>
+      <span class="campaign-posted-date"><i class="far fa-calendar-alt"></i> Posted: {{ campaign.created_at|date:"d M Y" }}</span>
+    </div>
+
+    <h2 style="color: #1D3557; font-weight: 800; font-size: 1.8rem; margin-bottom: 20px;">About the Campaign</h2>
+    <div class="campaign-content">
+      {{ campaign.description|linebreaks }}
+    </div>
+  </main>
+
+  <!-- Right Side: Sidebar stats and action -->
+  <aside class="campaign-sidebar">
+    <!-- Fundraising Status -->
+    <div class="campaign-sidebar-block">
+      <h3>Fundraising Goal</h3>
+      <div class="fundraising-stats">
+        <span class="raised">Raised: ₹{{ campaign.raised_amount }}</span>
+        <span class="goal">Goal: ₹{{ campaign.goal_amount }}</span>
+      </div>
+      <div class="detail-progress-bar">
+        <div class="detail-progress-fill" style="width: {{ campaign.percentage_raised }}%;"></div>
+      </div>
+      <div class="detail-pct">{{ campaign.percentage_raised }}% Raised</div>
+      
+      <div style="margin-top: 25px;">
+        {% if campaign.timeline_status_text == "Campaign Completed" %}
+          <a href="javascript:void(0)" class="btn-donate-now disabled">Campaign Completed</a>
+        {% else %}
+          <a href="{% url 'donate' %}" class="btn-donate-now">Donate Now</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Timeline block -->
+    <div class="campaign-sidebar-block">
+      <h3>Campaign Timeline</h3>
+      <div class="timeline-info">
+        <p>
+          <i class="fas fa-calendar-plus"></i> 
+          <strong>Date Posted:</strong> 
+          <span>{{ campaign.created_at|date:"d F Y" }}</span>
+        </p>
+        <p>
+          <i class="fas fa-calendar"></i> 
+          <strong>Start Date:</strong> 
+          <span>{% if campaign.start_date %}{{ campaign.start_date|date:"d F Y" }}{% else %}Not specified{% endif %}</span>
+        </p>
+        <p>
+          <i class="fas fa-calendar-check"></i> 
+          <strong>End Date:</strong> 
+          <span>{% if campaign.end_date %}{{ campaign.end_date|date:"d F Y" }}{% else %}Not specified{% endif %}</span>
+        </p>
+        {% if campaign.timeline_status_text != "Campaign Completed" and campaign.days_remaining is not None %}
+          <p>
+            <i class="fas fa-clock"></i> 
+            <strong>Days Left:</strong> 
+            <span style="font-weight: 700; color: #E63946;">{{ campaign.days_remaining }} days</span>
+          </p>
+        {% endif %}
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- Related Campaigns Section -->
+{% if related_campaigns %}
+<section class="related-section">
+  <h2>Related Campaigns</h2>
+  <div class="related-grid">
+    {% for rel in related_campaigns %}
+      <div class="related-card" onclick="window.location.href='{% url 'campaign_detail' rel.slug %}'">
+        {% if rel.image %}
+          <img src="{{ rel.image.url }}" alt="{{ rel.title }}" class="related-img">
+        {% else %}
+          <img src="{% static 'images/pn1.png' %}" alt="Placeholder" class="related-img">
+        {% endif %}
+        <div class="related-body">
+          <h4>{{ rel.title|truncatechars:45 }}</h4>
+          <div class="related-progress" style="margin: 12px 0 8px 0;">
+            <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: #555; margin-bottom: 3px;">
+              <span>Raised: ₹{{ rel.raised_amount }}</span>
+              <span>{{ rel.percentage_raised }}%</span>
+            </div>
+            <div style="width: 100%; height: 6px; background: #eee; border-radius: 3px; overflow: hidden;">
+              <div style="width: {{ rel.percentage_raised }}%; height: 100%; background: #E63946;"></div>
+            </div>
+          </div>
+          <div class="related-meta">
+            <span>Goal: ₹{{ rel.goal_amount }}</span>
+            <span><i class="fas fa-calendar-alt"></i> {{ rel.created_at|date:"d/m/Y" }}</span>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+{% endblock %}

@@ -156,36 +156,66 @@
     <div class="causes-cards">
       {% for campaign in campaigns %}
       <!-- Card {{ forloop.counter }} -->
-      <div class="cause-card">
-        <span class="cause-tag health">Health</span>
+      <div class="cause-card" onclick="window.location.href='{% url 'campaign_detail' campaign.slug %}'" style="cursor: pointer; display: flex; flex-direction: column; justify-content: space-between; height: 100%; transition: transform 0.2s, box-shadow 0.2s;">
+        <div>
+          {% if campaign.timeline_status_text == "Campaign Completed" %}
+          <span class="cause-tag" style="background-color: #6c757d; color: white;">Completed</span>
+          {% else %}
+          <span class="cause-tag" style="background-color: #28a745; color: white;">{{ campaign.timeline_status_text }}</span>
+          {% endif %}
 
-        {% if campaign.image %}
-        <img src="{{ campaign.image.url }}" alt="{{ campaign.title }}" class="cause-image" />
-        {% else %}
-        <img src="{% static 'assets/p1.jpeg' %}" alt="UDAAN Campaign" class="cause-image" />
-        {% endif %}
+          {% if campaign.image %}
+          <img src="{{ campaign.image.url }}" alt="{{ campaign.title }}" class="cause-image" />
+          {% else %}
+          <img src="{% static 'assets/p1.jpeg' %}" alt="UDAAN Campaign" class="cause-image" />
+          {% endif %}
 
-        <div class="cause-goal">
-          Goal: ₹ {{ campaign.goal_amount }}
-          <div class="goal-bar">
-            <span style="width: 50%;"></span>
+          <div class="cause-goal" style="margin-bottom: 15px;">
+            <div class="goal-text" style="display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px;">
+              <span><strong>Raised:</strong> ₹{{ campaign.raised_amount }}</span>
+              <span><strong>Goal:</strong> ₹{{ campaign.goal_amount }}</span>
+            </div>
+            <div class="goal-bar">
+              <span style="width: {{ campaign.percentage_raised }}%; background: #E63946; transition: width 0.3s ease;"></span>
+            </div>
+            <div style="font-size: 0.8rem; margin-top: 5px; text-align: right; font-weight: bold; color: #E63946;">
+              {{ campaign.percentage_raised }}% Raised
+            </div>
           </div>
+
+          <h3 class="cause-heading" style="margin-top: 10px; margin-bottom: 10px; font-size: 1.25rem;">
+            <a href="{% url 'campaign_detail' campaign.slug %}" style="text-decoration: none; color: #1D3557; transition: color 0.2s;">{{ campaign.title }}</a>
+          </h3>
+
+          <p class="cause-description" style="color: #666; font-size: 0.9rem; line-height: 1.5; margin-bottom: 15px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">
+            {{ campaign.description }}
+          </p>
         </div>
 
-        <h3 class="cause-heading">
-          {{ campaign.title }}
-        </h3>
+        <div>
+          <hr style="margin: 10px 0;" />
 
-        <hr />
-
-        <div class="cause-meta">
-          <div>
-            <strong>Date:</strong>
-            <span>{{ campaign.created_at|date:"d/m/Y" }}</span>
+          <div class="cause-meta" style="margin-bottom: 15px;">
+            <div>
+              <strong>Timeline:</strong>
+              <span style="font-size: 0.85rem;">
+                {% if campaign.start_date and campaign.end_date %}
+                  📅 {{ campaign.start_date|date:"d M Y" }} - {{ campaign.end_date|date:"d M Y" }}
+                {% elif campaign.start_date %}
+                  📅 Starts {{ campaign.start_date|date:"d M Y" }}
+                {% elif campaign.end_date %}
+                  📅 Ends {{ campaign.end_date|date:"d M Y" }}
+                {% else %}
+                  📅 No timeline set
+                {% endif %}
+              </span>
+            </div>
           </div>
-          <div>
-            <strong>By:</strong>
-            <span>UDAAN Society</span>
+
+          <div style="text-align: right;">
+            <a href="{% url 'campaign_detail' campaign.slug %}" class="read-more-btn" style="color: #E63946; font-weight: 700; text-decoration: none; font-size: 0.9rem; display: inline-flex; align-items: center; gap: 4px;">
+              Read More <span class="arrow" style="transition: transform 0.2s;">&rarr;</span>
+            </a>
           </div>
         </div>
       </div>
