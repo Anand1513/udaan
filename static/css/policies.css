@@ -16,6 +16,16 @@
     height: 100%;
     object-fit: cover;
     filter: brightness(0.7);
+    animation: heroZoom 12s ease-in-out infinite alternate;
+}
+
+@keyframes heroZoom{
+    from{
+        transform: scale(1);
+    }
+    to{
+        transform: scale(1.08);
+    }
 }
 
 .hero-overlay {
@@ -31,21 +41,83 @@
     transform:translate(-50%,-50%);
     text-align:center;
     width:100%;
+    animation: heroContent 1.2s ease forwards;
 }
-
 .hero-content h1 {
 
     color: white;
-  font-size: 64px;
-  font-weight: 900;
-  letter-spacing: 2px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  animation: fadeInUp 1s ease-out;
+    font-size:64px;
+    font-weight:900;
+    letter-spacing:2px;
+    text-shadow:2px 2px 4px rgba(0,0,0,.5);
+
+    opacity:0;
+    transform:translateY(40px);
+
+    animation:titleFade 1s ease forwards;
 }
 .hero-content p{
-    color: white;
+
+    color:white;
+
+    opacity:0;
+    transform:translateY(40px);
+
+    animation:subtitleFade 1s ease forwards;
+    animation-delay:.5s;
+
+}
+@keyframes heroContent{
+
+from{
+
+opacity:0;
+
 }
 
+to{
+
+opacity:1;
+
+}
+
+}
+
+@keyframes titleFade{
+
+0%{
+
+opacity:0;
+transform:translateY(50px);
+
+}
+
+100%{
+
+opacity:1;
+transform:translateY(0);
+
+}
+
+}
+
+@keyframes subtitleFade{
+
+0%{
+
+opacity:0;
+transform:translateY(50px);
+
+}
+
+100%{
+
+opacity:1;
+transform:translateY(0);
+
+}
+
+}
 
 /* ================= BREADCRUMB ================= */
 
@@ -117,8 +189,16 @@ text-align:center;
 }
 
 .policy-title{
+
 font-size:40px;
 font-weight:900;
+
+opacity:0;
+transform:translateY(40px);
+
+animation:fadeUp .8s ease forwards;
+animation-delay:.4s;
+
 }
 
 .policy-title span{
@@ -126,9 +206,18 @@ color:#e63946;
 }
 
 .policy-sub{
+
 margin-top:10px;
 margin-bottom:30px;
 color:#555;
+
+opacity:0;
+
+transform:translateY(40px);
+
+animation:fadeUp .8s ease forwards;
+animation-delay:.7s;
+
 }
 
 
@@ -172,32 +261,64 @@ display:block;
 /* PDF */
 
 iframe{
+
 border:none;
-border-radius:6px;
+
+border-radius:12px;
+
+box-shadow:0 15px 35px rgba(0,0,0,.12);
+
+animation:pdfFade .8s ease;
+
 }
 
 
 /* BUTTON */
-
 .fullscreen-btn{
+
 background:#2b6cb0;
 color:white;
-padding:10px 16px;
+
+padding:12px 20px;
+
 border:none;
-border-radius:6px;
-margin-bottom:10px;
+
+border-radius:8px;
+
 cursor:pointer;
+
+transition:.3s;
+
+margin-bottom:15px;
+
+}
+
+.fullscreen-btn:hover{
+
+background:#1d4ed8;
+
+transform:translateY(-3px);
+
+box-shadow:0 10px 25px rgba(0,0,0,.2);
+
 }
 
 /* POLICY DOCUMENT STYLE */
 
 .policy-document{
+
 max-width:1000px;
 margin:40px auto;
-text-align:left;
-line-height:1.9;
-font-size:16px;
-color:#444;
+padding:35px;
+
+background:white;
+
+border-radius:16px;
+
+box-shadow:0 15px 35px rgba(0,0,0,.08);
+
+animation:fadeUp 1s ease;
+
 }
 
 .policy-doc-title{
@@ -271,10 +392,60 @@ font-size:14px;
 }
 
 .tab:hover{
+
 background:#e5e7eb;
+
+transform:translateY(-4px);
+
+box-shadow:0 10px 20px rgba(0,0,0,.12);
+
 }
 
 .tab.active{
+
 background:#e63946;
 color:white;
+
+box-shadow:0 10px 25px rgba(230,57,70,.35);
+
+}
+
+@keyframes fadeUp{
+
+0%{
+
+opacity:0;
+
+transform:translateY(40px);
+
+}
+
+100%{
+
+opacity:1;
+
+transform:translateY(0);
+
+}
+
+}
+
+@keyframes pdfFade{
+
+0%{
+
+opacity:0;
+
+transform:scale(.96);
+
+}
+
+100%{
+
+opacity:1;
+
+transform:scale(1);
+
+}
+
 }

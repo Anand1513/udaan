@@ -24,7 +24,7 @@
 
 
 <div class="breadcrumb">
-  <div class="container">
+  <div class="container" data-aos="fade-right" data-aos-delay="100">
     <a href="{% url 'home' %}">Home</a>
     <span class="sep">»</span>
     <span class="current">Career and fellowship</span>
@@ -37,7 +37,7 @@
 
     <h2 class="apply-title">APPLY FOR A JOB</h2>
 
-    <div class="apply-banner">
+    <div class="apply-banner zoom-in">
 
         <!-- Register -->
         <div class="register-now">
@@ -71,7 +71,7 @@
 
 
 <!-- INTRO -->
-<section class="career-container">
+<section class="career-container scroll-reveal">
 
     <h2>Join the Movement for Social Change in Aligarh</h2>
 
@@ -103,9 +103,9 @@
 
 </section>
 
-<section class="career-container">
+<section class="career-container fade-left">
 
-    <section class="internship-info">
+    <div class="internship-info">
 
         <a href="{% url 'internships' %}" class="internship-link">
             Apply for internship
@@ -123,13 +123,13 @@
             social impact careers, non-profit jobs Aligarh, social work internships
         </p>
 
-    </section>
+    </div>
 
 </section>
 
 
 <!-- SOCIAL -->
-<section class="career-social">
+<section class="career-social fade-right">
 
     <a href="https://www.facebook.com/udaansociety"
        target="_blank"
@@ -148,18 +148,37 @@
 <!-- ACTION -->
 <section class="career-actions">
 
-    <div class="career-card">
+    <div class="career-card zoom-in">
         <h3>Apply for Job</h3>
         <p>Work on impactful projects</p>
         <a href="{% url 'jobs' %}" class="career-btn">JOIN NOW</a>
     </div>
 
-    <div class="career-card">
+    <div class="career-card zoom-in">
         <h3>Become a Fellow</h3>
         <p>Serve communities</p>
         <a href="{% url 'volunteering' %}" class="career-btn">JOIN NOW</a>
     </div>
 
 </section>
+
+
+<script>
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+        }
+    });
+}, {
+    threshold: 0.2
+});
+
+document.querySelectorAll(
+    ".scroll-reveal, .fade-left, .fade-right, .zoom-in"
+).forEach(el => {
+    observer.observe(el);
+});
+</script>
 
 {% endblock %}

@@ -25,7 +25,7 @@
 
 <!-- ================= BREADCRUMB ================= -->
 <div class="breadcrumb">
-    <div class="container">
+    <div class="container" data-aos="fade-right" data-aos-delay="100">
         <a href="{% url 'home' %}">Home</a>
         <span class="sep">»</span>
         <span class="current">OUR TEAM</span>
@@ -203,5 +203,31 @@
     </div>
 
 </section>
+
+<script>
+
+const observer = new IntersectionObserver((entries)=>{
+
+entries.forEach(entry=>{
+
+if(entry.isIntersecting){
+
+entry.target.classList.add("show");
+
+}
+
+});
+
+},{
+threshold:.2
+});
+
+document.querySelectorAll(".team-member").forEach((el)=>{
+
+observer.observe(el);
+
+});
+
+</script>
 
 {% endblock %}

@@ -5,7 +5,9 @@
 
 {% block extra_css %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
 <link rel="stylesheet" href="{% static 'css/about.css' %}">
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 {% endblock %}
 
 {% block content %}
@@ -19,14 +21,14 @@
         <div class="hero-overlay"></div>
     </div>
 
-    <div class="hero-content">
+    <div class="hero-content" data-aos="zoom-in"> 
         <h1>ABOUT UDAAN SOCIETY</h1>
     </div>
 </section>
 
 <!-- Breadcrumb -->
 <div class="breadcrumb-bar">
-    <div class="container">
+    <div class="container" data-aos="fade-right" data-aos-delay="100">
         <p><a href="{% url 'home' %}">Home</a> » <span class="active">About</span></p>
     </div>
 </div>
@@ -34,12 +36,12 @@
 <!-- Who We Are -->
 <section class="who-we-are">
     <div class="container text-center">
-        <h2 class="section-heading">ABOUT US</h2>
-        <p class="section-subheading">
+        <h2 class="section-heading" data-aos="fade-up">ABOUT US</h2>
+        <p class="section-subheading" data-aos="fade-up" data-aos-delay="200">
             We are shelter homes providing NGO in Aligarh, also working in Jal Jeevan Mission, and Atal Bhujal Yojna
         </p>
 
-        <div class="team-image-wrapper">
+        <div class="team-image-wrapper" data-aos="zoom-in-up">
             <img
                 src="https://udaansociety.org/wp-content/uploads/2024/02/298442242_6799445290083397_8907950820117963692_n.jpg">
         </div>
@@ -50,14 +52,14 @@
 <section class="content-section">
     <div class="container">
 
-        <div class="text-block italic-lead">
+        <div class="text-block italic-lead" data-aos="fade-right">
             <p>
                 We are voluntary, non-profitable, registered organization with a vision to succor in restoration of
                 lost dignity, livelihood, equality, justice and peace in favor of downtrodden communities.
             </p>
         </div>
 
-        <div class="text-block">
+        <div class="text-block" data-aos="fade-left">
             <h3>Brief About UDAAN Society</h3>
 
             <p>
@@ -83,12 +85,12 @@
 </section>
 
 <!-- Mission Vision Values -->
-<section class="mvv-section">
+<section class="mvv-section" >
     <div class="container">
 
         <div class="mvv-grid">
 
-            <div class="mvv-card">
+            <div class="mvv-card" data-aos="flip-left">
                 <h3>OUR MISSION</h3>
 
                 <div class="card-content">
@@ -108,7 +110,7 @@
             </div>
 
 
-            <div class="mvv-card">
+            <div class="mvv-card" data-aos="flip-up">
                 <h3>OUR VISION</h3>
 
                 <div class="card-content">
@@ -128,7 +130,7 @@
             </div>
 
 
-            <div class="mvv-card">
+            <div class="mvv-card" data-aos="flip-right">
                 <h3>OUR VALUES</h3>
 
                 <div class="card-content">
@@ -172,7 +174,7 @@
 
         <div class="stats-grid">
 
-            <div class="stat-card">
+            <div class="stat-card" data-aos="zoom-in">
                 <div class="icon-box"><i class="fas fa-map-marked-alt"></i></div>
                 <div class="stat-info">
                     <span class="stat-number" data-target="1000">0</span>
@@ -180,7 +182,7 @@
                 </div>
             </div>
 
-            <div class="stat-card">
+            <div class="stat-card" data-aos="zoom-in">
                 <div class="icon-box"><i class="fas fa-child"></i></div>
                 <div class="stat-info">
                     <span class="stat-number" data-target="9500">0</span><span class="symbol">+</span>
@@ -188,7 +190,7 @@
                 </div>
             </div>
 
-            <div class="stat-card">
+            <div class="stat-card" data-aos="zoom-in">
                 <div class="icon-box"><i class="fas fa-hand-holding-usd"></i></div>
                 <div class="stat-info">
                     <span class="symbol">₹</span><span class="stat-number" data-target="300">0</span><span
@@ -197,7 +199,7 @@
                 </div>
             </div>
 
-            <div class="stat-card">
+            <div class="stat-card" data-aos="zoom-in">
                 <div class="icon-box"><i class="fas fa-utensils"></i></div>
                 <div class="stat-info">
                     <span class="stat-number" data-target="50">0</span><span class="symbol">k+</span>
@@ -223,15 +225,15 @@
 
         <div class="partners-logo-grid">
 
-            <div class="partner-item">
+            <div class="partner-item" data-aos="fade-up">
                 <img src="{% static 'images/partner_amu.png' %}" alt="AMU">
             </div>
 
-            <div class="partner-item">
+            <div class="partner-item" data-aos="fade-up">
                 <img src="{% static 'images/partner_unicef.png' %}" alt="UNICEF">
             </div>
 
-            <div class="partner-item">
+            <div class="partner-item" data-aos="fade-up">
                 <img src="{% static 'images/partner_lic.png' %}" alt="LIC">
             </div>
 
@@ -254,7 +256,7 @@
         <div class="approach-grid">
 
 
-            <div class="approach-card">
+            <div class="approach-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-num">01</div>
                 <h4>Client Centred</h4>
                 <ul>
@@ -265,7 +267,7 @@
                 </ul>
             </div>
 
-            <div class="approach-card">
+            <div class="approach-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-num">02</div>
                 <h4>Holistic Perspective</h4>
                 <ul>
@@ -276,7 +278,7 @@
                 </ul>
             </div>
 
-            <div class="approach-card">
+            <div class="approach-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-num">03</div>
                 <h4>Cultural Competence</h4>
                 <ul>
@@ -287,7 +289,7 @@
                 </ul>
             </div>
 
-            <div class="approach-card">
+            <div class="approach-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-num">04</div>
                 <h4>Strengths-Based</h4>
                 <ul>
@@ -298,7 +300,7 @@
                 </ul>
             </div>
 
-            <div class="approach-card">
+            <div class="approach-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-num">05</div>
                 <h4>Community Engage</h4>
                 <ul>
@@ -309,7 +311,7 @@
                 </ul>
             </div>
 
-            <div class="approach-card">
+            <div class="approach-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-num">06</div>
                 <h4>Collaboration</h4>
                 <ul>
@@ -320,7 +322,7 @@
                 </ul>
             </div>
 
-            <div class="approach-card">
+            <div class="approach-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-num">07</div>
                 <h4>Advocacy & Justice</h4>
                 <ul>
@@ -331,7 +333,7 @@
                 </ul>
             </div>
 
-            <div class="approach-card">
+            <div class="approach-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-num">08</div>
                 <h4>Evidence-Informed</h4>
                 <ul>
@@ -342,7 +344,7 @@
                 </ul>
             </div>
 
-            <div class="approach-card">
+            <div class="approach-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-num">09</div>
                 <h4>Professional Dev</h4>
                 <ul>
@@ -353,7 +355,7 @@
                 </ul>
             </div>
 
-            <div class="approach-card">
+            <div class="approach-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-num">10</div>
                 <h4>Ethical Standards</h4>
                 <ul>
@@ -364,7 +366,7 @@
                 </ul>
             </div>
 
-            <div class="approach-card">
+            <div class="approach-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-num">11</div>
                 <h4>Trauma-Informed</h4>
                 <ul>
@@ -375,7 +377,7 @@
                 </ul>
             </div>
 
-            <div class="approach-card">
+            <div class="approach-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="card-num">12</div>
                 <h4>Preventive Initiative</h4>
                 <ul>

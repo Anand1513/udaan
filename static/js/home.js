@@ -75,3 +75,44 @@ updateSlide();
 
 // Auto-advance slides
 setInterval(() => changeSlide(1), 5000);
+
+/* ===========================
+   Scroll Animation
+=========================== */
+
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add("show");
+        }
+    });
+}, {
+    threshold: 0.25
+});
+
+// Causes Section
+const causesSection = document.querySelector(".causes-section");
+if (causesSection) {
+    observer.observe(causesSection);
+}
+
+// Projects Section
+const projectsSection = document.querySelector(".projects-section");
+if (projectsSection) {
+    observer.observe(projectsSection);
+}
+
+
+/* Footer Animation */
+
+const footer = document.querySelector(".bg-gray-100");
+
+if (footer) {
+    observer.observe(footer);
+}
+// Testimonials
+const testimonialsSection = document.querySelector(".testimonials-section");
+if (testimonialsSection) {
+    observer.observe(testimonialsSection);
+}
+

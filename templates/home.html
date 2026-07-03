@@ -162,11 +162,13 @@
       <div class="cause-card">
         <span class="cause-tag health">Health</span>
 
+        <div class="cause-image-wrapper">
         {% if campaign.image %}
         <img src="{{ campaign.image.url }}" alt="{{ campaign.title }}" class="cause-image" />
         {% else %}
         <img src="{% static 'assets/p1.jpeg' %}" alt="UDAAN Campaign" class="cause-image" />
         {% endif %}
+        </div>
 
         <div class="cause-goal">
           Goal: ₹ {{ campaign.goal_amount }}
@@ -218,11 +220,13 @@
       {% for project in projects %}
       <!-- Card {{ forloop.counter }} -->
       <div class="project-card">
-        {% if project.image %}
-        <img src="{{ project.image.url }}" alt="{{ project.title }}" />
-        {% else %}
-        <img src="{% static 'assets/p4.jpg' %}" alt="UDAAN Project" />
-        {% endif %}
+        <div class="project-image">
+            {% if project.image %}
+            <img src="{{ project.image.url }}" alt="{{ project.title }}">
+            {% else %}
+            <img src="{% static 'assets/p4.jpg' %}" alt="UDAAN Project">
+            {% endif %}
+        </div>
 
         <div class="project-content">
           <h3>{{ project.title|truncatechars:35 }}</h3>

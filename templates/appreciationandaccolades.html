@@ -16,14 +16,9 @@
 }
 
 .aa-hero{
-    height:500px;
-    /* min-height:400px; */
-    background:
-        linear-gradient(rgba(0,0,0,0.5),rgba(0,0,0,0.5)),
-        url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
-    background-size:cover;
-    background-position:center;
-    /* background-attachment:fixed; */
+    position: relative;
+    height: 500px;
+    overflow: hidden;
     display:flex;
     align-items:center;
     justify-content:center;
@@ -31,13 +26,121 @@
     color:white;
 }
 
+.aa-hero::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+    linear-gradient(rgba(0,0,0,.55),rgba(0,0,0,.55)),
+    url("https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80");
+    background-size:cover;
+    background-position:center;
+    animation:heroZoom 12s ease-in-out infinite alternate;
+}
+
+.aa-hero .aa-container{
+    position:relative;
+    z-index:2;
+}
+
+@keyframes heroZoom{
+    from{
+        transform:scale(1);
+    }
+    to{
+        transform:scale(1.08);
+    }
+}
+
+.aa-hero p{
+    font-size:20px;
+    color:#fff;
+    max-width:700px;
+    margin:auto;
+    opacity:.95;
+}
+/* Hero Animation */
+
+.aa-hero-content{
+    opacity:0;
+    transform:translateY(50px);
+    animation:heroContent 1.2s ease forwards;
+    animation-delay:.3s;
+}
+
 .aa-hero h1{
-  color: white;
-  font-size: 64px;
-  font-weight: 900;
-  letter-spacing: 2px;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-  animation: fadeInUp 1s ease-out;
+
+font-size:64px;
+font-weight:900;
+letter-spacing:2px;
+background:linear-gradient(90deg,#fff,#ffd89b,#fff);
+background-size:200%;
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+animation:
+heroTitle 1s ease forwards,
+shine 5s linear infinite;
+
+}
+
+.aa-hero p{
+    opacity:0;
+    transform:translateY(40px);
+    animation:heroSubtitle 1s ease forwards;
+    animation-delay:.8s;
+}
+
+@keyframes heroTitle{
+
+0%{
+opacity:0;
+transform:translateY(50px);
+}
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+@keyframes heroSubtitle{
+
+0%{
+opacity:0;
+transform:translateY(40px);
+}
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+
+@keyframes heroContent{
+
+0%{
+opacity:0;
+transform:translateY(40px);
+}
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
+}
+@keyframes shine{
+
+0%{
+background-position:0%;
+}
+
+100%{
+background-position:200%;
+}
+
 }
 
 .aa-breadcrumbs{
@@ -67,10 +170,30 @@
     gap: 10px;
     font-size: 16px;
     /* color: #6b21a8; */
+    margin-left: 20px;
 }
 .aa-intro-section{
-    padding:60px 0;
-    text-align:center;
+
+padding:60px 0;
+text-align:center;
+opacity:0;
+transform:translateY(40px);
+animation:introFade 1s ease forwards;
+animation-delay:1s;
+
+}
+@keyframes introFade{
+
+0%{
+opacity:0;
+transform:translateY(40px);
+}
+
+100%{
+opacity:1;
+transform:translateY(0);
+}
+
 }
 
 .aa-intro-title{
@@ -86,10 +209,12 @@
 }
 
 .aa-content-block{
-    max-width:900px;
+    display:grid;
+    grid-template-columns:1.3fr 1fr;
+    gap:50px;
+    align-items:center;
+    max-width:1200px;
     margin:auto;
-    text-align:left;
-    margin-top:30px;
 }
 
 .aa-content-block p{
@@ -109,12 +234,30 @@
     color:var(--aa-dark);
 }
 
+.aa-feature-list{
+
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:20px;
+list-style:none;
+padding:0;
+
+}
+
 .aa-feature-list li{
-    margin-bottom:10px;
-    padding-left:20px;
-    position:relative;
-    font-size:1.05rem;
-    color:#444;
+
+background:white;
+padding:25px;
+border-radius:15px;
+box-shadow:0 10px 30px rgba(0,0,0,.08);
+transition:.4s;
+
+}
+.aa-feature-list li:hover{
+
+transform:translateY(-8px);
+border-top:4px solid #E67E22;
+
 }
 
 .aa-feature-list li::before{
@@ -124,14 +267,38 @@
     color:var(--aa-secondary);
     font-weight:bold;
 }
-
 .aa-cta-link{
-    color:#c0392b;
-    font-weight:600;
-    border-bottom:2px solid #c0392b;
-    text-decoration:none;
+
+display:inline-block;
+padding:15px 35px;
+background:#E67E22;
+color:#fff;
+border-radius:50px;
+font-weight:700;
+transition:.4s;
+animation:buttonPop 1.3s ease forwards;
+opacity:0;
+
 }
-.aa-cta-link:hover{color:#e74c3c;}
+@keyframes buttonPop{
+
+0%{
+opacity:0;
+transform:scale(.8);
+}
+
+100%{
+opacity:1;
+transform:scale(1);
+}
+
+}
+.aa-cta-link:hover{
+
+background:#d35400;
+transform:translateY(-4px);
+
+}
 
 .aa-awards-section{
     background:var(--aa-light);
@@ -161,18 +328,18 @@
 }
 
 .aa-award-card{
-    background:white;
-    border-radius:10px;
-    overflow:hidden;
-    box-shadow:var(--aa-shadow);
-    transition:0.4s;
-    opacity:0;
-    transform:translateY(30px);
+    background:#fff;
+border-radius:20px;
+overflow:hidden;
+box-shadow:0 15px 40px rgba(0,0,0,.08);
+transition:.5s;
 }
 
 .aa-award-card:hover{
-    transform:translateY(-10px);
-    box-shadow:0 10px 30px rgba(0,0,0,0.15);
+
+transform:translateY(-15px);
+box-shadow:0 25px 60px rgba(0,0,0,.18);
+
 }
 
 .aa-card-img{
@@ -188,7 +355,7 @@
 }
 
 .aa-award-card:hover .aa-card-img img{
-    transform: scale(1.05);
+    transform: scale(1.12);
 }
 
 .aa-card-body{
@@ -231,6 +398,20 @@
     .aa-section-header h2 { font-size: 1.8rem; }
     .aa-awards-grid { grid-template-columns: 1fr; }
 }
+.aa-intro-image img{
+
+width:100%;
+border-radius:20px;
+box-shadow:0 20px 50px rgba(0,0,0,.15);
+transition:.5s;
+
+}
+
+.aa-intro-image img:hover{
+
+transform:scale(1.05);
+
+}
 </style>
 {% endblock %}
 
@@ -238,14 +419,18 @@
 
 <!-- Hero Section -->
 <section class="aa-hero">
-    <div class="aa-container">
-        <h1>APPRECIATION & ACCOLADES</h1>
+    <div class="aa-container aa-hero-content">
+       <h1>APPRECIATION & ACCOLADES</h1>
+
+<p>
+Celebrating the milestones, recognitions, and achievements that inspire us to create lasting social impact.
+</p>
     </div>
 </section>
 
 <!-- Breadcrumbs -->
 <div class="aa-breadcrumbs">
-    <div class="aa-container">
+    <div class="aa-container" data-aos="fade-right" data-aos-delay="100">
         <a href="{% url 'home' %}">Home</a> » <span>Appreciation and Accolades</span>
     </div>
 </div>
@@ -259,6 +444,11 @@
     </h2>
 
     <div class="aa-content-block">
+        <div class="aa-intro-image">
+
+<img src="https://udaansociety.org/wp-content/uploads/2024/01/Governor-Award.jpeg">
+
+</div>
 
         <h4 style="margin-bottom:10px;font-family:'Poppins',sans-serif;">UDAAN Society's Impact Celebrated</h4>
 
