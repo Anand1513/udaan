@@ -9,8 +9,10 @@ from .models import (
     Interaction, BloodDonor, Project, BloodRequest, Blog, Campaign,
     CampusAmbassador, CampusAmbassadorApplication, NewsClipping, ContactMessage,
     Activity, JobPosting, Donation, SubTask, TaskComment, Team, SharedNote,
-    Workspace, WorkspaceMember, Expense, TaskAutomationRule, NewsletterSubscription, Task
+    Workspace, WorkspaceMember, Expense, TaskAutomationRule, NewsletterSubscription, Task,
+    InternshipRequest
 )
+from .utils import generate_internship_offer_letter
 
 # Custom branding for Django Administration
 admin.site.site_header = "UDAAN Society Administration"
@@ -424,6 +426,33 @@ class AppConfigProxy:
 
     def __repr__(self):
         return repr(self._app_config)
+
+
+@admin.register(InternshipRequest)
+class InternshipRequestAdmin(admin.ModelAdmin):
+    list_display = ('name', 'internship_area', 'start_date', 'duration_months', 'status', 'created_at')
+    list_filter = ('status', 'internship_area')
+    search_fields = ('name', 'email', 'contact_number')
+    readonly_fields = ('offer_letter', 'created_at')
+
+    actions = ['approve_requests']
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        if obj.status == 'Approved' and not obj.offer_letter:
+            generate_internship_offer_letter(obj)
+
+    @admin.action(description='Approve selected requests and generate offer letters')
+    def approve_requests(self, request, queryset):
+        count = 0
+        for obj in queryset:
+            if obj.status != 'Approved':
+                obj.status = 'Approved'
+                if not obj.offer_letter:
+                    generate_internship_offer_letter(obj)
+                obj.save()
+                count += 1
+        self.message_user(request, f"{count} internship request(s) were successfully approved and emails were sent.")
 
 @property
 def custom_app_config(self):

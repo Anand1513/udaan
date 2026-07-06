@@ -17,3 +17,5 @@ ai_chatbot/venv/
 ai_chatbot/chatbot.db
 ai_chatbot/__pycache__/
 
+# User uploaded media files
+media/

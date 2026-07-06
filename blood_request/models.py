@@ -683,3 +683,35 @@ class NewsletterSubscription(models.Model):
 
     def __str__(self):
         return self.email
+
+
+class InternshipRequest(models.Model):
+    STATUS_CHOICES = (
+        ('Pending', 'Pending'),
+        ('Approved', 'Approved'),
+        ('Rejected', 'Rejected'),
+    )
+    
+    name = models.CharField(max_length=200)
+    father_name = models.CharField(max_length=200)
+    educational_qualification = models.CharField(max_length=300)
+    permanent_address = models.TextField()
+    contact_number = models.CharField(max_length=20)
+    email = models.EmailField()
+    internship_area = models.CharField(max_length=200)
+    start_date = models.DateField()
+    duration_months = models.IntegerField(default=3)
+    
+    mentor_name = models.CharField(max_length=200, blank=True, null=True, help_text="Required for offer letter generation")
+    mentor_email = models.EmailField(blank=True, null=True, help_text="Required for offer letter generation")
+    
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='Pending')
+    offer_letter = models.FileField(upload_to='offer_letters/', blank=True, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name = "Internship Request"
+        verbose_name_plural = "Internship Requests"
+
+    def __str__(self):
+        return f"{self.name} - {self.internship_area} ({self.status})"
