@@ -1242,11 +1242,12 @@ def aboutus(request):
     return render(request, 'aboutus.html')
 def our_policies(request):
 
-    ethical = PolicyReport.objects.filter(category="ethical").first()
-    finance = PolicyReport.objects.filter(category="finance").first()
-    hr = PolicyReport.objects.filter(category="hr").first()
-    travel = PolicyReport.objects.filter(category="travel").first()
-    posh = PolicyReport.objects.filter(category="posh").first()
+    ethical = PolicyReport.objects.filter(category="ethical", published=True).first()
+    finance = PolicyReport.objects.filter(category="finance", published=True).first()
+    hr = PolicyReport.objects.filter(category="hr", published=True).first()
+    travel = PolicyReport.objects.filter(category="travel", published=True).first()
+    posh = PolicyReport.objects.filter(category="posh", published=True).first()
+    policies = PolicyReport.objects.filter(published=True).order_by('display_order', '-uploaded_at')
 
     context = {
         "ethical": ethical,
@@ -1254,6 +1255,7 @@ def our_policies(request):
         "hr": hr,
         "travel": travel,
         "posh": posh,
+        "policies": policies,
     }
 
     return render(request,"our_policies.html",context)
@@ -1676,4 +1678,4 @@ def blood_request_submit(request):
             return JsonResponse({'success': True, 'message': 'Blood request submitted successfully!'})
         except Exception as e:
             return JsonResponse({'success': False, 'error': str(e)}, status=500)
-    return JsonResponse({'success': False, 'error': 'Invalid method'}, status=405)
+    return JsonResponse({'success': False, 'error': 'Invalid method'}, status=405)

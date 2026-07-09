@@ -138,6 +138,7 @@ class Campaign(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(max_length=255, unique=True, blank=True, null=True)
     description = models.TextField()
+    beneficiary_text = models.TextField(blank=True, null=True, help_text="Who will benefit from this campaign?")
     goal_amount = models.DecimalField(max_digits=10, decimal_places=2)
     raised_amount = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     image = models.ImageField(upload_to='campaigns/')
@@ -178,9 +179,11 @@ class Campaign(models.Model):
         # If campaign has not started yet
         if self.start_date and self.start_date > today:
             delta = self.start_date - today
+            if delta.days == 1:
+                return "Starts tomorrow"
             return f"Starts in {delta.days} days"
         
-        # If it has ended
+        # If it has ended (end_date is in the past, not today)
         if self.end_date and self.end_date < today:
             return "Campaign Completed"
         
@@ -188,6 +191,8 @@ class Campaign(models.Model):
         if self.end_date:
             days = self.days_remaining
             if days is not None:
+                if days == 0:
+                    return "Ends today"
                 if days == 1:
                     return "Ends in 1 day"
                 return f"Ends in {days} days"
@@ -196,6 +201,42 @@ class Campaign(models.Model):
 
     def __str__(self):
         return self.title
+
+class CampaignImage(models.Model):
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, related_name='gallery_images')
+    image = models.ImageField(upload_to='campaigns/gallery/')
+    caption = models.CharField(max_length=200, blank=True, null=True)
+    display_order = models.IntegerField(default=0)
+
+    class Meta:
+        ordering = ['display_order', 'id']
+
+    def __str__(self):
+        return f"Image #{self.id}"
+
+class CampaignDocument(models.Model):
+    campaign = models.ForeignKey(Campaign, on_delete=models.CASCADE, related_name='documents')
+    title = models.CharField(max_length=200)
+    file = models.FileField(upload_to='campaigns/documents/')
+    file_size = models.CharField(max_length=50, blank=True, null=True, help_text="e.g. 1.2 MB (will auto-calculate if blank)")
+
+    def save(self, *args, **kwargs):
+        if not self.file_size and self.file:
+            try:
+                size_bytes = self.file.size
+                if size_bytes < 1024:
+                    self.file_size = f"{size_bytes} B"
+                elif size_bytes < 1024 * 1024:
+                    self.file_size = f"{size_bytes / 1024:.1f} KB"
+                else:
+                    self.file_size = f"{size_bytes / (1024 * 1024):.1f} MB"
+            except Exception:
+                pass
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f"Document #{self.id}"
+
 
 class Project(models.Model):
     title = models.CharField(max_length=200)
@@ -540,12 +581,21 @@ class PolicyReport(models.Model):
     ]
 
     title = models.CharField(max_length=200)
-    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='ethical')
     pdf_file = models.FileField(upload_to='policy_reports/')
     uploaded_at = models.DateTimeField(auto_now_add=True)
+    description = models.TextField(max_length=250, blank=True, default="")
+    thumbnail = models.ImageField(upload_to='policy_thumbnails/', blank=True, null=True)
+    display_order = models.IntegerField(default=0, blank=True, null=True)
+    published = models.BooleanField(default=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name = "Policy Document"
+        verbose_name_plural = "Policy Documents"
 
     def __str__(self):
-        return f"{self.title} ({self.category})"
+        return self.title
 
 
 # --- Phase 27: MIS Analytics ---

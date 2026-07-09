@@ -19,11 +19,63 @@ admin.site.site_header = "UDAAN Society Administration"
 admin.site.site_title  = "UDAAN Admin Portal"
 admin.site.index_title = "Welcome to the UDAAN Admin Panel"
 
+from django import forms
+from django.core.exceptions import ValidationError
+
+class PolicyReportForm(forms.ModelForm):
+    class Meta:
+        model = PolicyReport
+        fields = ('title', 'description', 'pdf_file', 'thumbnail', 'display_order', 'published')
+        widgets = {
+            'title': forms.TextInput(attrs={'placeholder': 'Enter policy title'}),
+            'description': forms.Textarea(attrs={'rows': 4, 'maxlength': 250, 'placeholder': 'Enter a short description of this policy.'}),
+        }
+        error_messages = {
+            'title': {
+                'required': "Policy title is required.",
+            },
+            'pdf_file': {
+                'required': "Please upload a PDF document.",
+            }
+        }
+
+    def clean_pdf_file(self):
+        pdf_file = self.cleaned_data.get('pdf_file')
+        if pdf_file:
+            if not pdf_file.name.lower().endswith('.pdf'):
+                raise ValidationError("Only PDF files are allowed.")
+        return pdf_file
+
 @admin.register(PolicyReport)
 class PolicyReportAdmin(admin.ModelAdmin):
-    list_display = ('title', 'category', 'uploaded_at')
-    list_filter = ('category',)
+    form = PolicyReportForm
+    list_display = ('title', 'published', 'updated_at', 'display_order')
+    list_filter = ('published',)
     search_fields = ('title',)
+    ordering = ('display_order', '-updated_at', '-uploaded_at')
+
+    fieldsets = (
+        ('Basic Information', {
+            'fields': ('title', 'description'),
+            'description': 'This title will be displayed on the website.',
+        }),
+        ('Document Details', {
+            'fields': ('pdf_file', 'thumbnail', 'display_order'),
+        }),
+        ('Publishing', {
+            'fields': ('published',),
+        }),
+    )
+
+    class Media:
+        css = {
+            'all': ('css/admin_policy_custom.css',)
+        }
+
+    def save_model(self, request, obj, form, change):
+        if not obj.category:
+            obj.category = 'ethical'
+        super().save_model(request, obj, form, change)
 
 @admin.register(Report)
 class ReportAdmin(admin.ModelAdmin):
@@ -159,13 +211,26 @@ class BlogAdmin(admin.ModelAdmin):
         models.TextField: {'widget': CKEditor5Widget(config_name='extends')},
     }
 
+from .models import CampaignImage, CampaignDocument
+
+class CampaignImageInline(admin.TabularInline):
+    model = CampaignImage
+    extra = 1
+    fields = ('image',)
+
+class CampaignDocumentInline(admin.TabularInline):
+    model = CampaignDocument
+    extra = 1
+    fields = ('file',)
+
 @admin.register(Campaign)
 class CampaignAdmin(admin.ModelAdmin):
     list_display = ('title', 'target_vs_raised', 'start_date', 'end_date', 'created_at')
+    inlines = [CampaignImageInline, CampaignDocumentInline]
     
     fieldsets = (
         (None, {
-            'fields': ('title', 'description', 'image')
+            'fields': ('title', 'description', 'beneficiary_text', 'image')
         }),
         ('Fundraising Target', {
             'fields': ('goal_amount', 'raised_amount')
@@ -178,6 +243,7 @@ class CampaignAdmin(admin.ModelAdmin):
     
     def target_vs_raised(self, obj):
         return f"{obj.raised_amount} / {obj.goal_amount}"
+
 
 @admin.register(CampusAmbassador)
 class CampusAmbassadorAdmin(admin.ModelAdmin):
