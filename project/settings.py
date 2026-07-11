@@ -41,6 +41,8 @@ if not SECRET_KEY:
 RATELIMIT_ENABLE = not DEBUG
 
 ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS', '127.0.0.1,localhost').split(',')
+if DEBUG:
+    ALLOWED_HOSTS.append('*')
 
 # Production Security Configurations
 SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'False') == 'True'

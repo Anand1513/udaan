@@ -1,108 +1,82 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}Projects - UDAAN Society{% endblock %}
+{% block title %}Our Projects - UDAAN Society{% endblock %}
 
-{% block extra_css %}
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="{% static 'css/projects.css' %}">
-{% endblock %}
+{% block meta_description %}Explore key social campaigns, clean water, healthcare, and educational development projects executed by UDAAN Society across Uttar Pradesh.{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero">
-    <div class="hero-image">
-        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&h=500&fit=crop" alt="Children">
-        <div class="hero-overlay"></div>
-    </div>
-    <div class="hero-content">
-        <h1>PROJECTS</h1>
-    </div>
+
+<!-- Hero Banner -->
+<section class="subpage-hero">
+  <div class="max-w-4xl mx-auto px-6 relative z-10 space-y-4">
+    <span class="bg-accent text-neutral-dark text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm">Field Operations</span>
+    <h1 class="text-4xl sm:text-5xl font-extrabold font-heading tracking-tight leading-tight uppercase">Recent Projects</h1>
+    <p class="text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
+      Explore our initiatives and discover how UDAAN Society is making a difference in the lives of those we serve.
+    </p>
+  </div>
 </section>
 
 <!-- Breadcrumb -->
-<div class="breadcrumb">
-    <div class="container">
-        <a href="{% url 'home' %}">Home</a>
-        <span class="sep">»</span>
-        <span class="current">Projects</span>
-    </div>
+<div class="bg-neutral-light border-b border-gray-100 py-4">
+  <div class="max-w-7xl mx-auto px-6 text-sm text-gray-500 flex items-center gap-2">
+    <a href="{% url 'home' %}" class="hover:text-primary transition-colors">Home</a>
+    <span>»</span>
+    <span class="text-gray-400">Projects</span>
+  </div>
 </div>
 
-<!-- Intro Section -->
-<section class="intro">
-    <div class="container">
-        <h2 class="main-title">TRANSFORMING LIVES THROUGH IMPACTFUL <span>PROJECTS</span></h2>
-        <p class="description">
-            UDaan Society is committed to creating positive change through a diverse range of projects. Our website
-            showcases initiatives designed to empower individuals and communities across various sectors. Explore
-            our projects page to delve deeper into these initiatives and discover how UDAAN Society is making a
-            difference in the lives of those we serve.
-        </p>
-    </div>
-</section>
+<!-- Main Body -->
+<div class="max-w-7xl mx-auto px-6 py-16 lg:py-24 space-y-12">
+  
+  <div class="max-w-3xl mx-auto text-center space-y-4 mb-12">
+    <h2 class="text-3xl font-extrabold text-neutral-dark font-heading">Transforming Lives Through Impactful Work</h2>
+    <p class="text-gray-600 text-sm leading-relaxed">
+      We operate local support programs, water conservation initiatives, child helpline facilities, and vendor empowerment campaigns financed by corporate CSR contributions and bilateral funding.
+    </p>
+  </div>
 
-<!-- Projects Grid -->
-<section class="projects">
-    <div class="container">
-        <div class="projects-grid">
-            {% for project in projects %}
-            <article class="project-card" data-aos="fade-up">
-                <div class="card-image">
-                    {% if project.image %}
-                    <img src="{{ project.image.url }}" alt="{{ project.title }}">
-                    {% else %}
-                    <img src="{% static 'assets/default-project.jpg' %}" alt="{{ project.title }}">
-                    {% endif %}
-                </div>
-                <div class="card-body">
-                    <h3>{{ project.title|truncatechars:35 }}</h3>
-                    <p class="excerpt">
-                        {{ project.description|truncatechars:100 }}
-                    </p>
-                    <a href="{% url 'project_detail' project.slug %}" class="read-more">READ MORE</a>
-                    <div class="card-footer">
-                        <i class="far fa-calendar-alt"></i>
-                        <span>Date: {{ project.date|date:"F j, Y" }}</span>
-                    </div>
-                </div>
-            </article>
-            {% empty %}
-            <p>No projects found.</p>
-            {% endfor %}
+  <!-- Projects Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    {% for project in projects %}
+    <!-- Project Card -->
+    <article class="card-premium flex flex-col justify-between h-full hover-lift">
+      <div>
+        <div class="h-52 overflow-hidden bg-gray-100">
+          {% if project.image %}
+          <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover">
+          {% else %}
+          <div class="w-full h-full bg-primary-light flex items-center justify-center text-primary text-4xl">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          {% endif %}
         </div>
-    </div>
-</section>
-
-<!-- CTA Section -->
-<!-- <section class="cta-section">
-    <div class="container">
-        <div class="cta-card">
-            <div class="cta-content">
-                <h4>GIVE US A HAND</h4>
-                <h2>
-                    <span class="highlight">Support Us</span> And Change The<br>
-                    Course Of A Child's Life Today!
-                </h2>
-                <button class="read-more-link open-modal-btn bg-transparent border-none p-0 cursor-pointer outline-none text-left"
-                        data-title="Changing Courses"
-                        data-content="By supporting UDAAN Society, you give kids the tools they need to succeed in life. Every donation helps us build better facilities and run stronger programs.">
-                    Read more...
-                </button>
-            </div>
-            <div class="cta-action">
-                <a href="/donate/" class="donate-btn-large">
-                    <div class="btn-text">
-                        <span class="main">📱Donate Now</span>
-                        <span class="sub">Secured by Razorpay</span>
-                    </div>
-                </a>
-            </div>
+        
+        <div class="p-6 space-y-3">
+          <span class="text-primary font-bold text-xs uppercase tracking-wider block">Initiative</span>
+          <h3 class="text-lg font-bold text-neutral-dark leading-snug line-clamp-2">{{ project.title }}</h3>
+          <p class="text-gray-500 text-xs leading-relaxed line-clamp-3">{{ project.description }}</p>
         </div>
-    </div>
-</section> -->
+      </div>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script src="{% static 'js/projects.js' %}"></script>
+      <div>
+        <hr class="border-gray-100 mx-6" />
+        <div class="p-6 flex items-center justify-between text-xs font-semibold text-gray-400">
+          <span>📅 Date: {{ project.date|date:"F j, Y" }}</span>
+          <a href="{% url 'project_detail' project.slug %}" class="text-primary hover:text-primary-dark inline-flex items-center gap-1 font-bold">
+            Read More <span class="text-[9px]">→</span>
+          </a>
+        </div>
+      </div>
+    </article>
+    {% empty %}
+    <div class="col-span-full text-center py-20 text-gray-400 bg-white rounded-2xl border border-gray-100 shadow-soft">
+      No projects found.
+    </div>
+    {% endfor %}
+  </div>
+
+</div>
+
 {% endblock %}

@@ -1,111 +1,131 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %}News Clippings - UDAAN Society{% endblock %}
+{% block title %}News Clippings & Media Coverage - UDAAN Society{% endblock %}
 
 {% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/news_clippings.css' %}">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700;800&display=swap" rel="stylesheet">
 {% endblock %}
 
 {% block content %}
 
-<section class="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <h1>NEWS CLIPPINGS</h1>
-    </div>
+<!-- Hero Banner -->
+<section class="subpage-hero">
+  <div class="max-w-4xl mx-auto px-6 relative z-10 space-y-4">
+    <span class="bg-accent text-neutral-dark text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm">Media Hub</span>
+    <h1 class="text-4xl sm:text-5xl font-extrabold font-heading tracking-tight leading-tight uppercase">News Clippings</h1>
+    <p class="text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
+      A curated collection of UDAAN Society's campaigns, field audits, and milestones featured in leading national newspapers.
+    </p>
+  </div>
 </section>
 
-<div class="breadcrumb-container">
-    <div class="breadcrumb">
-        <a href="{% url 'home' %}">Home</a>
-        <span>»</span>
-        <a href="#">Impact</a>
-        <span>»</span>
-        <p>News Clippings</p>
-    </div>
+<!-- Breadcrumb -->
+<div class="bg-neutral-light border-b border-gray-100 py-4">
+  <div class="max-w-7xl mx-auto px-6 text-sm text-gray-500 flex items-center gap-2">
+    <a href="{% url 'home' %}" class="hover:text-primary transition-colors">Home</a>
+    <span>»</span>
+    <span class="text-gray-400">News Clippings</span>
+  </div>
 </div>
 
-<div class="main-content">
-    <div class="section-title">
-        <h2><span>MEDIA COVERAGE</span></h2>
-        <p>A glimpse of UDAAN Society in the headlines.</p>
-    </div>
+<!-- Main Body -->
+<div class="max-w-7xl mx-auto px-6 py-16 lg:py-24 space-y-12">
+  
+  <div class="max-w-3xl mx-auto text-center space-y-4 mb-8">
+    <h2 class="text-3xl font-extrabold text-neutral-dark font-heading">UDAAN in the Headlines</h2>
+    <p class="text-gray-600 text-sm">Glimpses of community updates, groundwater interventions, and leadership statements covered in national newspapers.</p>
+  </div>
 
-    <div id="news-grid" class="masonry-grid">
-        {% for clipping in clippings %}
-        <div class="news-card"
-            onclick="openModal('{{ clipping.image.url|escapejs }}', '{{ clipping.title|escapejs }}', '{{ clipping.summary|escapejs }}')">
-            <img src="{{ clipping.image.url }}" alt="{{ clipping.title }}">
-            <div class="news-content">
-                <h4>{{ clipping.title }}</h4>
-                <p>{{ clipping.newspaper }} | {{ clipping.date_display }}</p>
-            </div>
-        </div>
-        {% empty %}
-        <div style="text-align: center; grid-column: 1/-1; padding: 50px;">
-            <p>No news clippings found. Add some from the admin panel!</p>
-        </div>
-        {% endfor %}
+  <!-- News Grid -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="news-grid">
+    {% for clipping in clippings %}
+    <div class="card-premium cursor-zoom-in group flex flex-col justify-between"
+      onclick="openClippingModal('{{ clipping.image.url|escapejs }}', '{{ clipping.title|escapejs }}', '{{ clipping.summary|escapejs }}', '{{ clipping.newspaper|escapejs }}', '{{ clipping.date_display|escapejs }}')">
+      
+      <div class="overflow-hidden bg-gray-50 aspect-[4/3]">
+        <img src="{{ clipping.image.url }}" alt="{{ clipping.title }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-103">
+      </div>
+      
+      <div class="p-6 space-y-3">
+        <span class="text-primary font-bold text-xs uppercase tracking-wider block">{{ clipping.newspaper }}</span>
+        <h3 class="text-base font-bold text-neutral-dark leading-snug line-clamp-2">{{ clipping.title }}</h3>
+        <p class="text-xs text-gray-400 font-semibold">{{ clipping.date_display }}</p>
+      </div>
+
     </div>
+    {% empty %}
+    <div class="col-span-full text-center py-20 text-gray-400 bg-white rounded-2xl border border-gray-100 shadow-soft">
+      No news clippings found. Add some from the admin panel!
+    </div>
+    {% endfor %}
+  </div>
+
 </div>
 
-<div id="nc-modal" class="modal" onclick="if(event.target === this) closeModal()">
-    <div class="modal-container">
-        <img class="modal-content" id="modalImage">
-        <div id="modalCaption"></div>
-        <span id="nc-close" onclick="closeModal()">
-            <i class="fas fa-times"></i>
-        </span>
+<!-- Clipping Detail Modal -->
+<div id="nc-modal" class="fixed inset-0 bg-black/75 z-[100] hidden items-center justify-center p-4 overflow-y-auto cursor-zoom-out" onclick="closeClippingModal()">
+  <div class="bg-white rounded-3xl max-w-2xl w-full shadow-premium transform scale-95 transition-transform duration-300 relative cursor-default" onclick="event.stopPropagation()">
+    <button class="absolute top-4 right-4 w-9 h-9 rounded-full bg-gray-100 hover:bg-gray-200 text-neutral-dark font-bold flex items-center justify-center text-xl cursor-pointer" onclick="closeClippingModal(true)">&times;</button>
+    
+    <div class="p-6">
+      <div class="rounded-2xl overflow-hidden border border-gray-200 bg-gray-50 max-h-[400px]">
+        <img id="modalImage" class="w-full h-full object-contain mx-auto" alt="Clipping Image">
+      </div>
+      <div class="mt-6 space-y-3" id="modalCaption">
+        <!-- Injected via JS -->
+      </div>
     </div>
+  </div>
 </div>
 
 <script>
-    console.log("News Clipping Modal Script Loaded");
+  function openClippingModal(imgUrl, title, summary, newspaper, date) {
+    const modal = document.getElementById("nc-modal");
+    const modalImg = document.getElementById("modalImage");
+    const modalCaption = document.getElementById("modalCaption");
 
-    function openModal(imgUrl, title, summary) {
-        console.log("Opening modal for:", title);
-        const modal = document.getElementById("nc-modal");
-        const modalImg = document.getElementById("modalImage");
-        const modalCaption = document.getElementById("modalCaption");
+    if (!modal || !modalImg || !modalCaption) return;
 
-        if (!modal || !modalImg || !modalCaption) {
-            console.error("Modal elements not found!");
-            return;
-        }
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+    void modal.offsetWidth; // Reflow
+    modal.classList.add("opacity-100");
+    modal.querySelector('div').classList.remove('scale-95');
 
-        modal.classList.add("active");
-        modalImg.src = imgUrl;
-        modalCaption.innerHTML = `<h3>${title}</h3><p>${summary}</p>`;
+    modalImg.src = imgUrl;
+    modalCaption.innerHTML = `
+      <div class="flex items-center justify-between text-xs font-bold text-primary uppercase">
+        <span>📰 ${newspaper}</span>
+        <span class="text-gray-400">${date}</span>
+      </div>
+      <h3 class="text-xl font-bold text-neutral-dark font-heading leading-snug">${title}</h3>
+      <p class="text-sm text-gray-500 leading-relaxed">${summary}</p>
+    `;
 
-        document.body.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeClippingModal(force = false) {
+    const modal = document.getElementById("nc-modal");
+    if (!modal) return;
+
+    if (force || event.target === modal) {
+      modal.querySelector('div').classList.add('scale-95');
+      setTimeout(() => {
+        modal.classList.remove("flex");
+        modal.classList.add("hidden");
+        document.body.style.overflow = '';
+      }, 250);
     }
+  }
 
-    function closeModal() {
-        console.log("Closing modal");
-        const modal = document.getElementById("nc-modal");
-        if (modal) {
-            modal.classList.remove("active");
-        }
-        document.body.style.overflow = 'auto';
+  // Handle Escape
+  window.addEventListener('keydown', function (e) {
+    if (e.key === "Escape") {
+      closeClippingModal(true);
     }
-
-    // Expose functions globally
-    window.openModal = openModal;
-    window.closeModal = closeModal;
-
-    // Handle Escape key
-    window.addEventListener('keydown', function (e) {
-        if (e.key === "Escape") {
-            closeModal();
-        }
-    });
+  });
 </script>
 
-{% endblock %}
-
-{% block extra_js %}
-{# Removed static JS dependency #}
 {% endblock %}

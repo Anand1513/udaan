@@ -1,99 +1,166 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ project.title }} - Project Details{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/project_detail.css' %}?v=3">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-{% endblock %}
+{% block title %}{{ project.title }} - Project Details - UDAAN Society{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-section" style="background-image: url('https://udaansociety.org/static/assets/img/hero-bg.jpg');">
-    <div class="hero-content">
-        <h1>PROJECT</h1>
-        <p>Overview about the projects we have done so far.</p>
-    </div>
+
+<!-- Hero Banner -->
+<section class="subpage-hero">
+  <div class="max-w-4xl mx-auto px-6 relative z-10 space-y-4">
+    <span class="bg-accent text-neutral-dark text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm">Operational Milestone</span>
+    <h1 class="text-3xl sm:text-4xl font-extrabold font-heading tracking-tight leading-tight uppercase font-heading">Project Details</h1>
+  </div>
 </section>
 
 <!-- Breadcrumbs -->
-<div class="container breadcrumbs">
-    <p><a href="{% url 'home' %}">Home</a> > <a href="{% url 'project_list' %}">Projects</a> > <span class="current">{{
-            project.title }}</span></p>
+<div class="bg-neutral-light border-b border-gray-100 py-4">
+  <div class="max-w-7xl mx-auto px-6 text-sm text-gray-500 flex items-center gap-2">
+    <a href="{% url 'home' %}" class="hover:text-primary transition-colors">Home</a>
+    <span>»</span>
+    <a href="{% url 'project_list' %}" class="hover:text-primary transition-colors">Projects</a>
+    <span>»</span>
+    <span class="text-gray-400 line-clamp-1">{{ project.title }}</span>
+  </div>
 </div>
 
 <!-- Main Content Area -->
-<div class="container project-detail-layout">
-    <main class="project-main-content">
-        <h2 class="project-title">{{ project.title }}</h2>
+<div class="max-w-7xl mx-auto px-6 py-16 lg:py-24">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+    
+    <!-- Left: Project Content -->
+    <main class="lg:col-span-8 bg-white shadow-soft rounded-2xl p-6 md:p-8 border border-gray-100/50 space-y-6">
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-neutral-dark font-heading leading-tight">{{ project.title }}</h2>
 
-        <div class="project-image-wrapper">
-            {% if project.image %}
-            <img src="{{ project.image.url }}" alt="{{ project.title }}" class="project-main-image"
-                data-lightbox="project-image">
-            {% endif %}
-        </div>
+      {% if project.image %}
+      <div class="rounded-xl overflow-hidden shadow-soft max-h-[450px] cursor-zoom-in" onclick="openLightbox('{{ project.image.url }}')">
+        <img src="{{ project.image.url }}" alt="{{ project.title }}" class="w-full h-full object-cover">
+      </div>
+      {% endif %}
 
-        <div class="project-content">
-            {{ project.content|safe }}
-        </div>
-
+      <div class="prose max-w-none text-gray-600 leading-relaxed text-sm space-y-4 pt-2">
+        {% if project.content %}
+          {{ project.content|safe }}
+        {% else %}
+          <p>{{ project.description }}</p>
+        {% endif %}
+      </div>
     </main>
 
-    <aside class="project-sidebar">
-        <div class="sidebar-block">
-            <h3>Achievements Under This Project</h3>
-            <ul>
-                <li>57,023 youths trained and 43,046 successfully placed</li>
-            </ul>
-        </div>
+    <!-- Right: Sidebar details -->
+    <aside class="lg:col-span-4 space-y-8">
+      
+      <!-- Achievements -->
+      <div class="bg-primary-light border border-primary/10 rounded-2xl p-6 space-y-3">
+        <h3 class="text-sm font-bold text-primary-dark uppercase tracking-wider">Achievements</h3>
+        <ul class="text-xs text-gray-600 space-y-2">
+          <li class="flex items-start gap-2">🎯 <span class="leading-relaxed">57,000+ youths trained and empowered across field campaigns.</span></li>
+        </ul>
+      </div>
 
-        <div class="sidebar-block">
-            <h3>Project Organiser</h3>
-            <p>Bandhan's Skill Development Department</p>
-        </div>
+      <!-- Organizer -->
+      <div class="bg-white shadow-soft border border-gray-100/60 rounded-2xl p-6 space-y-2">
+        <h3 class="text-xs font-bold text-gray-400 uppercase tracking-wider">Project Organiser</h3>
+        <p class="text-sm font-bold text-neutral-dark">UDAAN Skill Development Division</p>
+      </div>
 
-        <div class="sidebar-block">
-            <h3>Project Details</h3>
-            <p><i class="fas fa-map-marker-alt icon"></i> Location: Aligarh</p>
-            <p><i class="fas fa-calendar-alt icon"></i> Date: {{ project.date|date:"d/m/Y" }}</p>
-            <p><i class="fas fa-envelope icon"></i> Email: <a
-                    href="mailto:mail@udaansociety.org">mail@udaansociety.org</a></p>
-            <p><i class="fas fa-phone-alt icon"></i> Phone: 9837067681</p>
+      <!-- Project details metadata -->
+      <div class="bg-white shadow-soft border border-gray-100/60 rounded-2xl p-6 space-y-4">
+        <h3 class="text-sm font-bold text-neutral-dark uppercase tracking-wider border-b border-gray-100 pb-2">Campaign Details</h3>
+        <div class="text-xs space-y-3 font-semibold text-gray-600">
+          <div class="flex items-center gap-2.5">
+            <span class="text-gray-400 w-5 text-center">📍</span>
+            <span>Location: Aligarh, UP</span>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <span class="text-gray-400 w-5 text-center">📅</span>
+            <span>Date: {{ project.date|date:"F d, Y" }}</span>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <span class="text-gray-400 w-5 text-center">✉</span>
+            <span>Email: <a href="mailto:mail@udaansociety.org" class="text-primary underline">mail@udaansociety.org</a></span>
+          </div>
+          <div class="flex items-center gap-2.5">
+            <span class="text-gray-400 w-5 text-center">📞</span>
+            <span>Phone: +91 98370 67681</span>
+          </div>
         </div>
+      </div>
 
-        <div class="sidebar-block map-container">
-            <h3>Project Location</h3>
-            <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d111812.87198755694!2d78.01633512349704!3d27.904874639906473!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3974a4362142e88b%3A0x6e788c750b3360b9!2sAligarh%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1706597792683!5m2!1sen!2sin"
-                width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"
-                referrerpolicy="no-referrer-when-downgrade"></iframe>
+      <!-- Project Map -->
+      <div class="bg-white shadow-soft border border-gray-100/60 rounded-2xl p-6 space-y-3">
+        <h3 class="text-sm font-bold text-neutral-dark uppercase tracking-wider">Geographic Map</h3>
+        <div class="rounded-xl overflow-hidden h-48 border border-gray-200">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d111812.87198755694!2d78.01633512349704!3d27.904874639906473!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3974a4362142e88b%3A0x6e788c750b3360b9!2sAligarh%2C%20Uttar%20Pradesh!5e0!3m2!1sen!2sin!4v1706597792683!5m2!1sen!2sin"
+            width="100%" height="100%" class="border-0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
         </div>
+      </div>
 
-        <div class="sidebar-block share-project">
-            <h3>Share This Project</h3>
-            <div class="share-buttons">
-                <a href="https://www.facebook.com/sharer/sharer.php?u=YOUR_PAGE_URL" target="_blank"
-                    class="share-btn facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="https://twitter.com/intent/tweet?url=YOUR_PAGE_URL&text=Check%20out%20this%20amazing%20project!"
-                    target="_blank" class="share-btn twitter"><i class="fab fa-twitter"></i></a>
-                <a href="https://api.whatsapp.com/send?text=Check%20out%20this%20amazing%20project!%20YOUR_PAGE_URL"
-                    target="_blank" class="share-btn whatsapp"><i class="fab fa-whatsapp"></i></a>
-                <a href="mailto:?subject=Check%20out%20this%20project&body=I%20thought%20you%20might%20be%20interested%20in%20this%20project:%20YOUR_PAGE_URL"
-                    target="_blank" class="share-btn email"><i class="fas fa-envelope"></i></a>
-            </div>
+      <!-- Share widget -->
+      <div class="bg-white shadow-soft border border-gray-100/60 rounded-2xl p-6 space-y-4">
+        <h3 class="text-sm font-bold text-neutral-dark uppercase tracking-wider border-b border-gray-100 pb-2">Share This Project</h3>
+        <div class="flex gap-2.5">
+          <a href="#" onclick="shareSocial('facebook')" class="bg-gray-100 hover:bg-secondary hover:text-white w-8 h-8 text-gray-600 flex items-center justify-center rounded-full transition-all text-sm" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" onclick="shareSocial('twitter')" class="bg-gray-100 hover:bg-neutral-dark hover:text-white w-8 h-8 text-gray-600 flex items-center justify-center rounded-full transition-all text-sm" aria-label="Share on Twitter"><i class="fab fa-x-twitter"></i></a>
+          <a href="#" onclick="shareSocial('linkedin')" class="bg-gray-100 hover:bg-secondary-dark hover:text-white w-8 h-8 text-gray-600 flex items-center justify-center rounded-full transition-all text-sm" aria-label="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" onclick="shareSocial('whatsapp')" class="bg-gray-100 hover:bg-green-500 hover:text-white w-8 h-8 text-gray-600 flex items-center justify-center rounded-full transition-all text-sm" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
         </div>
+      </div>
+
     </aside>
+  </div>
 </div>
 
-<!-- Lightbox Modal -->
-<div id="lightbox" class="lightbox">
-    <span class="close-btn">&times;</span>
-    <img class="lightbox-content" id="lightbox-img">
-    <div id="lightbox-caption"></div>
+<!-- Simple Lightbox Modal -->
+<div id="lightbox-modal" class="fixed inset-0 bg-black/90 z-[200] hidden items-center justify-center p-4 cursor-zoom-out" onclick="closeLightbox()">
+  <img id="lightbox-img" class="max-w-full max-h-full rounded-lg shadow-2xl transition-all duration-300 transform scale-95" alt="Lightbox Image">
 </div>
 
-<script src="{% static 'js/project_detail.js' %}"></script>
+<script>
+  function openLightbox(url) {
+    const lb = document.getElementById('lightbox-modal');
+    const img = document.getElementById('lightbox-img');
+    img.src = url;
+    lb.classList.remove('hidden');
+    lb.classList.add('flex');
+    setTimeout(() => img.classList.remove('scale-95'), 50);
+  }
+
+  function closeLightbox() {
+    const lb = document.getElementById('lightbox-modal');
+    const img = document.getElementById('lightbox-img');
+    img.classList.add('scale-95');
+    setTimeout(() => {
+      lb.classList.remove('flex');
+      lb.classList.add('hidden');
+    }, 200);
+  }
+
+  function shareSocial(platform) {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent("Check out this amazing UDAAN project: {{ project.title|escapejs }}");
+    let shareUrl = "";
+    
+    switch (platform) {
+      case "facebook":
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        break;
+      case "twitter":
+        shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+        break;
+      case "linkedin":
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+        break;
+      case "whatsapp":
+        shareUrl = `https://api.whatsapp.com/send?text=${title}%20${url}`;
+        break;
+    }
+    
+    if (shareUrl) {
+      window.open(shareUrl, "_blank", "width=600,height=400");
+    }
+  }
+</script>
+
 {% endblock %}
