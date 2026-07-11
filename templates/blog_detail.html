@@ -1,211 +1,151 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ blog.title }}{% endblock %}
+{% block title %}{{ blog.title }} - UDAAN Society Blog{% endblock %}
 
 {% block content %}
 
-
-<!-- Blog Detail CSS -->
-<link rel="stylesheet" href="{% static 'css/blog_detail.css' %}">
-<link rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
-<!-- ================= HERO ================= -->
-<section class="hero">
-    <div class="hero-image">
-        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&h=500&fit=crop">
-        <div class="hero-overlay"></div>
-    </div>
-
-    <div class="hero-content">
-        <h1>BLOG POST</h1>
-    </div>
+<!-- Hero Banner -->
+<section class="subpage-hero">
+  <div class="max-w-4xl mx-auto px-6 relative z-10 space-y-4">
+    <span class="bg-accent text-neutral-dark text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm">Journal Details</span>
+    <h1 class="text-3xl sm:text-4xl font-extrabold font-heading tracking-tight leading-tight uppercase font-heading">Blog Details</h1>
+  </div>
 </section>
 
-
-<!-- ================= BREADCRUMB ================= -->
-<div class="breadcrumb">
-    <div class="container">
-
-        <a href="{% url 'home' %}">Home</a>
-        <span class="sep">»</span>
-
-        <a href="{% url 'blogs' %}">Blog</a>
-        <span class="sep">»</span>
-
-        <span class="current">
-            {{ blog.title|truncatechars:40 }}
-        </span>
-
-    </div>
+<!-- Breadcrumb -->
+<div class="bg-neutral-light border-b border-gray-100 py-4">
+  <div class="max-w-7xl mx-auto px-6 text-sm text-gray-500 flex items-center gap-2">
+    <a href="{% url 'home' %}" class="hover:text-primary transition-colors">Home</a>
+    <span>»</span>
+    <a href="{% url 'blogs' %}" class="hover:text-primary transition-colors">Blog</a>
+    <span>»</span>
+    <span class="text-gray-400 line-clamp-1">{{ blog.title }}</span>
+  </div>
 </div>
 
-
-<!-- ================= BLOG DETAIL ================= -->
-<section class="blog-detail">
-    <div class="container detail-grid">
-
-
-        <!-- ========= LEFT CONTENT ========= -->
-        <div class="blog-main">
-
-            <h1 class="blog-title">
-                {{ blog.title }}
-            </h1>
-
-            <div class="blog-meta">
-                <span>
-                    📅 {{ blog.created_at|date:"F d, Y" }}
-                </span>
-
-                <span>
-                    💬 No Comments
-                </span>
-            </div>
-
-
-            <!-- Blog Image -->
-            <div class="blog-image">
-                <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
-            </div>
-
-
-            <!-- Blog Content -->
-            <div class="blog-content">
-
-                {% if blog.description %}
-                   {{ blog.content|safe }}
-
-                {% elif blog.content %}
-                    {{ blog.content|safe }}
-
-                {% else %}
-                    <p>No content available.</p>
-                {% endif %}
-
-            </div>
-
+<!-- Main Body -->
+<div class="max-w-7xl mx-auto px-6 py-16 lg:py-24">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+    
+    <!-- Left Column: Blog Post Content -->
+    <article class="lg:col-span-8 bg-white shadow-soft rounded-2xl p-6 md:p-8 border border-gray-100/50 space-y-6">
+      
+      <div class="space-y-3">
+        <h1 class="text-2xl sm:text-3xl font-extrabold text-neutral-dark font-heading leading-tight">{{ blog.title }}</h1>
+        <div class="flex items-center gap-4 text-xs font-semibold text-gray-400">
+          <span>📅 {{ blog.created_at|date:"F d, Y" }}</span>
+          <span>💬 No Comments</span>
         </div>
+      </div>
 
+      {% if blog.image %}
+      <div class="rounded-xl overflow-hidden shadow-soft max-h-[450px]">
+        <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="w-full h-full object-cover">
+      </div>
+      {% endif %}
 
+      <div class="prose max-w-none text-gray-600 leading-relaxed text-sm space-y-4">
+        {% if blog.content %}
+          {{ blog.content|safe }}
+        {% elif blog.description %}
+          <p>{{ blog.description }}</p>
+        {% else %}
+          <p class="text-gray-400 italic">No details available for this post.</p>
+        {% endif %}
+      </div>
 
-        <!-- ========= RIGHT SIDEBAR ========= -->
-        <aside class="blog-sidebar">
+    </article>
 
+    <!-- Right Column: Sidebar -->
+    <aside class="lg:col-span-4 space-y-8">
+      
+      <!-- Brand Sidebar Widget -->
+      <div class="bg-gradient-to-br from-primary/5 to-primary/15 rounded-2xl p-6 border border-primary/10 text-center space-y-4">
+        <img src="{% static 'assets/logo.webp' %}" alt="UDAAN Society Logo" class="h-16 w-auto mx-auto rounded-full shadow-sm">
+        <p class="text-xs text-gray-600 leading-relaxed">
+          Empowering communities through child education, groundwater recharge management, and shelter homes support systems.
+        </p>
+      </div>
 
-            <!-- About Box -->
-            <div class="side-box sidebar-about">
-
-    <img src="{% static 'assets/logo.webp' %}" 
-         alt="UDAAN Society Logo"
-         class="sidebar-logo">
-
-    <p>
-        Empowering communities through education,
-        health and social development.
-    </p>
-
-</div>
-
-<div class="side-box campaign-box">
-
-        <h3>Support a Campaign</h3>
-
-        {% for c in campaigns %}
-
-        <div class="campaign-card">
-
-            <img src="{{ c.image.url }}" alt="{{ c.title }}">
-
-            <div class="campaign-body">
-
-                <h4>{{ c.title|truncatechars:50 }}</h4>
-
-                <a href="{% url 'campaign_detail' c.id %}">
-                    VIEW »
-                </a>
-
-                <span>
-                    {{ c.created_at|date:"F d, Y" }}
-                </span>
-
+      <!-- Support Campaign Sidebar Widget -->
+      {% if campaigns %}
+      <div class="bg-white rounded-2xl p-6 shadow-soft border border-gray-100/60 space-y-4">
+        <h3 class="text-sm font-bold text-neutral-dark uppercase tracking-wider border-b border-gray-100 pb-2">Support Campaigns</h3>
+        
+        <div class="space-y-4">
+          {% for c in campaigns %}
+          <div class="flex gap-3 items-center">
+            <img src="{{ c.image.url }}" alt="{{ c.title }}" class="w-12 h-12 rounded-lg object-cover bg-gray-50 flex-shrink-0">
+            <div class="space-y-1">
+              <h4 class="text-xs font-bold text-neutral-dark line-clamp-1 leading-snug">{{ c.title }}</h4>
+              <a href="{% url 'donate' %}" class="text-primary hover:text-primary-dark font-bold text-[10px] uppercase">Donate →</a>
             </div>
-
+          </div>
+          {% endfor %}
         </div>
+      </div>
+      {% endif %}
 
-        {% endfor %}
-
-    </div>
-
-
-            <!-- Recent Blogs -->
-            <div class="side-box">
-
-                <h3>Recent Blog Posts</h3>
-
-
-                {% for b in recent_blogs %}
-
-                <div class="recent-item">
-
-                    <img src="{{ b.image.url }}" alt="{{ b.title }}">
-
-                    <div class="recent-text">
-
-                        <a href="{% url 'blog_detail' b.id %}">
-                            {{ b.title|truncatechars:45 }}
-                        </a>
-
-                        <small>
-                            {{ b.created_at|date:"M d, Y" }}
-                        </small>
-
-                    </div>
-
-                </div>
-
-                {% empty %}
-
-                <p>No recent blogs.</p>
-
-                {% endfor %}
-
-
+      <!-- Recent Blogs Sidebar Widget -->
+      {% if recent_blogs %}
+      <div class="bg-white rounded-2xl p-6 shadow-soft border border-gray-100/60 space-y-4">
+        <h3 class="text-sm font-bold text-neutral-dark uppercase tracking-wider border-b border-gray-100 pb-2">Recent Blog Posts</h3>
+        
+        <div class="space-y-4">
+          {% for b in recent_blogs %}
+          <div class="flex gap-3 items-center">
+            <img src="{{ b.image.url }}" alt="{{ b.title }}" class="w-12 h-12 rounded-lg object-cover bg-gray-50 flex-shrink-0">
+            <div class="space-y-1">
+              <a href="{% url 'blog_detail' b.id %}" class="text-xs font-bold text-neutral-dark hover:text-primary transition-colors line-clamp-1 leading-snug">{{ b.title }}</a>
+              <span class="text-[10px] text-gray-400 block font-semibold">{{ b.created_at|date:"M d, Y" }}</span>
             </div>
+          </div>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
 
+      <!-- Share Sidebar Widget -->
+      <div class="bg-white rounded-2xl p-6 shadow-soft border border-gray-100/60 space-y-4">
+        <h3 class="text-sm font-bold text-neutral-dark uppercase tracking-wider border-b border-gray-100 pb-2">Share This Post</h3>
+        <div class="flex gap-2.5">
+          <a href="#" onclick="shareSocial('facebook')" class="bg-gray-100 hover:bg-secondary hover:text-white w-8 h-8 text-gray-600 flex items-center justify-center rounded-full transition-all text-sm" aria-label="Share on Facebook"><i class="fab fa-facebook-f"></i></a>
+          <a href="#" onclick="shareSocial('twitter')" class="bg-gray-100 hover:bg-neutral-dark hover:text-white w-8 h-8 text-gray-600 flex items-center justify-center rounded-full transition-all text-sm" aria-label="Share on Twitter"><i class="fab fa-x-twitter"></i></a>
+          <a href="#" onclick="shareSocial('linkedin')" class="bg-gray-100 hover:bg-secondary-dark hover:text-white w-8 h-8 text-gray-600 flex items-center justify-center rounded-full transition-all text-sm" aria-label="Share on LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+          <a href="#" onclick="shareSocial('whatsapp')" class="bg-gray-100 hover:bg-green-500 hover:text-white w-8 h-8 text-gray-600 flex items-center justify-center rounded-full transition-all text-sm" aria-label="Share on WhatsApp"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
 
-
-            <!-- Share Box -->
-           <div class="side-box">
-
-    <h3>Share This Post</h3>
-
-    <div class="share-icons-modern">
-
-        <a href="#" class="fb"><i class="fab fa-facebook-f"></i></a>
-        <a href="#" class="ig"><i class="fab fa-instagram"></i></a>
-        <a href="#" class="in"><i class="fab fa-linkedin-in"></i></a>
-        <a href="#" class="yt"><i class="fab fa-youtube"></i></a>
-        <a href="#" class="wa"><i class="fab fa-whatsapp"></i></a>
-        <a href="#" class="tg"><i class="fab fa-telegram-plane"></i></a>
-
-    </div>
-
+    </aside>
+  </div>
 </div>
 
-
-
-        </aside>
-
-
-    </div>
-</section>
-
-
-
-<!-- ================= CTA ================= -->
-
+<script>
+  function shareSocial(platform) {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent("{{ blog.title|escapejs }}");
+    let shareUrl = "";
+    
+    switch (platform) {
+      case "facebook":
+        shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+        break;
+      case "twitter":
+        shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+        break;
+      case "linkedin":
+        shareUrl = `https://www.linkedin.com/sharing/share-offsite/?url=${url}`;
+        break;
+      case "whatsapp":
+        shareUrl = `https://api.whatsapp.com/send?text=${title}%20${url}`;
+        break;
+    }
+    
+    if (shareUrl) {
+      window.open(shareUrl, "_blank", "width=600,height=400");
+    }
+  }
+</script>
 
 {% endblock %}

@@ -1,103 +1,188 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Annual Report - UDAAN Society{% endblock %}
-
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/annual.css' %}">
-{% endblock %}
+{% block title %}Annual Reports & Audited Financials - UDAAN Society{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero">
-    <div class="hero-overlay"></div>
-    <div class="hero-content">
-        <h1>OUR ANNUAL REPORTS</h1>
-    </div>
+
+<!-- Hero Banner -->
+<section class="subpage-hero">
+  <div class="max-w-4xl mx-auto px-6 relative z-10 space-y-4">
+    <span class="bg-accent text-neutral-dark text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm">Transparency</span>
+    <h1 class="text-4xl sm:text-5xl font-extrabold font-heading tracking-tight leading-tight uppercase font-heading">Annual Reports</h1>
+    <p class="text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
+      Browse our registered annual reports and audited statements showing resource allocation and project executions.
+    </p>
+  </div>
 </section>
 
-
-<div class="breadcrumb">
-    <div class="container">
-        <a href="{% url 'home' %}">Home</a>
-        <span class="sep">»</span>
-        <span class="current">Annual Report</span>
-    </div>
+<!-- Breadcrumb -->
+<div class="bg-neutral-light border-b border-gray-100 py-4">
+  <div class="max-w-7xl mx-auto px-6 text-sm text-gray-500 flex items-center gap-2">
+    <a href="{% url 'home' %}" class="hover:text-primary transition-colors">Home</a>
+    <span>»</span>
+    <span class="text-gray-400">Annual Reports</span>
+  </div>
 </div>
 
-<!-- Main Content -->
-<div class="main-content">
+<!-- Main Body -->
+<div class="max-w-7xl mx-auto px-6 py-16 lg:py-24 space-y-12">
+  
+  <div class="max-w-3xl mx-auto text-center space-y-4">
+    <h2 class="text-3xl font-extrabold text-neutral-dark font-heading">Audited Statements & Financials</h2>
+    <p class="text-gray-600 text-sm">Review our transparent financial sheets, project allocations, and compliance certificates.</p>
+  </div>
 
-    <div class="section-title">
-        <h2>ANNUAL <span>REPORTS</span></h2>
-        <p>A course or principle of action proposed by UDAAN Society.</p>
+  <!-- Interactive Grid Layout -->
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+    
+    <!-- Left column: Sidebar Report List (4 cols) -->
+    <div class="lg:col-span-4 space-y-6">
+      <div class="bg-white shadow-premium rounded-3xl p-6 border border-gray-100/50 space-y-4">
+        <h3 class="text-xs font-bold text-neutral-dark uppercase tracking-wider border-b border-gray-100 pb-3">Available Reports</h3>
+        
+        <div class="space-y-4 max-h-[600px] overflow-y-auto pr-2" id="reportCardList">
+          {% for report in reports %}
+          <div class="report-card year-tab p-4 bg-white rounded-2xl border transition-all duration-300 flex flex-col gap-3 cursor-pointer {% if forloop.first %}border-primary ring-2 ring-primary/5 active{% else %}border-gray-100 hover:border-gray-200{% endif %}"
+               data-year="{{ report.title }}" data-file="{{ report.file.url }}">
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center font-bold text-lg flex-shrink-0">
+                <i class="far fa-file-pdf"></i>
+              </div>
+              <div class="flex-1">
+                <h4 class="font-bold text-neutral-dark text-sm">FY {{ report.title }}</h4>
+                <p class="text-gray-500 text-[10px] uppercase font-bold tracking-wider mt-0.5">Audited Statement</p>
+              </div>
+            </div>
+            <div class="flex items-center gap-2 pt-2 border-t border-gray-50">
+              <a href="{{ report.file.url }}" download class="flex-1 text-center py-2 bg-neutral-light hover:bg-gray-200 text-gray-700 text-[11px] font-bold rounded-lg transition-colors flex items-center justify-center gap-1">
+                <i class="fas fa-download text-[9px]"></i> Download
+              </a>
+              <button type="button" class="flex-1 text-center py-2 bg-primary hover:bg-primary-dark text-white text-[11px] font-bold rounded-lg transition-colors">
+                View Online
+              </button>
+            </div>
+          </div>
+          {% empty %}
+          <p class="text-xs text-gray-400 font-bold py-6 text-center">No annual reports available.</p>
+          {% endfor %}
+        </div>
+      </div>
+      
+      <!-- Trust Panel -->
+      <div class="bg-primary-light/50 border border-primary/10 rounded-3xl p-6 space-y-4">
+        <h4 class="font-bold text-primary-dark text-sm flex items-center gap-2">
+          <span>🛡️</span> Financial Transparency
+        </h4>
+        <p class="text-xs text-gray-600 leading-relaxed">
+          UDAAN Society is registered under Section 12A of the Income Tax Act, 1961, and has 80G validation. All contributions made are eligible for 50% tax deductions.
+        </p>
+        <div class="text-[10px] text-gray-500 font-bold space-y-1">
+          <p>• Auditors: Gupta & Associates, Chartered Accountants</p>
+          <p>• Compliance: Registered under Societies Registration Act XXI, 1860</p>
+        </div>
+      </div>
     </div>
 
-    <div class="report-viewer-wrapper" id="reportViewer">
+    <!-- Right column: Main Document Viewer / Details (8 cols) -->
+    <div class="lg:col-span-8 bg-white shadow-premium rounded-3xl p-6 border border-gray-100/50 space-y-6" id="reportViewer">
+      
+      <!-- Active Report Heading & Meta -->
+      <div class="flex flex-wrap items-center justify-between gap-4 border-b border-gray-100 pb-4">
+        <div>
+          <h3 class="font-bold text-neutral-dark text-lg font-heading" id="activeReportTitle">FY {{ reports.0.title }} Audited Report</h3>
+          <p class="text-xs text-gray-500 mt-1 font-semibold">Live document portal for resource auditing.</p>
+        </div>
+        <!-- Status indicator -->
+        <span class="bg-emerald-50 text-emerald-600 border border-emerald-100 text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1.5">
+          <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Verifiable Audit
+        </span>
+      </div>
 
-        <!-- Year Tabs -->
-        <div class="year-tabs">
-            {% for report in reports %}
-            <div class="year-tab {% if forloop.first %}active{% endif %}" data-year="{{ report.title }}" data-file="{{ report.file.url }}">{{ report.title }}</div>
-            {% empty %}
-            <p style="text-align: center; width: 100%; color: #666;">No reports available.</p>
-            {% endfor %}
+      <!-- Viewer Toolbar controls -->
+      <div class="bg-neutral-light rounded-2xl p-4 flex flex-wrap gap-4 items-center justify-between border border-gray-100">
+        
+        <!-- Pagination -->
+        <div class="flex items-center gap-2">
+          <button class="w-8 h-8 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 flex items-center justify-center text-xs transition-all cursor-pointer" id="prevBtn">
+            <i class="fas fa-chevron-left"></i>
+          </button>
+          <div class="flex items-center gap-1.5 text-xs text-gray-500 font-semibold">
+            <input type="number" id="pageInput" value="1" min="1" class="w-12 px-2 py-1 bg-white border border-gray-200 rounded text-center focus:outline-none focus:ring-1 focus:ring-primary text-xs font-bold">
+            <span>of <span id="totalPages" class="font-bold text-neutral-dark">--</span></span>
+          </div>
+          <button class="w-8 h-8 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 flex items-center justify-center text-xs transition-all cursor-pointer" id="nextBtn">
+            <i class="fas fa-chevron-right"></i>
+          </button>
         </div>
 
-        <!-- Toolbar -->
-        <div class="viewer-toolbar">
-
-            <div class="toolbar-group">
-                <button class="toolbar-btn" id="prevBtn">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
-
-                <div class="page-indicator">
-                    <input type="number" id="pageInput" value="1" min="1">
-                    <span>of <span id="totalPages">--</span></span>
-                </div>
-
-                <button class="toolbar-btn" id="nextBtn">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-
-            <div class="toolbar-group zoom-controls">
-                <button class="toolbar-btn" id="zoomOut"><i class="fas fa-minus"></i></button>
-                <span id="zoomLevel">100%</span>
-                <button class="toolbar-btn" id="zoomIn"><i class="fas fa-plus"></i></button>
-            </div>
-
-            <div class="toolbar-group">
-                <button class="toolbar-btn icon-btn" id="downloadBtn">
-                    <i class="fas fa-download"></i>
-                </button>
-
-                <button class="toolbar-btn icon-btn" id="fullscreenBtn">
-                    <i class="fas fa-expand"></i>
-                </button>
-            </div>
-
+        <!-- Zoom Controls -->
+        <div class="flex items-center gap-2">
+          <button class="w-8 h-8 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 flex items-center justify-center text-xs transition-all cursor-pointer" id="zoomOut">
+            <i class="fas fa-minus"></i>
+          </button>
+          <span id="zoomLevel" class="text-xs font-bold text-neutral-dark min-w-[40px] text-center">100%</span>
+          <button class="w-8 h-8 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 flex items-center justify-center text-xs transition-all cursor-pointer" id="zoomIn">
+            <i class="fas fa-plus"></i>
+          </button>
         </div>
 
-        <div class="pdf-container" id="pdfContainer">
-            <div class="pdf-loading" id="pdfLoading">
-                <i class="fas fa-spinner fa-spin"></i>
-                <span>Loading PDF...</span>
-            </div>
-            
-            <div class="pdf-error" id="pdfError" style="display: none;">
-                <i class="fas fa-exclamation-triangle"></i>
-                <span>Failed to load PDF. Please try again.</span>
-            </div>
-
-            <canvas id="pdfCanvas"></canvas>
+        <!-- Actions -->
+        <div class="flex items-center gap-2">
+          <button class="w-8 h-8 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 flex items-center justify-center text-xs transition-all cursor-pointer" id="downloadBtn" title="Download Document">
+            <i class="fas fa-download"></i>
+          </button>
+          <button class="w-8 h-8 rounded-lg bg-white border border-gray-200 text-gray-600 hover:bg-gray-50 flex items-center justify-center text-xs transition-all cursor-pointer" id="fullscreenBtn" title="View Fullscreen">
+            <i class="fas fa-expand"></i>
+          </button>
         </div>
+
+      </div>
+
+      <!-- PDF Canvas Area -->
+      <div class="rounded-2xl border border-gray-200/60 bg-gray-50 relative overflow-auto flex items-center justify-center min-h-[500px] p-4" id="pdfContainer">
+        <div class="absolute flex flex-col items-center justify-center gap-3 text-xs text-gray-500 font-bold" id="pdfLoading">
+          <i class="fas fa-spinner fa-spin text-primary text-3xl"></i>
+          <span>Rendering Audited Statement...</span>
+        </div>
+        
+        <div class="absolute flex flex-col items-center justify-center gap-3 text-xs text-red-500 font-bold hidden" id="pdfError">
+          <i class="fas fa-exclamation-triangle text-3xl"></i>
+          <span>Failed to load PDF. Please download or reload.</span>
+        </div>
+
+        <canvas id="pdfCanvas" class="shadow-md bg-white rounded-lg"></canvas>
+      </div>
 
     </div>
+
+  </div>
+
 </div>
 
-<!-- JS -->
+<!-- scripts -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="{% static 'js/annual.js' %}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const reportCards = document.querySelectorAll('.report-card');
+    const activeTitle = document.getElementById('activeReportTitle');
+    
+    reportCards.forEach(card => {
+      card.addEventListener('click', () => {
+        reportCards.forEach(c => {
+          c.classList.remove('border-primary', 'ring-2', 'ring-primary/5', 'active');
+          c.classList.add('border-gray-100');
+        });
+        card.classList.add('border-primary', 'ring-2', 'ring-primary/5', 'active');
+        card.classList.remove('border-gray-100');
+        
+        // Update Title
+        const year = card.getAttribute('data-year');
+        activeTitle.textContent = `FY ${year} Audited Report`;
+      });
+    });
+  });
+</script>
+
 {% endblock %}

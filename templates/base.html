@@ -18,7 +18,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Custom Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Outfit:wght@300;400;500;600;700&family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
 
     <!-- Custom Config for Tailwind -->
     <script>
@@ -27,22 +27,61 @@
                 extend: {
                     fontFamily: {
                         sans: ['Outfit', 'sans-serif'],
+                        heading: ['Manrope', 'Poppins', 'sans-serif'],
+                        serifTitle: ['Playfair Display', 'serif'],
                     },
                     colors: {
-                        brand: {
-                            red: '#E63946',
-                            dark: '#1D3557',
-                            light: '#F1FAEE',
-                            blue: '#457B9D',
+                        primary: {
+                            DEFAULT: '#dc2626',
+                            light: '#fee2e2',
+                            dark: '#991b1b'
+                        },
+                        secondary: {
+                            DEFAULT: '#1565C0',
+                            light: '#E3F2FD',
+                            dark: '#0D47A1'
+                        },
+                        accent: {
+                            DEFAULT: '#FFB300',
+                            light: '#FFF8E1',
+                            dark: '#FF8F00'
+                        },
+                        neutral: {
+                            light: '#FAFAFA',
+                            card: '#FFFFFF',
+                            dark: '#1F2937'
                         }
+                    },
+                    boxShadow: {
+                        soft: '0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 8px -1px rgba(0, 0, 0, 0.03)',
+                        premium: '0 20px 40px -15px rgba(0, 0, 0, 0.08), 0 15px 25px -10px rgba(0, 0, 0, 0.04)',
+                        hover: '0 30px 60px -15px rgba(46, 125, 50, 0.12), 0 20px 35px -10px rgba(0, 0, 0, 0.06)'
                     }
                 }
             }
         }
     </script>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/nav.css' %}?v=4">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=4">
+    <link rel="stylesheet" href="{% static 'css/design_system.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'css/nav.css' %}?v=5">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=5">
+    <style>
+        body {
+            padding-top: 104px !important;
+        }
+        @media (max-width: 768px) {
+            body {
+                padding-top: 140px !important;
+            }
+            .main-nav .nav-menu {
+                top: 140px !important;
+                max-height: calc(100vh - 140px) !important;
+            }
+        }
+        .main-nav .logo-circle {
+            margin: 0;
+        }
+    </style>
     {% block extra_css %}{% endblock %}
 </head>
 
@@ -50,10 +89,32 @@
 
     <!-- Navigation -->
     <nav class="main-nav">
+        <!-- Top Contact & Location Bar -->
+        <div class="bg-[#024b24] text-white py-2 px-6 sm:px-12 flex flex-col md:flex-row justify-between items-center text-xs gap-2 font-heading w-full">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-location-dot text-[#ffb300]"></i>
+                <span>Jal Jeevan Mission – Har Ghar Jal Project &nbsp;|&nbsp; Aligarh & Bulandshahr, Uttar Pradesh</span>
+            </div>
+            <div class="flex items-center gap-6">
+                <a href="mailto:info@udaan.org.in" class="flex items-center gap-2 hover:text-[#ffb300] transition-colors no-underline text-white">
+                    <i class="fa-regular fa-envelope"></i>
+                    <span>info@udaan.org.in</span>
+                </a>
+                <a href="tel:+919876543210" class="flex items-center gap-2 hover:text-[#ffb300] transition-colors no-underline text-white">
+                    <i class="fa-solid fa-phone"></i>
+                    <span>+91 98765 43210</span>
+                </a>
+            </div>
+        </div>
+
         <div class="nav-container">
             <div class="logo">
-                <a href="{% url 'home' %}">
+                <a href="{% url 'home' %}" class="flex items-center gap-3 no-underline">
                     <img class="logo-circle" src="{% static 'assets/logo.webp' %}" alt="UDAAN Society" />
+                    <div class="flex flex-col text-left">
+                        <span class="text-base sm:text-lg font-bold text-[#024b24] tracking-tight leading-none">UDAAN SOCIETY</span>
+                        <span class="text-[9px] text-gray-500 font-semibold tracking-wide mt-1">Empowering Lives. Building Futures.</span>
+                    </div>
                 </a>
             </div>
 
@@ -140,8 +201,10 @@
                     <a href="{% url 'campaign_list' %}" class="nav-link">Campaigns</a>
                 </li>
                 <li class="nav-item">
-                    <a href="/donate/" class="donate-btn">
-                        📱 Donate Now <span>Secured by RazorPay</span></a>
+                    <a href="/donate/" class="bg-[#024b24] hover:bg-[#013519] text-white px-5 py-2.5 rounded-xl font-semibold text-sm transition-all duration-300 flex items-center gap-2 shadow-sm hover:shadow no-underline">
+                        <i class="fa-regular fa-heart"></i>
+                        Donate Now
+                    </a>
                 </li>
             </ul>
         </div>
@@ -162,14 +225,14 @@
                 <div
                     class="support-card bg-white border border-gray-200 shadow-sm rounded-xl p-8 md:p-12 flex flex-col md:flex-row items-center justify-between">
                     <div class="mb-6 md:mb-0">
-                        <span class="text-gray-500 font-bold tracking-widest text-xs uppercase block mb-2">GIVE US A
+                        <span class="text-red-600 font-bold tracking-widest text-xs uppercase block mb-2">GIVE US A
                             HAND</span>
                         <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mb-2">
-                            <span class="text-brand-red">Support Us</span> And Change The <br class="hidden md:block">
+                            <span class="text-red-600">Support Us</span> And Change The <br class="hidden md:block">
                             Course Of A Child's Life Today!
                         </h2>
                         <button
-                            class="text-brand-red font-medium text-sm mt-2 inline-block open-modal-btn bg-transparent border-none p-0 cursor-pointer"
+                            class="text-red-600 font-medium text-sm mt-2 inline-block open-modal-btn bg-transparent border-none p-0 cursor-pointer"
                             data-title="Change a Child's Life"
                             data-content="Your support helps construct entirely new paradigms for the children in our core areas. With proper education, mentorship, and life skills, every child can carve out their own future.">
                             Read more...
@@ -177,7 +240,7 @@
                     </div>
                     <div>
                         <a href="{% url 'donate' %}"
-                            class="donate-btn bg-blue-500 text-white font-bold py-3 px-8 rounded flex items-center shadow-lg transition-all">
+                            class="bg-[#E3F2FD] text-[#0D47A1] hover:bg-[#1565C0] hover:text-white font-bold py-3 px-8 rounded-xl flex items-center border border-[#E3F2FD] hover:border-[#1565C0] transition-all shadow-sm hover:shadow-md">
                             <svg class="w-6 h-6 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                     d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z">
@@ -281,7 +344,7 @@
 
                 <h4 class="text-lg font-bold text-gray-900 mb-6 relative">
                     Stay Connected
-                    <span class="block w-12 h-1 bg-green-500 mt-2"></span>
+                    <span class="block w-12 h-1 bg-red-500 mt-2"></span>
                 </h4>
 
                 <input type="email" placeholder="Enter email"
@@ -372,7 +435,6 @@
     </footer>
 
     <script src="{% static 'js/main.js' %}"></script>
-    <script src="{% static 'js/mouseGlow.js' %}"></script>
 
     <!-- AI Chatbot Integration (Microservice Architecture) -->
     <link rel="stylesheet" href="{% static 'chatbot/chatbot.css' %}">
@@ -492,6 +554,15 @@ AOS.init({
     duration:1000,
     once:true,
     offset:120
+});
+
+// Smooth Parallax Scroll Animation for Subpage Heros
+document.addEventListener('scroll', () => {
+    const scrolled = window.pageYOffset;
+    document.querySelectorAll('.subpage-hero').forEach(hero => {
+        // Moves the background slower than the text container to create smooth visual depth
+        hero.style.backgroundPositionY = `${scrolled * 0.3}px`;
+    });
 });
 </script>
 </body>

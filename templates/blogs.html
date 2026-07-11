@@ -1,145 +1,132 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}Blogs - UDAAN Society{% endblock %}
+{% block title %}Insights & Stories - UDAAN Society Blog{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/blogs.css' %}">
-{% endblock %}
+{% block meta_description %}Read the latest stories, campaign logs, groundwater project updates, and updates from UDAAN Society NGO.{% endblock %}
 
 {% block content %}
-<!-- ================= HERO ================= -->
-<section class="hero">
-    <div class="hero-image">
-        <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&h=500&fit=crop" alt="Blog">
-        <div class="hero-overlay"></div>
-    </div>
-    <div class="hero-content">
-        <h1>BLOG</h1>
-    </div>
+
+<!-- Hero Banner -->
+<section class="subpage-hero">
+  <div class="max-w-4xl mx-auto px-6 relative z-10 space-y-4">
+    <span class="bg-accent text-neutral-dark text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm">NGO Journal</span>
+    <h1 class="text-4xl sm:text-5xl font-extrabold font-heading tracking-tight leading-tight uppercase font-heading">Our Blog</h1>
+    <p class="text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
+      Read stories of impact, project field diaries, and operational updates from our campaigns.
+    </p>
+  </div>
 </section>
 
-<!-- ================= BREADCRUMB ================= -->
-<div class="breadcrumb">
-    <div class="container">
-        <a href="{% url 'home' %}">Home</a>
-        <span class="sep">»</span>
-        <span class="current">Blog</span>
-    </div>
+<!-- Breadcrumb -->
+<div class="bg-neutral-light border-b border-gray-100 py-4">
+  <div class="max-w-7xl mx-auto px-6 text-sm text-gray-500 flex items-center gap-2">
+    <a href="{% url 'home' %}" class="hover:text-primary transition-colors">Home</a>
+    <span>»</span>
+    <span class="text-gray-400">Blog</span>
+  </div>
 </div>
 
-<!-- ================= INTRO ================= -->
-<section class="intro">
-    <div class="container">
-        <h2 class="main-title">LIST OF RECENT <span>BLOG POST</span></h2>
-        <p class="description">
-            Read more about UDAAN Society and explore stories, updates, and insights
-            from our ongoing initiatives and impact-driven work.
-        </p>
+<!-- Main Body -->
+<div class="max-w-7xl mx-auto px-6 py-16 lg:py-24 space-y-12">
+  
+  <!-- Search & Filters -->
+  <div class="bg-white shadow-soft rounded-2xl p-6 border border-gray-100/50 flex flex-col lg:flex-row gap-6 items-center justify-between">
+    <div class="relative w-full lg:max-w-md">
+      <span class="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400">🔍</span>
+      <input type="text" id="blogSearch" placeholder="Search blog articles..."
+        class="w-full pl-10 pr-4 py-3 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-primary text-sm transition-all"
+        onkeyup="filterBlogs(this.value)">
     </div>
-</section>
+    
+    <div class="flex flex-wrap gap-2 text-xs font-bold">
+      <button onclick="filterCategory('all')" class="category-btn px-4 py-2 rounded-full border border-primary bg-primary-light text-primary active-cat">All</button>
+      <button onclick="filterCategory('blog')" class="category-btn px-4 py-2 rounded-full border border-gray-200 text-gray-600 hover:bg-neutral-light">Blog</button>
+      <button onclick="filterCategory('water')" class="category-btn px-4 py-2 rounded-full border border-gray-200 text-gray-600 hover:bg-neutral-light">Water</button>
+      <button onclick="filterCategory('education')" class="category-btn px-4 py-2 rounded-full border border-gray-200 text-gray-600 hover:bg-neutral-light">Education</button>
+    </div>
+  </div>
 
-<!-- ================= SEARCH + CATEGORY ================= -->
-<section class="blog-filter">
-    <div class="container">
-
-        <div class="search-box">
-            <i class="fas fa-search"></i>
-            <input type="text" placeholder="Search..." id="blogSearch">
+  <!-- Blogs Cards Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8" id="blog-grid">
+    {% for blog in blogs %}
+    <!-- Blog Card -->
+    <article class="card-premium flex flex-col justify-between h-full blog-card" data-title="{{ blog.title|lower }}" data-desc="{{ blog.description|lower }}">
+      <div>
+        <div class="h-52 overflow-hidden bg-gray-100">
+          {% if blog.image %}
+          <img src="{{ blog.image.url }}" alt="{{ blog.title }}" class="w-full h-full object-cover">
+          {% else %}
+          <img src="https://via.placeholder.com/600x400?text=No+Image" alt="No image" class="w-full h-full object-cover">
+          {% endif %}
         </div>
-
-        <ul class="category-tabs">
-            <li class="active">ALL</li>
-            <li>BLOG</li>
-            <li>BLOOD</li>
-            <li>EDUCATION</li>
-            <li>OUR WORK</li>
-            <li>PROJECT UPDATES</li>
-            <li>UNCATEGORIZED</li>
-            <li>WATER</li>
-        </ul>
-
-    </div>
-</section>
-
-<!-- ================= BLOG GRID ================= -->
-
-<section class="projects">
-    <div class="container">
-        <div class="projects-grid">
-
-            {% for blog in blogs %}
-            <article class="project-card">
-
-                <div class="card-image">
-                    {% if blog.image %}
-                    <img src="{{ blog.image.url }}" alt="{{ blog.title }}">
-                    {% else %}
-                    <img src="https://via.placeholder.com/600x400?text=No+Image" alt="No image">
-                    {% endif %}
-
-                </div>
-
-                <div class="card-body">
-                    <h3>{{ blog.title|truncatechars:35 }}</h3>
-
-                    <p class="excerpt">
-                        {{ blog.description|truncatechars:90 }}
-                    </p>
-
-                    <div class="read-more-wrapper">
-                        <a href="{% url 'blog_detail' blog.id %}" class="read-more">READ MORE</a>
-                    </div>
-
-                    <div class="card-footer">
-                        <span>
-                            <i class="far fa-calendar-alt"></i>
-                            {{ blog.created_at|date:"F d, Y" }}
-                        </span>
-
-                        <span>
-                            <i class="far fa-comment"></i>
-                            No Comment
-                        </span>
-                    </div>
-                </div>
-
-            </article>
-            {% empty %}
-            <p>No blogs found.</p>
-            {% endfor %}
-
+        
+        <div class="p-6 space-y-3">
+          <span class="text-primary font-bold text-xs uppercase tracking-wider block">Update</span>
+          <h3 class="text-lg font-bold text-neutral-dark leading-snug line-clamp-2">{{ blog.title }}</h3>
+          <p class="text-gray-500 text-xs leading-relaxed line-clamp-3">{{ blog.description }}</p>
         </div>
-    </div>
-</section>
+      </div>
 
-<!-- ================= CTA ================= -->
-<!-- <section class="cta-section">
-    <div class="container">
-        <div class="cta-card">
-            <div class="cta-content">
-                <h4>GIVE US A HAND</h4>
-                <h2>
-                    <span class="highlight">Support Us</span> And Change The<br>
-                    Course Of A Child's Life Today!
-                </h2>
-                <a href="#" class="read-more-link">Read more...</a>
-            </div>
-
-            <div class="cta-action">
-                <a href="/donate/" class="donate-btn-large">
-                    <div class="btn-text">
-                        <span class="main">📱Donate Now</span>
-                        <span class="sub">Secured by Razorpay</span>
-                    </div>
-                </a>
-            </div>
+      <div>
+        <hr class="border-gray-100 mx-6" />
+        <div class="p-6 flex items-center justify-between text-xs font-semibold text-gray-400">
+          <span>📅 {{ blog.created_at|date:"F d, Y" }}</span>
+          <a href="{% url 'blog_detail' blog.id %}" class="text-primary hover:text-primary-dark inline-flex items-center gap-1">
+            Read More <span class="text-[9px]">→</span>
+          </a>
         </div>
+      </div>
+    </article>
+    {% empty %}
+    <div class="col-span-full text-center py-20 text-gray-400 bg-white rounded-2xl border border-gray-100 shadow-soft">
+      No blogs found.
     </div>
-</section> -->
+    {% endfor %}
+  </div>
 
+</div>
+
+<!-- Filter Javascript -->
 <script>
-    // Simple filter JS if needed, or moved to separate file
-    // For now keeping clean
+  function filterBlogs(query) {
+    const cleanQuery = query.toLowerCase().trim();
+    document.querySelectorAll('.blog-card').forEach(card => {
+      const title = card.getAttribute('data-title');
+      const desc = card.getAttribute('data-desc');
+      if (title.includes(cleanQuery) || desc.includes(cleanQuery)) {
+        card.classList.remove('hidden');
+      } else {
+        card.classList.add('hidden');
+      }
+    });
+  }
+
+  function filterCategory(cat) {
+    // Styling tags active states
+    document.querySelectorAll('.category-btn').forEach(btn => {
+      btn.classList.remove('bg-primary-light', 'text-primary', 'border-primary');
+      btn.classList.add('border-gray-200', 'text-gray-600');
+    });
+    
+    // Add active styling back to selected target
+    event.currentTarget.classList.add('bg-primary-light', 'text-primary', 'border-primary');
+    event.currentTarget.classList.remove('border-gray-200', 'text-gray-600');
+
+    if (cat === 'all') {
+      document.querySelectorAll('.blog-card').forEach(c => c.classList.remove('hidden'));
+    } else {
+      document.querySelectorAll('.blog-card').forEach(c => {
+        const title = c.getAttribute('data-title');
+        const desc = c.getAttribute('data-desc');
+        if (title.includes(cat) || desc.includes(cat)) {
+          c.classList.remove('hidden');
+        } else {
+          c.classList.add('hidden');
+        }
+      });
+    }
+  }
 </script>
+
 {% endblock %}

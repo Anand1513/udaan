@@ -3,241 +3,201 @@
 
 {% block title %}Our Policies - UDAAN Society{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/policies.css' %}">
-{% endblock %}
+{% block meta_description %}Read the ethical, financial, HR, travel, POSH, privacy, and refund policies of UDAAN Society NGO.{% endblock %}
 
 {% block content %}
 
-<!-- ================= HERO ================= -->
-<section class="hero">
-    <div class="hero-image">
-         <img src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=1920&h=500&fit=crop" alt="Policies">
-        <div class="hero-overlay"></div>
-    </div>
-
-    <div class="hero-content">
-        <h1>POLICIES</h1>
-        <p>
-            A course or principle of action proposed by a UDAAN Society.
-        </p>
-    </div>
+<!-- Hero Banner -->
+<section class="subpage-hero">
+  <div class="max-w-4xl mx-auto px-6 relative z-10 space-y-4">
+    <span class="bg-accent text-neutral-dark text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm">Governance</span>
+    <h1 class="text-4xl sm:text-5xl font-extrabold font-heading tracking-tight leading-tight uppercase">Our Policies</h1>
+    <p class="text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
+      A structured framework and set of principles ensuring transparency, compliance, and ethical operations.
+    </p>
+  </div>
 </section>
-<!-- ================= BREADCRUMB ================= -->
-<div class="breadcrumb">
-    <div class="breadcrumb-container" data-aos="fade-right" data-aos-delay="100">
-        <a href="{% url 'home' %}">Home</a>
-        <span class="sep">»</span>
-        <span class="current">Our Policies</span>
+
+<!-- Breadcrumb -->
+<div class="bg-neutral-light border-b border-gray-100 py-4">
+  <div class="max-w-7xl mx-auto px-6 text-sm text-gray-500 flex items-center gap-2">
+    <a href="{% url 'home' %}" class="hover:text-primary transition-colors">Home</a>
+    <span>»</span>
+    <span class="text-gray-400">Our Policies</span>
+  </div>
+</div>
+
+<!-- Main Body -->
+<div class="max-w-7xl mx-auto px-6 py-16 lg:py-24">
+  
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-start">
+    
+    <!-- Left: Policy Tabs Sidebar -->
+    <div class="lg:col-span-4 bg-white shadow-soft rounded-2xl p-6 border border-gray-100/50 space-y-3 sticky top-24">
+      <h3 class="text-sm font-bold text-neutral-dark uppercase tracking-wider mb-4 border-b border-gray-100 pb-2">Policy Documents</h3>
+      
+      <div class="flex flex-col gap-2">
+        <button class="policy-tab active flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-left w-full transition-all text-primary bg-primary-light" data-tab="ethical">
+          <i class="fa-solid fa-scale-balanced text-base w-5 text-center"></i> Ethical Policy
+        </button>
+        
+        <button class="policy-tab flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-left w-full transition-all text-gray-600 hover:bg-neutral-light" data-tab="finance">
+          <i class="fa-solid fa-chart-line text-base w-5 text-center"></i> Finance Policy
+        </button>
+        
+        <button class="policy-tab flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-left w-full transition-all text-gray-600 hover:bg-neutral-light" data-tab="hr">
+          <i class="fa-solid fa-users text-base w-5 text-center"></i> HR Policy
+        </button>
+        
+        <button class="policy-tab flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-left w-full transition-all text-gray-600 hover:bg-neutral-light" data-tab="travel">
+          <i class="fa-solid fa-plane text-base w-5 text-center"></i> Travel Policy
+        </button>
+        
+        <button class="policy-tab flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-left w-full transition-all text-gray-600 hover:bg-neutral-light" data-tab="posh">
+          <i class="fa-solid fa-hands-holding-child text-base w-5 text-center"></i> POSH Policy
+        </button>
+        
+        <button class="policy-tab flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-left w-full transition-all text-gray-600 hover:bg-neutral-light" data-tab="privacy">
+          <i class="fa-solid fa-shield-halved text-base w-5 text-center"></i> Privacy Policy
+        </button>
+        
+        <button class="policy-tab flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-bold text-left w-full transition-all text-gray-600 hover:bg-neutral-light" data-tab="refund">
+          <i class="fa-solid fa-money-bill-wave text-base w-5 text-center"></i> Refund Policy
+        </button>
+      </div>
     </div>
+
+    <!-- Right: Policy Content Viewer -->
+    <div class="lg:col-span-8 bg-white shadow-premium rounded-2xl p-8 border border-gray-100/50">
+      
+      <!-- ETHICAL -->
+      <div class="policy-panel space-y-6" id="ethical-panel">
+        <h2 class="text-2xl font-bold text-neutral-dark font-heading">Ethical Policy</h2>
+        <hr class="border-gray-100" />
+        {% if ethical %}
+        <div class="rounded-xl overflow-hidden border border-gray-200 bg-gray-50 h-[600px]">
+          <iframe src="{{ ethical.pdf_file.url }}" width="100%" height="100%" class="border-0"></iframe>
+        </div>
+        <div class="text-center">
+          <a href="{{ ethical.pdf_file.url }}" target="_blank" class="btn-primary text-xs rounded-full">Open PDF in Full Screen</a>
+        </div>
+        {% else %}
+        <p class="text-gray-500 text-sm">No ethical policy document uploaded yet.</p>
+        {% endif %}
+      </div>
+
+      <!-- FINANCE -->
+      <div class="policy-panel space-y-6 hidden" id="finance-panel">
+        <h2 class="text-2xl font-bold text-neutral-dark font-heading">Finance Policy</h2>
+        <hr class="border-gray-100" />
+        {% if finance %}
+        <div class="rounded-xl overflow-hidden border border-gray-200 bg-gray-50 h-[600px]">
+          <iframe src="{{ finance.pdf_file.url }}" width="100%" height="100%" class="border-0"></iframe>
+        </div>
+        <div class="text-center">
+          <a href="{{ finance.pdf_file.url }}" target="_blank" class="btn-primary text-xs rounded-full">Open PDF in Full Screen</a>
+        </div>
+        {% else %}
+        <p class="text-gray-500 text-sm">No finance policy document uploaded yet.</p>
+        {% endif %}
+      </div>
+
+      <!-- HR -->
+      <div class="policy-panel space-y-6 hidden" id="hr-panel">
+        <h2 class="text-2xl font-bold text-neutral-dark font-heading">HR Policy</h2>
+        <hr class="border-gray-100" />
+        {% if hr %}
+        <div class="rounded-xl overflow-hidden border border-gray-200 bg-gray-50 h-[600px]">
+          <iframe src="{{ hr.pdf_file.url }}" width="100%" height="100%" class="border-0"></iframe>
+        </div>
+        {% else %}
+        <p class="text-gray-500 text-sm">No HR policy document uploaded yet.</p>
+        {% endif %}
+      </div>
+
+      <!-- TRAVEL -->
+      <div class="policy-panel space-y-6 hidden" id="travel-panel">
+        <h2 class="text-2xl font-bold text-neutral-dark font-heading">Travel Policy</h2>
+        <hr class="border-gray-100" />
+        {% if travel %}
+        <div class="rounded-xl overflow-hidden border border-gray-200 bg-gray-50 h-[600px]">
+          <iframe src="{{ travel.pdf_file.url }}" width="100%" height="100%" class="border-0"></iframe>
+        </div>
+        {% else %}
+        <p class="text-gray-500 text-sm">No travel policy document uploaded yet.</p>
+        {% endif %}
+      </div>
+
+      <!-- POSH -->
+      <div class="policy-panel space-y-6 hidden" id="posh-panel">
+        <h2 class="text-2xl font-bold text-neutral-dark font-heading">POSH Policy</h2>
+        <p class="text-xs text-gray-400">Prevention of Sexual Harassment Policy</p>
+        <hr class="border-gray-100" />
+        {% if posh %}
+        <div class="rounded-xl overflow-hidden border border-gray-200 bg-gray-50 h-[600px]">
+          <iframe src="{{ posh.pdf_file.url }}" width="100%" height="100%" class="border-0"></iframe>
+        </div>
+        {% else %}
+        <p class="text-gray-500 text-sm">No POSH policy document uploaded yet.</p>
+        {% endif %}
+      </div>
+
+      <!-- PRIVACY POLICY -->
+      <div class="policy-panel space-y-6 hidden text-gray-600 leading-relaxed text-sm" id="privacy-panel">
+        <h2 class="text-2xl font-bold text-neutral-dark font-heading">Privacy Policy</h2>
+        <hr class="border-gray-100" />
+        <p>
+          The terms “We” / “Us” / “Our” / ”Company” individually and collectively refer to UDAAN SOCIETY and the terms “You” / ”Your” / “Yourself” refer to the users.
+        </p>
+        <p>
+          This Privacy Policy is an electronic record in the form of an electronic contract formed under the Information Technology Act, 2000 and the rules made thereunder. It does not require physical, electronic, or digital signatures.
+        </p>
+        <p>
+          By providing us your Information or by making use of the facilities provided by the Website, you hereby consent to the collection, storage, processing, and transfer of any or all of your Personal Information and Non-Personal Information by us as specified under this Privacy Policy.
+        </p>
+      </div>
+
+      <!-- REFUND POLICY -->
+      <div class="policy-panel space-y-6 hidden text-gray-600 leading-relaxed text-sm" id="refund-panel">
+        <h2 class="text-2xl font-bold text-neutral-dark font-heading">Refund Policy</h2>
+        <hr class="border-gray-100" />
+        <p>
+          UDAAN Society is grateful for your support of our mission to help underserved and neglected communities. Donations made through our website are used to directly fund our programs and services.
+        </p>
+        <p>
+          <strong>Donations are generally non-refundable.</strong> However, we understand that mistakes can happen. If you believe an unauthorized or fraudulent transaction has been made on your card/account resulting in a donation, please contact us immediately at <strong>mail@udaansociety.org</strong>.
+        </p>
+        <p>
+          We will investigate the situation and process a refund to the original payment method if we can verify that the donation was unauthorized.
+        </p>
+      </div>
+
+    </div>
+  </div>
 </div>
 
-<section class="policies-section">
-
-<div class="container">
-
-<h2 class="policy-title">
-    OUR <span>POLICIES</span>
-</h2>
-
-<p class="policy-sub">
-A course or principle of action proposed by a UDAAN Society.
-</p>
-
-<div class="policy-tabs">
-
-<button class="tab active" data-tab="ethical">
-<i class="fa-solid fa-scale-balanced"></i> Ethical
-</button>
-
-<button class="tab" data-tab="finance">
-<i class="fa-solid fa-chart-line"></i> Finance
-</button>
-
-<button class="tab" data-tab="hr">
-<i class="fa-solid fa-users"></i> HR
-</button>
-
-<button class="tab" data-tab="travel">
-<i class="fa-solid fa-plane"></i> Travel
-</button>
-
-<button class="tab" data-tab="posh">
-<i class="fa-solid fa-hands-holding-child"></i> POSH
-</button>
-
-<button class="tab" data-tab="privacy">
-<i class="fa-solid fa-shield-halved"></i> Privacy
-</button>
-
-<button class="tab" data-tab="refund">
-<i class="fa-solid fa-money-bill-wave"></i> Refund
-</button>
-
-</div>
-
-
-
-<!-- TAB CONTENT -->
-
-<div class="policy-content">
-
-<!-- ETHICAL -->
-<div class="tab-panel active" id="ethical">
-
-{% if ethical %}
-<button class="fullscreen-btn">View Fullscreen</button>
-
-<iframe src="{{ ethical.pdf_file.url }}"
-        width="100%"
-        height="800px">
-</iframe>
-
-{% else %}
-<p>No ethical policy uploaded yet.</p>
-{% endif %}
-
-</div>
-
-
-<!-- FINANCE -->
-<div class="tab-panel" id="finance">
-
-{% if finance %}
-<button class="fullscreen-btn">View Fullscreen</button>
-
-<iframe src="{{ finance.pdf_file.url }}"
-        width="100%"
-        height="800px">
-</iframe>
-
-{% else %}
-<p>No finance policy uploaded yet.</p>
-{% endif %}
-
-</div>
-
-
-<!-- HR -->
-<div class="tab-panel" id="hr">
-
-{% if hr %}
-<iframe src="{{ hr.pdf_file.url }}" width="100%" height="800"></iframe>
-{% endif %}
-
-</div>
-
-
-<!-- TRAVEL -->
-<div class="tab-panel" id="travel">
-
-{% if travel %}
-<iframe src="{{ travel.pdf_file.url }}" width="100%" height="800"></iframe>
-{% endif %}
-
-</div>
-
-
-<!-- POSH -->
-<div class="tab-panel" id="posh">
-
-{% if posh %}
-<iframe src="{{ posh.pdf_file.url }}" width="100%" height="800"></iframe>
-{% endif %}
-
-</div>
-
-
-<!-- PRIVACY POLICY -->
-<div class="tab-panel" id="privacy">
-
-<div class="policy-document">
-
-<h3 class="policy-doc-title">Privacy Policy</h3>
-
-<div class="policy-breadcrumb">
-    Home » Privacy Policy
-</div>
-
-<p>
-The terms “We” / “Us” / “Our”/” Company” individually and collectively refer to UDAAN SOCIETY and the terms “You” /”Your” / “Yourself” refer to the users.
-</p>
-
-<p>
-This Privacy Policy is an electronic record in the form of an electronic contract formed under the information Technology Act, 2000 and the rules made thereunder and the amended provisions pertaining to electronic documents / records in various statutes as amended by the information Technology Act, 2000. This Privacy Policy does not require any physical, electronic or digital signature.
-</p>
-
-<p>
-This Privacy Policy is a legally binding document between you and UDAAN SOCIETY (both terms defined below). The terms of this Privacy Policy will be effective upon your acceptance of the same (directly or indirectly in electronic form, by clicking on the I accept tab or by use of the website or by other means) and will govern the relationship between you and UDAAN SOCIETY for your use of the website “Website” (defined below).
-</p>
-
-<p>
-This document is published and shall be construed in accordance with the provisions of the Information Technology (reasonable security practices and procedures and sensitive personal data of information) rules, 2011 under Information Technology Act, 2000; that require publishing of the Privacy Policy for collection, use, storage and transfer of sensitive personal data or information.
-</p>
-
-<p>
-Please read this Privacy Policy carefully by using the Website, you indicate that you understand, agree and consent to this Privacy Policy. If you do not agree with the terms of this Privacy Policy, please do not use this Website.
-</p>
-
-<p>
-By providing us your Information or by making use of the facilities provided by the Website, You hereby consent to the collection, storage, processing and transfer of any or all of Your Personal Information and Non-Personal Information by us as specified under this Privacy Policy. You further agree that such collection, use, storage and transfer of Your Information shall not cause any loss or wrongful gain to you or any other person.
-</p>
-
-</div>
-
-</div>
-
-
-<!-- REFUND POLICY -->
-<div class="tab-panel" id="refund">
-
-<div class="policy-document">
-
-<h3 class="policy-doc-title">Refund Policy</h3>
-
-<div class="policy-breadcrumb">
-Home » Refund Policy
-</div>
-
-<p>
-<strong>Refund Policy – UDAAN Society</strong><br>
-UDAAN Society is grateful for your support of our mission to help underserved and neglected communities. Donations made through our website are used to directly fund our programs and services.
-</p>
-
-<p>
-Donations are generally non-refundable. However, we understand that mistakes can happen. We will consider a refund in the following limited circumstance:
-</p>
-
-<p>
-<strong>Fraudulent Transaction:</strong> If you believe a fraudulent transaction has been made on your account resulting in a donation to UDAAN Society, please contact us immediately at <strong>mail@udaansociety.org</strong>. We will investigate the situation and process a refund if we can verify that the donation was unauthorized. Please note: Refunds will only be issued to the original payment method used for the donation.
-</p>
-
-<p>
-For any questions regarding our refund policy, please do not hesitate to contact us at <strong>mail@udaansociety.org</strong>.
-</p>
-
-</div>
-
-</div>
-<!-- Scripting  -->
+<!-- Tab Switching Script -->
 <script>
+  document.querySelectorAll('.policy-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      // Deactivate tabs
+      document.querySelectorAll('.policy-tab').forEach(t => {
+        t.classList.remove('active', 'text-primary', 'bg-primary-light');
+        t.classList.add('text-gray-600', 'hover:bg-neutral-light');
+      });
+      // Activate this tab
+      tab.classList.add('active', 'text-primary', 'bg-primary-light');
+      tab.classList.remove('text-gray-600', 'hover:bg-neutral-light');
 
-const tabs = document.querySelectorAll(".tab")
-const panels = document.querySelectorAll(".tab-panel")
-
-tabs.forEach(tab=>{
-    tab.addEventListener("click",()=>{
-
-        tabs.forEach(t=>t.classList.remove("active"))
-        panels.forEach(p=>p.classList.remove("active"))
-
-        tab.classList.add("active")
-
-        const target = tab.dataset.tab
-        document.getElementById(target).classList.add("active")
-
-    })
-})
-
+      // Hide all panels
+      document.querySelectorAll('.policy-panel').forEach(p => {
+        p.classList.add('hidden');
+      });
+      // Show matching panel
+      const target = tab.getAttribute('data-tab');
+      document.getElementById(`${target}-panel`).classList.remove('hidden');
+    });
+  });
 </script>
+
 {% endblock %}

@@ -3,231 +3,142 @@
 
 {% block title %}Our Team - UDAAN Society{% endblock %}
 
-{% block extra_css %}
-<link rel="stylesheet" href="{% static 'css/team.css' %}">
-{% endblock %}
+{% block meta_description %}Meet the dedicated leadership and team of UDAAN Society. Read about their social work, academic, and project management expertise.{% endblock %}
 
 {% block content %}
 
-<!-- ================= HERO ================= -->
-
-<section class="hero">
-    <div class="hero-image">
-        <img src="{% static 'images/teamMember.jpg' %}" alt="teamMember">
-
-        <div class="hero-overlay"></div>
-    </div>
-
-    <div class="hero-content">
-        <h1>OUR TEAM</h1>
-    </div>
+<!-- Hero Banner -->
+<section class="subpage-hero">
+  <div class="max-w-4xl mx-auto px-6 relative z-10 space-y-4">
+    <span class="bg-accent text-neutral-dark text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full shadow-sm">Leadership</span>
+    <h1 class="text-4xl sm:text-5xl font-extrabold font-heading tracking-tight leading-tight uppercase">Meet Our Team</h1>
+    <p class="text-lg text-gray-200 max-w-2xl mx-auto leading-relaxed">
+      Dedicated social workers, educators, and developmental experts committed to creating lasting grassroots change.
+    </p>
+  </div>
 </section>
 
-<!-- ================= BREADCRUMB ================= -->
-<div class="breadcrumb">
-    <div class="container" data-aos="fade-right" data-aos-delay="100">
-        <a href="{% url 'home' %}">Home</a>
-        <span class="sep">»</span>
-        <span class="current">OUR TEAM</span>
-    </div>
+<!-- Breadcrumb -->
+<div class="bg-neutral-light border-b border-gray-100 py-4">
+  <div class="max-w-7xl mx-auto px-6 text-sm text-gray-500 flex items-center gap-2">
+    <a href="{% url 'home' %}" class="hover:text-primary transition-colors">Home</a>
+    <span>»</span>
+    <span class="text-gray-400">Our Team</span>
+  </div>
 </div>
 
+<!-- Main Body -->
+<div class="max-w-7xl mx-auto px-6 py-16 lg:py-24 space-y-20">
+  
+  <!-- Section Intro -->
+  <div class="max-w-3xl mx-auto text-center space-y-4">
+    <h2 class="text-3xl font-extrabold text-neutral-dark font-heading">Our Executive Board</h2>
+    <p class="text-gray-600 leading-relaxed text-sm">
+      UDAAN Society is driven by a passionate group of leaders bringing academic qualifications (PhDs, MSWs) and decades of field research expertise.
+    </p>
+  </div>
 
-<section class="team-intro">
-
-    <div class="container">
-
-        <h2 class="team-title">
-            MEET OUR <span>DYNAMIC TEAM</span>
-        </h2>
-
-        <p class="team-description">
-            UDAAN Society is driven by a dedicated team united by a common goal:
-            <strong>creating a brighter future for all.</strong> Our diverse team brings a wealth of experience in
-            social work, community development, education, and advocacy.
-            Our team members are passionate individuals committed to empowering communities and fostering positive
-            change.
-            Explore our team page to learn more about their expertise and the shared vision that motivates us to make a
-            difference.
-            Also read – <a href="{% url 'our_partners' %}">Our Partners</a>
+  <!-- Team Cards Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+    
+    <!-- Member 1: Dr. Gyanendra Mishra -->
+    <div class="bg-white shadow-soft rounded-2xl border border-gray-100 p-6 flex flex-col sm:flex-row gap-6 items-center sm:items-start transition-all duration-300 hover:shadow-premium hover:-translate-y-1">
+      <img src="/static/assets/gyanendra_mishra.jpg" alt="Dr. Gyanendra Mishra" 
+        class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover bg-gray-50 border border-gray-100 shadow-sm flex-shrink-0">
+      <div class="space-y-3 text-center sm:text-left flex-grow">
+        <div>
+          <h3 class="text-xl font-bold text-neutral-dark">Dr. Gyanendra Mishra</h3>
+          <span class="inline-block bg-primary-light text-primary text-xs font-bold px-3 py-1 rounded-full mt-1.5">President</span>
+        </div>
+        <ul class="text-xs text-gray-500 space-y-1">
+          <li><strong>Expertise:</strong> Social Work & Community Intervention</li>
+          <li><strong>Education:</strong> MSW, Ph.D.</li>
+        </ul>
+        <p class="text-xs text-gray-600 leading-relaxed">
+          Decades of expertise in group interventions, macro project planning, team management, and rural campaign mobilizations.
         </p>
-
-    </div>
-
-</section>
-
-<section class="team-member-section">
-
-    <div class="team-container">
-
-        <div class="team-member">
-
-            <div class="team-photo">
-                <img src="/static/assets/gyanendra_mishra.jpg" alt="Dr Gyanendra Mishra">
-            </div>
-
-            <div class="team-content">
-
-                <h2>Dr. Gyanendra Mishra</h2>
-
-                <ul>
-                    <li><strong>Designation-</strong> President</li>
-                    <li><strong>Area of Expertise-</strong> Social Worker</li>
-                    <li><strong>Qualification-</strong> MSW, PhD</li>
-                    <li>
-                        Experience in Community development and intervention with individuals,
-                        group and societies. Expert in Project Planning, Management,
-                        Communication and Team Management.
-                    </li>
-                </ul>
-
-                <div class="team-social">
-                    <a href="https://www.facebook.com/share/1FqsWYKoXH/" target="_blank"><i class="fab fa-facebook"></i>
-                        Facebook</a>
-                </div>
-
-            </div>
-
+        <div class="pt-2">
+          <a href="https://www.facebook.com/share/1FqsWYKoXH/" target="_blank" rel="noopener" class="text-secondary hover:text-secondary-dark text-xs font-bold inline-flex items-center gap-1.5">
+            <i class="fab fa-facebook"></i> Facebook Profile
+          </a>
         </div>
-
+      </div>
     </div>
 
-</section>
-
-<section class="team-member-section">
-
-    <div class="team-container">
-
-        <div class="team-member reverse">
-
-            <div class="team-content">
-
-                <h2>Dr. Lalit Upadhyaya</h2>
-
-                <ul>
-                    <li><strong>Designation-</strong> Secretary</li>
-                    <li><strong>Area of Expertise-</strong> Education</li>
-                    <li><strong>Qualification –</strong> Ph D</li>
-                    <li>Currently working as Assistant Professor at Gyan Mahavidhyalala</li>
-                </ul>
-
-                <div class="team-social">
-                    <a href="https://www.facebook.com/share/1DxAm4JwTr/" target="_blank"><i class="fab fa-facebook"></i>
-                        Facebook</a>
-                </div>
-
-            </div>
-
-
-            <div class="team-photo">
-                <img src="/static/assets/Dr Lalit Upadhyaya.webp" alt="Dr Lalit Upadhyaya">
-            </div>
-
+    <!-- Member 2: Dr. Lalit Upadhyaya -->
+    <div class="bg-white shadow-soft rounded-2xl border border-gray-100 p-6 flex flex-col sm:flex-row gap-6 items-center sm:items-start transition-all duration-300 hover:shadow-premium hover:-translate-y-1">
+      <img src="/static/assets/Dr Lalit Upadhyaya.webp" alt="Dr. Lalit Upadhyaya" 
+        class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover bg-gray-50 border border-gray-100 shadow-sm flex-shrink-0">
+      <div class="space-y-3 text-center sm:text-left flex-grow">
+        <div>
+          <h3 class="text-xl font-bold text-neutral-dark">Dr. Lalit Upadhyaya</h3>
+          <span class="inline-block bg-secondary-light text-secondary text-xs font-bold px-3 py-1 rounded-full mt-1.5">Secretary</span>
         </div>
-
-    </div>
-
-</section>
-
-<section class="team-member-section">
-
-    <div class="team-container">
-
-        <div class="team-member">
-
-            <div class="team-photo">
-                <img src="/static/assets/Dr Jitendra Singh.png" alt="Dr Jitendra Singh">
-            </div>
-
-            <div class="team-content">
-
-                <h2>Dr. Jitendra Singh</h2>
-
-                <ul>
-                    <li><strong>Designation-</strong> Vice President</li>
-                    <li><strong>Area of Expertise-</strong> Teaching (Mass Communication)</li>
-                    <li><strong>Qualification –</strong> UGC NET MPhil PHD</li>
-                    <li>
-                        Currently Working as Professor and Head Department of Mass
-                        Communication at Lovely Professional University
-                    </li>
-                </ul>
-
-                <div class="team-social">
-                    <a href="https://www.facebook.com/share/14kjhLH3RCN/" target="_blank"><i
-                            class="fab fa-facebook"></i>
-                        Facebook</a>
-                </div>
-
-            </div>
-
+        <ul class="text-xs text-gray-500 space-y-1">
+          <li><strong>Expertise:</strong> Educational Development & Research</li>
+          <li><strong>Education:</strong> Ph.D.</li>
+        </ul>
+        <p class="text-xs text-gray-600 leading-relaxed">
+          Assistant Professor at Gyan Mahavidyalaya. Leads UDAAN's educational interventions, curriculum support, and student mentorship workflows.
+        </p>
+        <div class="pt-2">
+          <a href="https://www.facebook.com/share/1DxAm4JwTr/" target="_blank" rel="noopener" class="text-secondary hover:text-secondary-dark text-xs font-bold inline-flex items-center gap-1.5">
+            <i class="fab fa-facebook"></i> Facebook Profile
+          </a>
         </div>
-
+      </div>
     </div>
 
-</section>
-
-<section class="team-member-section">
-
-    <div class="team-container">
-
-        <div class="team-member reverse">
-
-            <div class="team-content">
-
-                <h2>Dr. Shyna Saif</h2>
-
-                <ul>
-                    <li><strong>Designation-</strong> Executive Memeber</li>
-                    <li><strong>Area of Expertise-</strong> Academics (Social Work)</li>
-                    <li><strong>Qualification –</strong> Phd M Phil MSW</li>
-                    <li>
-                        Currently working as Assistant Professor Department of
-                        Social Work AMU Aligarh.
-                    </li>
-                </ul>
-
-                <div class="team-social">
-                    <a href="https://www.facebook.com/share/1FmxXC4t46/" target="_blank"><i class="fab fa-facebook"></i>
-                        Facebook</a>
-                </div>
-
-            </div>
-
-            <div class="team-photo">
-                <img src="/static/assets/Dr Shyna Saif.webp" alt="Dr Shyna Saif">
-            </div>
-
+    <!-- Member 3: Dr. Jitendra Singh -->
+    <div class="bg-white shadow-soft rounded-2xl border border-gray-100 p-6 flex flex-col sm:flex-row gap-6 items-center sm:items-start transition-all duration-300 hover:shadow-premium hover:-translate-y-1">
+      <img src="/static/assets/Dr Jitendra Singh.png" alt="Dr. Jitendra Singh" 
+        class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover bg-gray-50 border border-gray-100 shadow-sm flex-shrink-0">
+      <div class="space-y-3 text-center sm:text-left flex-grow">
+        <div>
+          <h3 class="text-xl font-bold text-neutral-dark">Dr. Jitendra Singh</h3>
+          <span class="inline-block bg-accent-light text-accent-dark text-xs font-bold px-3 py-1 rounded-full mt-1.5">Vice President</span>
         </div>
-
+        <ul class="text-xs text-gray-500 space-y-1">
+          <li><strong>Expertise:</strong> Mass Communication & Advocacy</li>
+          <li><strong>Education:</strong> UGC NET, M.Phil, Ph.D.</li>
+        </ul>
+        <p class="text-xs text-gray-600 leading-relaxed">
+          Professor and Head of Mass Communication at LPU. Formulates public awareness campaigns, media advocacy, and digital strategies.
+        </p>
+        <div class="pt-2">
+          <a href="https://www.facebook.com/share/14kjhLH3RCN/" target="_blank" rel="noopener" class="text-secondary hover:text-secondary-dark text-xs font-bold inline-flex items-center gap-1.5">
+            <i class="fab fa-facebook"></i> Facebook Profile
+          </a>
+        </div>
+      </div>
     </div>
 
-</section>
+    <!-- Member 4: Dr. Shyna Saif -->
+    <div class="bg-white shadow-soft rounded-2xl border border-gray-100 p-6 flex flex-col sm:flex-row gap-6 items-center sm:items-start transition-all duration-300 hover:shadow-premium hover:-translate-y-1">
+      <img src="/static/assets/Dr Shyna Saif.webp" alt="Dr. Shyna Saif" 
+        class="w-32 h-32 sm:w-40 sm:h-40 rounded-2xl object-cover bg-gray-50 border border-gray-100 shadow-sm flex-shrink-0">
+      <div class="space-y-3 text-center sm:text-left flex-grow">
+        <div>
+          <h3 class="text-xl font-bold text-neutral-dark">Dr. Shyna Saif</h3>
+          <span class="inline-block bg-gray-100 text-gray-600 text-xs font-bold px-3 py-1 rounded-full mt-1.5">Executive Member</span>
+        </div>
+        <ul class="text-xs text-gray-500 space-y-1">
+          <li><strong>Expertise:</strong> Academics & Social Research</li>
+          <li><strong>Education:</strong> MSW, M.Phil, Ph.D.</li>
+        </ul>
+        <p class="text-xs text-gray-600 leading-relaxed">
+          Assistant Professor in Department of Social Work at AMU. Supports project audits, field monitoring, and academic internship designs.
+        </p>
+        <div class="pt-2">
+          <a href="https://www.facebook.com/share/1FmxXC4t46/" target="_blank" rel="noopener" class="text-secondary hover:text-secondary-dark text-xs font-bold inline-flex items-center gap-1.5">
+            <i class="fab fa-facebook"></i> Facebook Profile
+          </a>
+        </div>
+      </div>
+    </div>
 
-<script>
+  </div>
 
-const observer = new IntersectionObserver((entries)=>{
-
-entries.forEach(entry=>{
-
-if(entry.isIntersecting){
-
-entry.target.classList.add("show");
-
-}
-
-});
-
-},{
-threshold:.2
-});
-
-document.querySelectorAll(".team-member").forEach((el)=>{
-
-observer.observe(el);
-
-});
-
-</script>
+</div>
 
 {% endblock %}
