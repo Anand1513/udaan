@@ -48,6 +48,10 @@ if DEBUG:
 SECURE_SSL_REDIRECT = os.environ.get('SECURE_SSL_REDIRECT', 'False') == 'True'
 SESSION_COOKIE_SECURE = not DEBUG
 CSRF_COOKIE_SECURE = not DEBUG
+CSRF_TRUSTED_ORIGINS = [
+    'https://*.ngrok-free.app',
+    'https://*.ngrok.io',
+]
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 if not DEBUG:
     SECURE_HSTS_SECONDS = 31536000
