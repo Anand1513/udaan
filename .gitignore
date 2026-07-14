@@ -1,5 +1,4 @@
 db.*
-udaan.db
 *.pdf
 *.log
 venv/
