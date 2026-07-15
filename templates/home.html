@@ -34,7 +34,7 @@
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
         
         <!-- Left Content -->
-        <div class="text-left space-y-6 hero-content lg:col-span-4">
+        <div class="text-left space-y-6 hero-content lg:col-span-5">
           <span class="text-[#00874e] font-bold text-xs uppercase tracking-widest block">
             TOGETHER, WE CAN BUILD A BETTER TOMORROW
           </span>
@@ -66,11 +66,9 @@
         </div>
 
         <!-- Right Content (Image with Left Fade Overlay) -->
-        <div class="relative flex items-center justify-center w-full h-[320px] sm:h-[450px] lg:h-[500px] lg:col-span-8">
+        <div class="relative flex items-center justify-center w-full h-[320px] sm:h-[450px] lg:h-[500px] lg:col-span-7">
           <div class="w-full h-full relative overflow-hidden rounded-[2.5rem] shadow-premium bg-[#f7faf8]">
             <img id="hero-slide-image" src="{% static 'assets/image1.jpeg' %}" alt="Empowering Futures" class="w-full h-full object-cover transition-opacity duration-300 ease-in-out" />
-            <!-- Soft gradient overlay from left to right -->
-            <div class="absolute inset-y-0 left-0 w-1/4 bg-gradient-to-r from-[#f7faf8] to-transparent pointer-events-none lg:block hidden"></div>
           </div>
         </div>
 
@@ -280,7 +278,46 @@
     </div>
   </section>
 
+  <!-- Latest Announcements & Notices -->
+  {% if announcements %}
+  <section class="py-16 bg-gradient-to-b from-neutral-light to-white border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
+        <span class="inline-flex items-center gap-1.5 bg-emerald-50 text-[#024b24] text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-md">
+          <i class="fa-solid fa-bullhorn"></i> Notice Board
+        </span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-neutral-dark font-heading">
+          Latest Announcements
+        </h2>
+        <div class="w-12 h-1 bg-[#FFB300] mx-auto rounded-full"></div>
+      </div>
 
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {% for announcement in announcements %}
+        <div class="bg-white rounded-2xl border border-gray-200/80 p-6 shadow-soft hover:shadow-premium hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between space-y-4">
+          <div class="space-y-3">
+            <div class="flex justify-between items-center">
+              <span class="inline-block bg-[#024b24]/10 text-[#024b24] text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded-md">
+                {% if announcement.priority > 0 %}Urgent{% else %}Notice{% endif %}
+              </span>
+              <span class="text-xs text-gray-400 flex items-center gap-1">
+                <i class="fa-regular fa-calendar text-[10px]"></i>
+                {{ announcement.created_at|date:"M d, Y" }}
+              </span>
+            </div>
+            <h3 class="text-lg font-bold text-neutral-dark leading-snug">
+              {{ announcement.title }}
+            </h3>
+            <p class="text-sm text-gray-500 leading-relaxed font-light">
+              {{ announcement.content }}
+            </p>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
 
   <!-- Featured Campaigns (Causes) -->
   <section class="py-20 bg-white" id="featured-campaigns">

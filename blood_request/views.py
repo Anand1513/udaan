@@ -143,13 +143,21 @@ def home_view(request):
     """
     campaigns = Campaign.objects.all().order_by('-created_at')[:3]
     projects = Project.objects.all().order_by('-date')[:3]
-    from .models import Testimonial
+    from .models import Testimonial, Announcement
+    from datetime import date
     testimonials = Testimonial.objects.filter(is_active=True).order_by('-created_at')[:7]
+    
+    # Fetch Active and Non-expired Announcements for homepage
+    announcements = Announcement.objects.filter(
+        Q(is_active=True) & 
+        (Q(expiry_date__isnull=True) | Q(expiry_date__gte=date.today()))
+    ).order_by('-priority', '-created_at')[:3]
     
     context = {
         'campaigns': campaigns,
         'projects': projects,
-        'testimonials': testimonials
+        'testimonials': testimonials,
+        'announcements': announcements,
     }
     return render(request, 'home.html', context)
 
